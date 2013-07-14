@@ -73,9 +73,8 @@ dataDeclarationStatement
     : ( intrinsicType | derivedType ) dataAttributes? dataList
     ;
 
-intrinsicTypeParameter
-    : LEFT_PAREN ~RIGHT_PAREN*  RIGHT_PAREN;
-intrinsicType: INTRINSIC_TYPE intrinsicTypeParameter?;
+intrinsicTypeParameter: LEFT_PAREN ( id EQUAL )? ( id | numerics ) RIGHT_PAREN;
+intrinsicType: INTRINSIC_TYPE_KEYWORD intrinsicTypeParameter?;
 
 derivedType
     : ( TYPE_KEYWORD | CLASS_KEYWORD )
@@ -234,7 +233,7 @@ templateBlock
 
 // *****************************************************************************
 //                                basic rules
-id: INTRINSIC_TYPE | RESULT_KEYWORD | ID;
+id: INTRINSIC_TYPE_KEYWORD | RESULT_KEYWORD | ID;
 
 subscriptRange: ( expression rangeTail? | rangeTail ) | STAR;
 rangeTail
@@ -276,7 +275,7 @@ expression
     | MINUS<assoc=right> expression
     | expression compareOperator expression
     | expression andOrOperator expression
-    | NUMERICS
+    | numerics
     | idWithArgs
     | derivedDataMember
     | id
@@ -291,6 +290,8 @@ expression
 expression_: expression;
 
 idWithArgs: id LEFT_PAREN ( actualArguments | subscriptRanges )? RIGHT_PAREN;
+
+numerics: NUMERICS;
 
 member: id | idWithArgs;
 derivedDataMember: id ( PERCENT member )+;
@@ -310,7 +311,9 @@ actualArguments: actualArgument ( COMMA actualArgument)*;
 // *****************************************************************************
 //                              keyword tokens
 PROCEDURE_TYPE: 'program' | 'module' | 'subroutine' | 'function';
-INTRINSIC_TYPE: 'integer' | 'real' | 'character' | 'logical' | 'complex';
+INTRINSIC_TYPE_KEYWORD
+    : 'integer' | 'real' | 'character' | 'logical' | 'complex'
+    ;
 EXECUTABLE_KEYWORD
     : 'allocate' | 'deallocate' | 'nullify'
     | 'write' | 'read' | 'print' | 'call'
@@ -356,12 +359,18 @@ OUT_KEYWORD: 'out';
 INOUT_KEYWORD: 'inout';
 
 // *****************************************************************************
-//                          character tokens
+//                        comment and string rules
+COMMENT: '!' .*? NEW_LINE -> skip;
+STRING
+    : '"' ('""'|~'"')* '"'
+    | '\'' ('\'\''|~'\'')* '\''
+    ;
+
+// *****************************************************************************
+//                            character tokens
 fragment NEW_LINE: '\r'? '\n';
 NEW_LINES: NEW_LINE+ -> skip;
-BREAK_LINE: '&' WS? ( NEW_LINE | COMMENT ) -> skip;
-BLANK_LINE: WS NEW_LINE -> skip;
-COMMENT: '!' .*? NEW_LINE -> skip;
+BREAK_LINE: '&' NEW_LINES -> skip;
 COMMA: ',';
 SEMICOMMA: ';';
 COLON: ':';
@@ -371,10 +380,6 @@ ID: [a-zA-Z_] [a-zA-Z_0-9]*;
 NUMERICS: FLOAT | INT;
 fragment INT: [0-9]+;
 fragment FLOAT: [0-9]* '.' [0-9]* ([EeDd] [+-]? [0-9]+)?;
-STRING
-    : '"' ('""'|~'"')* '"'
-    | '\'' ('\'\''|~'\'')* '\''
-    ;
 LOGICAL_STATUS: '.true.' | '.false.';
 STAR: '*';
 SLASH: '/';

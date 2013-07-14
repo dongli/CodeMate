@@ -58,14 +58,42 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         newCode += ctx.getText();
         return null;
     }
+    
+    public Void visitNumerics(FortranParser.NumericsContext ctx) {
+    	newCode += ctx.getText();
+    	return null;
+    }
+    
+    public Void visitLiteralArray(FortranParser.LiteralArrayContext ctx) {
+    	newCode += ctx.ARRAY_START().getText();
+    	visitExpression(ctx.expression(0));
+    	for (int i = 1; i < ctx.expression().size(); ++i) {
+    		newCode += ",";
+    		visitExpression(ctx.expression(i));
+    	}
+    	newCode += ctx.ARRAY_END().getText();
+    	return null;
+    }
 
     public Void visitExpression(FortranParser.ExpressionContext ctx) {
         if (ctx.LEFT_PAREN() != null)
             newCode += "(";
         switch (ctx.expression().size()) {
         case 0:
-            // TODO: Use visit methods for each alternative.
-            newCode += ctx.getText();
+            if (ctx.id() != null)
+            	visitId(ctx.id());
+            else if (ctx.numerics() != null)
+            	visitNumerics(ctx.numerics());
+            else if (ctx.idWithArgs() != null)
+            	visitIdWithArgs(ctx.idWithArgs());
+            else if (ctx.derivedDataMember() != null)
+            	visitDerivedDataMember(ctx.derivedDataMember());
+            else if (ctx.templateInstance() != null)
+            	visitTemplateInstance(ctx.templateInstance());
+            else if (ctx.literalArray() != null)
+            	visitLiteralArray(ctx.literalArray());
+            else
+                newCode += ctx.getText();
             break;
         case 1:
             if (ctx.notOperator() != null)
@@ -392,10 +420,24 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         return null;
     }
 
+    public Void visitIntrinsicTypeParameter(FortranParser.IntrinsicTypeParameterContext ctx) {
+    	newCode += "(";
+    	if (ctx.EQUAL() != null) {
+    		visitId(ctx.id(0));
+    		newCode += "=";
+    	}
+    	if (ctx.numerics() != null)
+    		visitNumerics(ctx.numerics());
+    	else
+    		visitId(ctx.id(1));
+    	newCode += ")";
+    	return null;
+    }
+    
     public Void visitIntrinsicType(FortranParser.IntrinsicTypeContext ctx) {
-        newCode += ctx.INTRINSIC_TYPE().getText();
+        newCode += ctx.INTRINSIC_TYPE_KEYWORD().getText();
         if (ctx.intrinsicTypeParameter() != null)
-            newCode += ctx.intrinsicTypeParameter().getText();
+        	visitIntrinsicTypeParameter(ctx.intrinsicTypeParameter());
         return null;
     }
 
@@ -546,6 +588,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     public Void visitDeclarationStatements(FortranParser.DeclarationStatementsContext ctx) {
         for (FortranParser.DeclarationStatementContext declStmt : ctx.declarationStatement())
             visitDeclarationStatement(declStmt);
+        if (ctx.declarationStatement().size() != 0)
+        	newCode += "\n";
         return null;
     }
 
@@ -582,12 +626,14 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     public Void visitUseStatements(FortranParser.UseStatementsContext ctx) {
         for (FortranParser.UseStatementContext useStmt : ctx.useStatement())
             visitUseStatement(useStmt);
+        if (ctx.useStatement().size() != 0)
+        	newCode += "\n";
         return null;
     }
 
     public Void visitImplicitNoneStatement(FortranParser.ImplicitNoneStatementContext ctx) {
         indent();
-        newCode += "implicit none\n";
+        newCode += "implicit none\n\n";
         return null;
     }
 
@@ -609,6 +655,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     public Void visitAccessibilityStatements(FortranParser.AccessibilityStatementsContext ctx) {
         for (FortranParser.AccessibilityStatementContext accStmt : ctx.accessibilityStatement())
             visitAccessibilityStatement(accStmt);
+        if (ctx.accessibilityStatement().size() != 0)
+        	newCode += "\n";
         return null;
     }
 
