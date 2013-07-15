@@ -31,7 +31,7 @@ public class FortranProcessor {
      */
     public void process(Project project) {
     	// first read template definitions under the root of project
-    	FortranTemplater.readTemplateDefinitions(project.getRoot());
+    	FortranTemplater.readTemplates(project.getRoot());
     	for (CodeEntity entity : project.entities) {
     		try {
     			callParser(entity);
@@ -65,7 +65,8 @@ public class FortranProcessor {
     /**
      * callParser
      *
-     * This method parses pieces of Fortran code.
+     * This method parses pieces of Fortran code. It is called by
+     * FortranTemplater.
      *
      * @param       ruleName        The starting parser rule.
      * @param       source          A input string for parsing.
@@ -84,10 +85,15 @@ public class FortranProcessor {
             tree = parser.declarationStatements();
         } else if (ruleName.equals("executableStatements")) {
             tree = parser.executableStatements();
+        } else if (ruleName.equals("typeDeclarationStatement")) {
+        	tree = parser.typeDeclarationStatement();
+        } else if (ruleName.equals("containedProcedures")) {
+        	tree = parser.containedProcedures();
         } else {
             // TODO: Consider throw an exception.
-            System.out.println("No matched parser rule!");
-            System.exit(2);
+            UI.error("FortranProcessor",
+            		"Unknown parser rule \""+ruleName+"\" "+
+            		"when parsing code pieces!");
         }
         return tree;
     }

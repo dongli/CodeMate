@@ -199,7 +199,10 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
             visitDerivedDataMember(ctx.derivedDataMember());
         else if (ctx.id() != null)
             visitId(ctx.id());
-        newCode += " = ";
+        if (ctx.EQUAL() != null)
+        	newCode += " = ";
+        else if (ctx.POINT() != null)
+        	newCode += " => ";
         visitExpression(ctx.expression());
         return null;
     }
@@ -499,14 +502,28 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         return null;
     }
     
+    public Void visitDataDeclarationStatements(FortranParser.DataDeclarationStatementsContext ctx) {
+    	for (int i = 0; i < ctx.dataDeclarationStatement().size(); ++i) {
+    		indent();
+    		visitDataDeclarationStatement(ctx.dataDeclarationStatement(i));
+    		newCode += "\n";
+    	}
+    	return null;
+    }
+    
+    public Void visitExtendsAttribute(FortranParser.ExtendsAttributeContext ctx) {
+    	newCode += "extends(";
+		if (ctx.templateInstance() != null)
+			visitTemplateInstance(ctx.templateInstance());
+		else if (ctx.id() != null)
+			visitId(ctx.id());
+		newCode += ")";
+		return null;
+    }
+    
     public Void visitTypeAttribute(FortranParser.TypeAttributeContext ctx) {
-    	if (ctx.EXTENDS_KEYWORD() != null) {
-    		newCode += "extends(";
-    		if (ctx.templateInstance() != null)
-    			visitTemplateInstance(ctx.templateInstance());
-    		else if (ctx.id() != null)
-    			visitId(ctx.id());
-    		newCode += ")";
+    	if (ctx.extendsAttribute() != null) {
+    		visitExtendsAttribute(ctx.extendsAttribute());
     	} else if (ctx.PUBLIC_KEYWORD() != null)
     		newCode += "public";
     	else if (ctx.PRIVATE_KEYWORD() != null)
@@ -525,6 +542,20 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	return null;
     }
     
+    public Void visitBindingAttribute(FortranParser.BindingAttributeContext ctx) {
+    	newCode += ctx.getText();
+    	return null;
+    }
+    
+    public Void visitBindingAttributes(FortranParser.BindingAttributesContext ctx) {
+    	for (int i = 0; i < ctx.bindingAttribute().size(); ++i) {
+    		newCode += ", ";
+    		visitBindingAttribute(ctx.bindingAttribute(i));
+    	}
+    	newCode += " :: ";
+    	return null;
+    }
+    
     public Void visitTypeBoundProcedureStatement(FortranParser.TypeBoundProcedureStatementContext ctx) {
     	indent();
     	newCode += "procedure";
@@ -539,13 +570,18 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	return null;
     }
     
-    public Void visitTypeBoundProcedures(FortranParser.TypeBoundProceduresContext ctx) {
-    	indent();
-    	newCode += "contains\n";
+    public Void visitTypeBoundProcedureStatements(FortranParser.TypeBoundProcedureStatementsContext ctx) {
     	increaseIndentLevel();
     	for (int i = 0; i < ctx.typeBoundProcedureStatement().size(); ++i)
     		visitTypeBoundProcedureStatement(ctx.typeBoundProcedureStatement(i));
     	decreaseIndentLevel();
+    	return null;
+    }
+    
+    public Void visitContainedTypeBoundProcedures(FortranParser.ContainedTypeBoundProceduresContext ctx) {
+    	indent();
+    	newCode += "contains\n";
+    	visitTypeBoundProcedureStatements(ctx.typeBoundProcedureStatements());
     	return null;
     }
     
@@ -557,14 +593,10 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	visitId(ctx.id(0));
     	newCode += "\n";
     	increaseIndentLevel();
-    	for (int i = 0; i < ctx.dataDeclarationStatement().size(); ++i) {
-    		indent();
-    		visitDataDeclarationStatement(ctx.dataDeclarationStatement(i));
-    		newCode += "\n";
-    	}
+    	visitDataDeclarationStatements(ctx.dataDeclarationStatements());
     	decreaseIndentLevel();
-    	if (ctx.typeBoundProcedures() != null)
-    		visitTypeBoundProcedures(ctx.typeBoundProcedures());
+    	if (ctx.containedTypeBoundProcedures() != null)
+    		visitContainedTypeBoundProcedures(ctx.containedTypeBoundProcedures());
     	indent();
     	newCode += "end type ";
     	visitId(ctx.id(0));
@@ -661,8 +693,6 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitContainedProcedures(FortranParser.ContainedProceduresContext ctx) {
-    	indent();
-    	newCode += "contains\n\n";
     	increaseIndentLevel();
     	for (int i = 0; i < ctx.procedure().size(); ++i)
     		visitProcedure(ctx.procedure(i));
@@ -695,8 +725,11 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         visitDeclarationStatements(ctx.declarationStatements());
         visitExecutableStatements(ctx.executableStatements());
         decreaseIndentLevel();
-        if (ctx.containedProcedures() != null)
+        if (ctx.CONTAINS_KEYWORD() != null) {
+        	indent();
+        	newCode += "contains\n\n";
             visitContainedProcedures(ctx.containedProcedures());
+        }
         indent();
         newCode += "end "+ctx.PROCEDURE_TYPE(0).getText()+" ";
         visitId(ctx.id(0));

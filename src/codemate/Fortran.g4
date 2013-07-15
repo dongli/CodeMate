@@ -34,7 +34,7 @@ procedure
       accessibilityStatements
       declarationStatements
       executableStatements
-      containedProcedures?
+      ( CONTAINS_KEYWORD containedProcedures )?
       END_KEYWORD PROCEDURE_TYPE id?
     ;
 
@@ -69,6 +69,8 @@ declarationStatement
     | namelistStatement
     ;
 
+dataDeclarationStatements: dataDeclarationStatement*;
+
 dataDeclarationStatement
     : ( intrinsicType | derivedType ) dataAttributes? dataList
     ;
@@ -101,21 +103,27 @@ data: assignmentStatement | idWithArgs | id;
 
 typeDeclarationStatement
     : TYPE_KEYWORD typeAttributes? id
-      dataDeclarationStatement*
-      typeBoundProcedures?
+      dataDeclarationStatements
+      containedTypeBoundProcedures?
       END_KEYWORD TYPE_KEYWORD id?
     ;
 
 typeAttributes: ( COMMA typeAttribute )+ DOUBLE_COLONS;
 
-typeAttribute
+extendsAttribute
     : EXTENDS_KEYWORD LEFT_PAREN ( templateInstance | id ) RIGHT_PAREN
+    ;
+
+typeAttribute
+    : extendsAttribute
     | PUBLIC_KEYWORD
     | PRIVATE_KEYWORD
     | ABSTRACT_KEYWORD
     ;
 
-typeBoundProcedures: 'contains' typeBoundProcedureStatement*;
+containedTypeBoundProcedures: CONTAINS_KEYWORD typeBoundProcedureStatements;
+
+typeBoundProcedureStatements: typeBoundProcedureStatement*;
 
 typeBoundProcedureStatement
     : PROCEDURE_KEYWORD
@@ -163,7 +171,8 @@ executableStatement
     ;
 
 assignmentStatement
-    : ( idWithArgs | templateInstance | derivedDataMember | id ) EQUAL expression
+    : ( idWithArgs | templateInstance | derivedDataMember | id )
+      ( POINT | EQUAL ) expression
     ;
 
 doStatement
@@ -207,7 +216,7 @@ ifStatement
     | IF_KEYWORD expression executableStatement # ifSingleStatement
     ;
 
-keywordStatementParameters:LEFT_PAREN actualArguments RIGHT_PAREN;
+keywordStatementParameters: LEFT_PAREN actualArguments RIGHT_PAREN;
 keywordStatement
     : EXECUTABLE_KEYWORD
       keywordStatementParameters?
@@ -216,7 +225,7 @@ keywordStatement
 
 // *****************************************************************************
 //                      contained procedure rules
-containedProcedures: 'contains' procedure*;
+containedProcedures: procedure*;
 
 // *****************************************************************************
 //                              template rules
@@ -320,6 +329,7 @@ EXECUTABLE_KEYWORD
     | 'open' | 'close' | 'inquire' | 'rewind'
     | 'return' | 'cycle' | 'exit' | 'stop'
     ;
+CONTAINS_KEYWORD: 'contains';
 RESULT_KEYWORD: 'result';
 TYPE_KEYWORD: 'type';
 CLASS_KEYWORD: 'class';
@@ -370,7 +380,7 @@ STRING
 //                            character tokens
 fragment NEW_LINE: '\r'? '\n';
 NEW_LINES: NEW_LINE+ -> skip;
-BREAK_LINE: '&' NEW_LINES -> skip;
+BREAK_LINE: '&' WS? ( NEW_LINES | COMMENT ) -> skip;
 COMMA: ',';
 SEMICOMMA: ';';
 COLON: ':';

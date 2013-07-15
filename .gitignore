@@ -5,3 +5,4 @@ FortranLexer.java
 FortranLexer.tokens
 FortranVisitor.java
 FortranParser.java
+bin/codemate/*
