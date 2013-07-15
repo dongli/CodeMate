@@ -41,6 +41,7 @@ public class FortranProcessor {
     		}
 			callTemplater(entity);
 			callRewriter(entity);
+			callModuleDepend(entity, project);
     	}
     }
 
@@ -122,5 +123,10 @@ public class FortranProcessor {
         FortranRewriter rewriter = new FortranRewriter();
         rewriter.rewrite(entity.getParseTree());
         System.out.println(rewriter.getNewCode());
+    }
+    
+    public void callModuleDepend(CodeEntity entity, Project project) {
+    	FortranDepend moduleDepend = new FortranDepend();
+    	moduleDepend.extract(entity, project);
     }
 }

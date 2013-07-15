@@ -5,6 +5,8 @@ subroutine foo(u, v)
 
     integer i, j, k
 
+    print *, "check"
+
     subdom_loop<u, v> {
         do k = 1, num_lev
         do j = idx_start_lat, idx_end_lat

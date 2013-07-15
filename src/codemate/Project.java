@@ -37,6 +37,13 @@ public class Project {
 					entities.add(new CodeEntity(dir+"/"+fileName));
 		}
 	}
+	
+	public CodeEntity searchCodeEntity(String name) {
+		for (CodeEntity entity : entities)
+			if (entity.getName().equals(name))
+				return entity;
+		return null;
+	}
 
 	public File getRoot() {
 		return root;

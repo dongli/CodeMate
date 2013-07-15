@@ -13,6 +13,10 @@ public class UI {
 		System.out.println("[Notice]: "+caller+": "+message);
 	}
 	
+	public static void warning(String caller, String message) {
+		System.out.println("[Warning]: "+caller+": "+message);
+	}
+	
 	public static void error(String caller, String message) {
 		System.out.println("[Error]: "+caller+": "+message);
 		System.exit(1);

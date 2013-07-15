@@ -13,6 +13,7 @@
 <#list args as arg>
 call ${arg}%get_start_elem(__${arg})
 </#list>
+__subdom => ${args[0]}%subdom
 do __i = 1, ${args[0]}%get_num_elem()
 ${block}
 <#list args as arg>
