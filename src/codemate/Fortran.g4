@@ -75,7 +75,12 @@ dataDeclarationStatement
     : ( intrinsicType | derivedType ) dataAttributes? dataList
     ;
 
-intrinsicTypeParameter: LEFT_PAREN ( id EQUAL )? ( id | numerics ) RIGHT_PAREN;
+intrinsicTypeParameter
+    : LEFT_PAREN
+      ( id EQUAL )?
+      ( id | numerics | STAR )
+      RIGHT_PAREN
+    ;
 intrinsicType: INTRINSIC_TYPE_KEYWORD intrinsicTypeParameter?;
 
 derivedType
@@ -144,7 +149,7 @@ bindingAttribute
 
 interfaceStatement
     : INTERFACE_KEYWORD id?
-      ( moduleProcedure )*
+        moduleProcedure*
       END_KEYWORD INTERFACE_KEYWORD id?
     ;
 

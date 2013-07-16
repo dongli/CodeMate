@@ -431,8 +431,13 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	}
     	if (ctx.numerics() != null)
     		visitNumerics(ctx.numerics());
-    	else
-    		visitId(ctx.id(1));
+    	else if (ctx.id().size() > 0) {
+    		if (ctx.id().size() == 1)
+    			visitId(ctx.id(0));
+    		else if (ctx.id().size() == 2)
+    			visitId(ctx.id(1));
+    	} else if (ctx.STAR() != null)
+    		newCode += "*";
     	newCode += ")";
     	return null;
     }
@@ -602,6 +607,53 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	visitId(ctx.id(0));
     	return null;
     }
+    
+    public Void visitNamelistParameters(FortranParser.NamelistParametersContext ctx) {
+    	visitId(ctx.id(0));
+    	for (int i = 1; i < ctx.id().size(); ++i) {
+    		newCode += ", ";
+    		visitId(ctx.id(i));
+    	}
+    	return null;
+    }
+    
+    public Void visitNamelistStatement(FortranParser.NamelistStatementContext ctx) {
+    	newCode += "namelist /";
+    	visitId(ctx.id());
+    	newCode += "/ ";
+    	visitNamelistParameters(ctx.namelistParameters());
+    	newCode += "\n";
+    	return null;
+    }
+    
+    public Void visitModuleProcedure(FortranParser.ModuleProcedureContext ctx) {
+    	indent();
+    	newCode += "module procedure ";
+    	visitId(ctx.id());
+    	newCode += "\n";
+    	return null;
+    }
+    
+    public Void visitInterfaceStatement(FortranParser.InterfaceStatementContext ctx) {
+    	newCode += "interface";
+    	if (ctx.id().size() > 0) {
+    		newCode += " ";
+    		visitId(ctx.id(0));
+    	}
+    	newCode += "\n";
+    	increaseIndentLevel();
+    	for (FortranParser.ModuleProcedureContext mp : ctx.moduleProcedure())
+    		visitModuleProcedure(mp);
+    	decreaseIndentLevel();
+    	indent();
+    	newCode += "end interface";
+    	if (ctx.id().size() > 0) {
+    		newCode += " ";
+    		visitId(ctx.id(0));
+    	}
+    	newCode += "\n";
+    	return null;
+    }
 
     public Void visitDeclarationStatement(FortranParser.DeclarationStatementContext ctx) {
         indent();
@@ -675,10 +727,12 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
             newCode += "public ";
         else if (ctx.PRIVATE_KEYWORD() != null)
             newCode += "private ";
-        visitId(ctx.id(0));
-        for (int i = 1; i < ctx.id().size(); ++i) {
-            newCode += ", ";
-            visitId(ctx.id(i));
+        if (ctx.id().size() > 0) {
+        	visitId(ctx.id(0));
+        	for (int i = 1; i < ctx.id().size(); ++i) {
+        		newCode += ", ";
+        		visitId(ctx.id(i));
+        	}
         }
         newCode += "\n";
         return null;
