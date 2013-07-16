@@ -222,10 +222,23 @@ ifStatement
     ;
 
 keywordStatementParameters: LEFT_PAREN actualArguments RIGHT_PAREN;
-keywordStatement
-    : EXECUTABLE_KEYWORD
+keywordStatement1
+    : EXECUTABLE_KEYWORD_1
+      keywordStatementParameters
+    ;
+keywordStatement2
+    : EXECUTABLE_KEYWORD_2
       keywordStatementParameters?
       actualArguments?
+    ;
+keywordStatement3
+    : EXECUTABLE_KEYWORD_3
+      ( id | numerics )?
+    ;
+keywordStatement
+    : keywordStatement1
+    | keywordStatement2
+    | keywordStatement3
     ;
 
 // *****************************************************************************
@@ -328,11 +341,15 @@ PROCEDURE_TYPE: 'program' | 'module' | 'subroutine' | 'function';
 INTRINSIC_TYPE_KEYWORD
     : 'integer' | 'real' | 'character' | 'logical' | 'complex'
     ;
-EXECUTABLE_KEYWORD
+EXECUTABLE_KEYWORD_1
     : 'allocate' | 'deallocate' | 'nullify'
-    | 'write' | 'read' | 'print' | 'call'
     | 'open' | 'close' | 'inquire' | 'rewind'
-    | 'return' | 'cycle' | 'exit' | 'stop'
+    ;
+EXECUTABLE_KEYWORD_2
+    : 'write' | 'read' | 'print' | 'call'
+    ;
+EXECUTABLE_KEYWORD_3
+    : 'return' | 'cycle' | 'exit' | 'stop'
     ;
 CONTAINS_KEYWORD: 'contains';
 RESULT_KEYWORD: 'result';
@@ -375,7 +392,7 @@ INOUT_KEYWORD: 'inout';
 
 // *****************************************************************************
 //                        comment and string rules
-COMMENT: '!' .*? NEW_LINE -> skip;
+COMMENT: '!' .*? NEW_LINE+ -> skip;
 STRING
     : '"' ('""'|~'"')* '"'
     | '\'' ('\'\''|~'\'')* '\''

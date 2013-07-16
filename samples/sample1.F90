@@ -44,5 +44,7 @@ program main
   read(10, "(I10, F10.5)") b, c
   rewind(10)
    close(10)
+        
+     if (a == 1) print *, 'a'
 
 end program main

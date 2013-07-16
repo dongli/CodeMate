@@ -175,18 +175,46 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitKeywordStatementParameters(FortranParser.KeywordStatementParametersContext ctx) {
-        newCode += "("+visitActualArguments(ctx.actualArguments())+")";
+        newCode += "(";
+        visitActualArguments(ctx.actualArguments());
+        newCode += ")";
         return null;
     }
 
-    public Void visitKeywordStatement(FortranParser.KeywordStatementContext ctx) {
-        newCode += ctx.EXECUTABLE_KEYWORD().getText();
+    public Void visitKeywordStatement1(FortranParser.KeywordStatement1Context ctx) {
+        newCode += ctx.EXECUTABLE_KEYWORD_1().getText();
+        visitKeywordStatementParameters(ctx.keywordStatementParameters());
+        return null;
+    }
+    
+    public Void visitKeywordStatement2(FortranParser.KeywordStatement2Context ctx) {
+        newCode += ctx.EXECUTABLE_KEYWORD_2().getText();
         if (ctx.keywordStatementParameters() != null)
             visitKeywordStatementParameters(ctx.keywordStatementParameters());
         if (ctx.actualArguments() != null) {
-            newCode += " ";
-            visitActualArguments(ctx.actualArguments());
+        	newCode += " ";
+        	visitActualArguments(ctx.actualArguments());
         }
+        return null;
+    }
+    
+    public Void visitKeywordStatement3(FortranParser.KeywordStatement3Context ctx) {
+        newCode += ctx.EXECUTABLE_KEYWORD_3().getText();
+        newCode += " ";
+        if (ctx.id() != null)
+        	visitId(ctx.id());
+        else if (ctx.numerics() != null)
+        	visitNumerics(ctx.numerics());
+        return null;
+    }
+    
+    public Void visitKeywordStatement(FortranParser.KeywordStatementContext ctx) {
+        if (ctx.keywordStatement1() != null)
+        	visitKeywordStatement1(ctx.keywordStatement1());
+        else if (ctx.keywordStatement2() != null)
+        	visitKeywordStatement2(ctx.keywordStatement2());
+        else if (ctx.keywordStatement3() != null)
+        	visitKeywordStatement3(ctx.keywordStatement3());
         return null;
     }
 
@@ -262,13 +290,14 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitExecutableStatements(FortranParser.ExecutableStatementsContext ctx) {
-        for (FortranParser.ExecutableStatementContext exeStmt : ctx.executableStatement())
+        for (FortranParser.ExecutableStatementContext exeStmt : ctx.executableStatement()) {
+            indent();
             visitExecutableStatement(exeStmt);
+        }
         return null;
     }
 
     public Void visitExecutableStatement(FortranParser.ExecutableStatementContext ctx) {
-        indent();
         if (ctx.assignmentStatement() != null)
             visitAssignmentStatement(ctx.assignmentStatement());
         else if (ctx.ifStatement() != null)
@@ -321,6 +350,14 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         return null;
     }
 
+    public Void visitIfSingleStatement(FortranParser.IfSingleStatementContext ctx) {
+    	newCode += "if ";
+    	visitExpression(ctx.expression());
+    	newCode += " ";
+    	visitExecutableStatement(ctx.executableStatement());
+    	return null;
+    }
+    
     public Void visitIfStatement(FortranParser.IfStatementContext ctx) {
         if (ctx instanceof FortranParser.IfMultipleStatementsContext)
             visitIfMultipleStatements((FortranParser.IfMultipleStatementsContext) ctx);
