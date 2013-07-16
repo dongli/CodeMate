@@ -29,9 +29,14 @@ public class FortranDepend extends FortranBaseVisitor<Void> {
 			if (depend != null) {
 				entity.addInternalDepend(depend);
 			} else {
-				// TODO: Check external dependencies.
-				UI.warning("FortranDepend",
-						"Can't find \""+moduleName+"\" in project!");
+				LibraryMate libraryMate =
+						LibraryMates.searchLibrary("Fortran", moduleName);
+				if (libraryMate != null) {
+					entity.addExternalDepend(libraryMate);
+				} else {
+					UI.warning("FortranDepend",
+							"Can't find \""+moduleName+"\" in project!");
+				}
 			}
 		}
 	}

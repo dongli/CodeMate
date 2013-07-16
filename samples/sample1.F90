@@ -1,5 +1,6 @@
 program main
 
+    use netcdf
     use foo_mod, only: foo_init, a => b
 
     implicit none

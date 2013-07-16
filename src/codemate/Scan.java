@@ -19,6 +19,8 @@ public class Scan {
 	public static void main(String[] args) {
 		String root = args[0];
 
+		LibraryMates.loadLibraryMates();
+		
 		UI.notice("Scan", "Scanning project in " + root + ".");
 
 		Project project = new Project(root);

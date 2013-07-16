@@ -18,18 +18,27 @@ public class CodeEntity {
 	private File path;
 	private ParseTree parseTree;
 	private ArrayList<CodeEntity> internalDepends;
-	private ArrayList<CodeEntity> externalDepends;
+	private ArrayList<LibraryMate> externalDepends;
 
 	CodeEntity(String path) {
 		UI.notice("CodeEntity", "Add code entity "+path+".");
 		this.setPath(path);
 		internalDepends = new ArrayList<CodeEntity>();
-		externalDepends = new ArrayList<CodeEntity>();
+		externalDepends = new ArrayList<LibraryMate>();
 	}
 
 	public void addInternalDepend(CodeEntity entity) {
 		if (internalDepends.indexOf(entity) == -1)
 			internalDepends.add(entity);
+	}
+	
+	public void addExternalDepend(LibraryMate mate) {
+		if (externalDepends.indexOf(mate) == -1) {
+			UI.notice("CodeEntity",
+					"Add library "+mate.getLibraryName()+
+					" dependency for "+getName()+".");
+			externalDepends.add(mate);
+		}
 	}
 	
 	public File getPath() {
