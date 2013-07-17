@@ -13,10 +13,17 @@ import java.util.*;
 public class LibraryMates {
 	private static List<LibraryMate> mates = new ArrayList<LibraryMate>();
 	
-	public static void loadLibraryMates() {
+	public static void load() {
 		mates.add(new NetcdfLibraryMate());
 	}
 
+	public static ArrayList<String> getLibraryNames() {
+		ArrayList<String> libraryNames = new ArrayList<String>();
+		for (LibraryMate mate : mates)
+			libraryNames.add(mate.getLibraryName());
+		return libraryNames;
+	}
+	
 	public static LibraryMate searchLibrary(
 			String language, String headerOrModule) {
 		for (LibraryMate mate : mates)

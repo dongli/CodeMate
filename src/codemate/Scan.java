@@ -19,12 +19,14 @@ public class Scan {
 	public static void main(String[] args) {
 		String root = args[0];
 
-		LibraryMates.loadLibraryMates();
+		LibraryMates.load();
+		CompilerMates.load();
+		Config.load();
 		
 		UI.notice("Scan", "Scanning project in " + root + ".");
 
 		Project project = new Project(root);
-		FortranProcessor processor = new FortranProcessor();
-		processor.process(project);
+		FortranProcessor.process(project);
+		ProjectBuilder.prepare(project);
 	}
 }

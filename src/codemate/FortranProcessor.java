@@ -17,8 +17,6 @@ import org.antlr.v4.runtime.tree.*;
 import java.io.*;
 
 public class FortranProcessor {
-    FortranProcessor() { }
-    
     /**
      * process
      * 
@@ -29,7 +27,7 @@ public class FortranProcessor {
      * 
      * @author 		Li Dong <dongli@lasg.iap.ac.cn>
      */
-    public void process(Project project) {
+    public static void process(Project project) {
     	// first read template definitions under the root of project
     	FortranTemplater.readTemplates(project.getRoot());
     	for (CodeEntity entity : project.entities) {
@@ -54,7 +52,7 @@ public class FortranProcessor {
      *
      * @author      Li Dong <dongli@lasg.iap.ac.cn>
      */
-    public void callParser(CodeEntity entity) throws Exception {
+    public static void callParser(CodeEntity entity) throws Exception {
     	InputStream inputStream = new FileInputStream(entity.getPath());
         ANTLRInputStream input = new ANTLRInputStream(inputStream);
         FortranLexer lexer = new FortranLexer(input);
@@ -107,7 +105,7 @@ public class FortranProcessor {
      *
      * @author      Li Dong <dongli@lasg.iap.ac.cn>
      */
-    public void callTemplater(CodeEntity entity) {
+    public static void callTemplater(CodeEntity entity) {
     	FortranTemplater templater = new FortranTemplater();
         templater.instantiate(entity.getParseTree());
     }
@@ -119,13 +117,13 @@ public class FortranProcessor {
      *
      * @author      Li Dong <dongli@lasg.iap.ac.cn>
      */
-    public void callRewriter(CodeEntity entity) {
+    public static void callRewriter(CodeEntity entity) {
         FortranRewriter rewriter = new FortranRewriter();
         rewriter.rewrite(entity.getParseTree());
         System.out.println(rewriter.getNewCode());
     }
     
-    public void callModuleDepend(CodeEntity entity, Project project) {
+    public static void callModuleDepend(CodeEntity entity, Project project) {
     	FortranDepend moduleDepend = new FortranDepend();
     	moduleDepend.extract(entity, project);
     }
