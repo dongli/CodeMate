@@ -30,12 +30,40 @@ public interface LibraryMate {
 	public boolean isDepended(String language, String headerOrModule);
 	
 	/**
-	 * getCompileOptions
+	 * getIncludeOptions
 	 * 
-	 * This method returns the options for compiling codes.
+	 * This method returns the "-I..." option for compiling codes.
 	 * 
 	 * @param 	language		The language interface
 	 * @return	String
 	 */
-	public String getCompileOptions(String language);
+	public String getIncludeOptions();
+	
+	/**
+	 * getLibraryOptions
+	 * 
+	 * This method returns the "-L... -l..." options for compiling codes.
+	 * 
+	 * @param 	language		The language interface
+	 * @return	String
+	 */
+	public String getLibraryOptions(String language);
+	
+	/**
+	 * setRoot
+	 * 
+	 * This method sets the root of the library.
+	 * 
+	 * @param	root			The library root
+	 */
+	public void setRoot(String root);
+	
+	/**
+	 * getRoot
+	 * 
+	 * This method gets the root of the library.
+	 * 
+	 * @return	String
+	 */
+	public String getRoot();
 }

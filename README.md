@@ -13,7 +13,7 @@ now, I switch to Java, because the indispensible parser generator ANTLR
 (currently in its 4th version). It is more efficient than other generators I
 have tried.
 
-I will be update this README continuously.
+I will update this README continuously.
 
 # Authors
 

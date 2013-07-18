@@ -31,4 +31,11 @@ public class LibraryMates {
 				return mate;
 		return null;
 	}
+	
+	public static LibraryMate searchLibrary(String libraryName) {
+		for (LibraryMate mate : mates)
+			if (mate.getLibraryName().equals(libraryName))
+				return mate;
+		return null;
+	}
 }

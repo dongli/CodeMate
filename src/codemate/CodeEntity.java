@@ -16,15 +16,14 @@ import java.util.*;
 
 public class CodeEntity {
 	private File path;
+	private String type;
 	private ParseTree parseTree;
-	private ArrayList<CodeEntity> internalDepends;
-	private ArrayList<LibraryMate> externalDepends;
+	public List<CodeEntity> internalDepends = new ArrayList<CodeEntity>();
+	public List<LibraryMate> externalDepends = new ArrayList<LibraryMate>();
 
 	CodeEntity(String path) {
 		UI.notice("CodeEntity", "Add code entity "+path+".");
 		this.setPath(path);
-		internalDepends = new ArrayList<CodeEntity>();
-		externalDepends = new ArrayList<LibraryMate>();
 	}
 
 	public void addInternalDepend(CodeEntity entity) {
@@ -59,5 +58,13 @@ public class CodeEntity {
 	
 	public String getName() {
 		return path.getName().substring(0, path.getName().lastIndexOf("."));
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

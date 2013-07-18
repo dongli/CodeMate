@@ -1,4 +1,6 @@
 *.class
+*.o
+*.mod
 Fortran.tokens
 FortranBaseVisitor.java
 FortranLexer.java

@@ -3,6 +3,7 @@ package codemate;
 import codemate.LibraryMate;
 
 public class NetcdfLibraryMate implements LibraryMate {
+	private String root = null;
 	
 	@Override
 	public String getLibraryName() {
@@ -20,11 +21,26 @@ public class NetcdfLibraryMate implements LibraryMate {
 	}
 
 	@Override
-	public String getCompileOptions(String language) {
+	public String getIncludeOptions() {
+		return "-I$(NETCDF_ROOT)/include";
+	}
+
+	@Override
+	public String getLibraryOptions(String language) {
 		if (language.equals("Fortran")) {
-			// check the version of netcdf
+			return "-L$(NETCDF_ROOT)/lib -lnetcdf -lnetcdff";
 		}
 		return null;
+	}
+
+	@Override
+	public void setRoot(String root) {
+		this.root = root;
+	}
+
+	@Override
+	public String getRoot() {
+		return root;
 	}
 
 }

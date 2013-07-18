@@ -13,28 +13,38 @@ import java.util.*;
 
 public class Project {
 	private String name;
+	private String buildScheme = "debug";
 	private File root;
-	public ArrayList<CodeEntity> entities;
+	private List<File> directories = new ArrayList<File>();
+	public List<CodeEntity> entities = new ArrayList<CodeEntity>();
 
 	Project(String dirName) {
 		setRoot(new File(dirName));
 		setName(new File(getRoot().getParent()).getName());
-		entities = new ArrayList<CodeEntity>();
 		collectCodeEntities(root);
 	}
 	
 	Project(String projectName, String dirName) {
 		setName(projectName);
 		setRoot(new File(dirName));
-		entities = new ArrayList<CodeEntity>();
 		collectCodeEntities(root);
 	}
 
-	public void collectCodeEntities(File dir) {
-		for (String fileName : dir.list()) {
-			for (String suffix : FortranTraits.suffix)
-				if (fileName.endsWith(suffix))
-					entities.add(new CodeEntity(dir+"/"+fileName));
+	public void collectCodeEntities(File root) {
+		List<File> dirs = SystemUtils.getSubdirectories(root);
+		dirs.add(root);
+		for (File dir : dirs) {
+			boolean isFound = false;
+			for (String fileName : dir.list()) {
+				for (String suffix : FortranTraits.suffix)
+					if (fileName.endsWith(suffix)) {
+						isFound = true;
+						entities.add(new CodeEntity(dir+"/"+fileName));
+					}
+			}
+			// only add the directory with codes in it
+			if (isFound)
+				directories.add(dir);
 		}
 	}
 	
@@ -60,5 +70,17 @@ public class Project {
 	public void setName(String name) {
 		UI.notice("Project", "Create project "+name+".");
 		this.name = name;
+	}
+
+	public String getBuildScheme() {
+		return buildScheme;
+	}
+
+	public void setBuildScheme(String buildScheme) {
+		this.buildScheme = buildScheme;
+	}
+	
+	public List<File> getDirectories() {
+		return directories;
 	}
 }

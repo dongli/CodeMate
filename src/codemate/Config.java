@@ -147,7 +147,14 @@ public class Config {
 						fileName+"!");
 			}
 		}
-		
+		// spread configuration to other classes
+		for (Entry<String, BlockData> libraryData :
+			configData.data.get("library").data.entrySet()) {
+			LibraryMate libraryMate =
+					LibraryMates.searchLibrary(libraryData.getKey());
+			if (libraryMate != null)
+				libraryMate.setRoot(libraryData.getValue().data.get("root"));
+		}
 	}
 	
 	/**

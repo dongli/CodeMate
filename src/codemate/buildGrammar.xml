@@ -8,7 +8,7 @@
     	<exec executable="java" dir="${basedir}/src/codemate">
     		<arg value="-jar"/>
     		<arg value="${basedir}/lib/antlr-4.1-complete.jar"/>
-    		<arg value="-no-listener"/>
+    		<arg value="-listener"/>
     		<arg value="-visitor"/>
     	    <arg value="Fortran.g4"/>
     	</exec>

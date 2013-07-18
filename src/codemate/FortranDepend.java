@@ -3,15 +3,19 @@ package codemate;
 /**
  * FortranDepend
  * 
- * This class extracts the internal and external dependencies of Fortran code.
+ * This class extracts the internal and external dependencies of Fortran code,
+ * and also conduct some other small operations like discern the code type.
  * 
  * @author Li Dong <dongli@lasg.iap.ac.cn>
  */
 
 import java.util.*;
 
-public class FortranDepend extends FortranBaseVisitor<Void> {
-	private ArrayList<String> usedModules = new ArrayList<String>();
+import org.antlr.v4.runtime.tree.*;
+
+public class FortranDepend extends FortranBaseListener {
+	private List<String> usedModules = new ArrayList<String>();
+	private List<String> procedureTypes = new ArrayList<String>();
 	
 	/**
 	 * extract
@@ -23,7 +27,9 @@ public class FortranDepend extends FortranBaseVisitor<Void> {
 	 */
 	public void extract(CodeEntity entity, Project project) {
 		usedModules.clear();
-		visit(entity.getParseTree());
+		procedureTypes.clear();
+		ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(this, entity.getParseTree());
 		for (String moduleName : usedModules) {
 			CodeEntity depend = project.searchCodeEntity(moduleName);
 			if (depend != null) {
@@ -39,10 +45,19 @@ public class FortranDepend extends FortranBaseVisitor<Void> {
 				}
 			}
 		}
+		// discern code type
+		if (procedureTypes.contains("program"))
+			entity.setType("executable");
+		else
+			entity.setType("object");
 	}
 	
-	public Void visitUseStatement(FortranParser.UseStatementContext ctx) {
+	public void enterFile(FortranParser.FileContext ctx) {
+		for (FortranParser.ProcedureContext procedure : ctx.procedure())
+			procedureTypes.add(procedure.PROCEDURE_TYPE(0).getText());
+	}
+	
+	public void enterUseStatement(FortranParser.UseStatementContext ctx) {
 		usedModules.add(ctx.id().getText());
-		return null;
 	}
 }
