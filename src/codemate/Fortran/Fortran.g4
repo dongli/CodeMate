@@ -199,7 +199,7 @@ caseStatement: caseLabels executableStatements;
 caseDefaultStatement: CASE_KEYWORD DEFAULT_KEYWORD executableStatements;
 selectStatement
     : SELECT_KEYWORD CASE_KEYWORD
-      LEFT_PAREN ( templateInstance | derivedDataMember | id ) RIGHT_PAREN
+      LEFT_PAREN ( expression ) RIGHT_PAREN
       caseStatement*
       caseDefaultStatement?
       END_KEYWORD SELECT_KEYWORD
@@ -261,7 +261,12 @@ templateBlock
 
 // *****************************************************************************
 //                                basic rules
-id: INTRINSIC_TYPE_KEYWORD | RESULT_KEYWORD | ID;
+id
+    : ID | INTRINSIC_TYPE_KEYWORD | RESULT_KEYWORD | TYPE_KEYWORD
+    | CASE_KEYWORD | DEFAULT_KEYWORD | PASS_KEYWORD | NOPASS_KEYWORD
+    | DO_KEYWORD | ONLY_KEYWORD | END_KEYWORD | TARGET_KEYWORD
+    | IN_KEYWORD | OUT_KEYWORD
+    ;
 
 subscriptRange: ( expression rangeTail? | rangeTail ) | STAR;
 rangeTail
@@ -322,7 +327,7 @@ idWithArgs: id LEFT_PAREN ( actualArguments | subscriptRanges )? RIGHT_PAREN;
 numerics: NUMERICS;
 
 member: id | idWithArgs;
-derivedDataMember: id ( PERCENT member )+;
+derivedDataMember: member ( PERCENT member )+;
 
 dummyArguments: id ( COMMA id )*;
 

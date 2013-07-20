@@ -438,8 +438,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitDerivedDataMember(DerivedDataMemberContext ctx) {
-        visitId(ctx.id());
-        for (int i = 0; i < ctx.member().size(); ++i) {
+        visitMember(ctx.member(0));
+        for (int i = 1; i < ctx.member().size(); ++i) {
             appendCode("%");
             visitMember(ctx.member(i));
         }
@@ -477,12 +477,7 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
 
     public Void visitSelectStatement(SelectStatementContext ctx) {
         appendCode("select case (");
-        if (ctx.templateInstance() != null)
-            visitTemplateInstance(ctx.templateInstance());
-        else if (ctx.derivedDataMember() != null)
-            visitDerivedDataMember(ctx.derivedDataMember());
-        else if (ctx.id() != null)
-            visitId(ctx.id());
+        visitExpression(ctx.expression());
         appendCode(")\n");
         for (CaseStatementContext caseStmt : ctx.caseStatement())
             visitCaseStatement(caseStmt);
