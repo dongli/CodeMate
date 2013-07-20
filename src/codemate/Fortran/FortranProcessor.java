@@ -40,8 +40,9 @@ public class FortranProcessor {
     			UI.error("FortranProcessor",
     					"Encounter error while parsing "+entity.getPath()+"!");
     		}
-			callTemplater(entity);
-			callRewriter(entity);
+			if (callTemplater(entity)) {
+				callRewriter(entity, project);
+			}
 			callModuleDepend(entity, project);
     	}
     }
@@ -56,6 +57,7 @@ public class FortranProcessor {
      * @author Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void process(File file) {
+    	FortranTemplater.readTemplates(file.getParentFile());
     	CodeEntity entity = new CodeEntity(file.getPath());
 		try {
 			callParser(entity);
@@ -63,6 +65,7 @@ public class FortranProcessor {
 			UI.error("FortranProcessor",
 					"Encounter error while parsing "+entity.getPath()+"!");
 		}
+		callTemplater(entity);
     	callRewriter(entity);
     }
 
@@ -123,12 +126,15 @@ public class FortranProcessor {
      *
      * This method calls FortranTemplater class to process the template
      * instances in the Fortran codes.
+     * 
+     * @param       entity      The code entity to be processed for template
+     * @return      boolean     Return true if encounter template instance.
      *
      * @author      Li Dong <dongli@lasg.iap.ac.cn>
      */
-    public static void callTemplater(CodeEntity entity) {
+    public static boolean callTemplater(CodeEntity entity) {
     	FortranTemplater templater = new FortranTemplater();
-        templater.instantiate(entity.getParseTree());
+        return templater.instantiate(entity.getParseTree());
     }
 
     /**
@@ -136,12 +142,47 @@ public class FortranProcessor {
      *
      * This method calls FortranRewriter class to rewrite the Fortran codes.
      *
+     * @param      entity    The code entity to be rewritten
+     * 
      * @author      Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void callRewriter(CodeEntity entity) {
         FortranRewriter rewriter = new FortranRewriter();
         rewriter.rewrite(entity.getParseTree());
-        System.out.println(rewriter.getNewCode());
+        // write new code into error channel, then user can redirect it
+        System.err.println(rewriter.getNewCode());
+    }
+    
+    /**
+     * callRewriter
+     * 
+     * This method rewrites the given entity in a project to a new location that
+     * is <project root>/.codemate/processed_codes.
+     * 
+     * @param      entity    The code entity to be rewritten
+     * @param      project   The project
+     * 
+     * @author Li Dong <dongli@lasg.iap.ac.cn>
+     */
+    private static void callRewriter(CodeEntity entity, Project project) {
+    	File dir = new File(project.getRoot()+"/.codemate/processed_codes");
+    	if (!dir.isDirectory())
+    		if (!dir.mkdirs())
+    			UI.error("FortranProcessor",
+    					"Couldn't create directory "+dir.getPath()+
+    					" for storing processed codes!");
+        FortranRewriter rewriter = new FortranRewriter();
+        rewriter.rewrite(entity.getParseTree());
+    	String fileName = dir.getPath()+"/"+entity.getName()+".t.F90";
+    	UI.notice("FortranProcessor",
+    			"Processed code is written to "+fileName+".");
+    	try {
+    		PrintWriter out = new PrintWriter(new FileWriter(fileName));
+    		out.print(rewriter.getNewCode());
+    		out.close();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
     
     public static void callModuleDepend(CodeEntity entity, Project project) {

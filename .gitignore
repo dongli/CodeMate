@@ -3,6 +3,7 @@
 *.mod
 Makefile
 main
+*.t.*
 Fortran.tokens
 FortranBaseVisitor.java
 FortranLexer.java

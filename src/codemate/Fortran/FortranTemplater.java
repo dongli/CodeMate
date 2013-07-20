@@ -26,6 +26,7 @@ import javax.tools.ToolProvider;
 public class FortranTemplater extends FortranBaseVisitor<Void> {
     private static List<TemplateBundle> templateBundles =
     		new ArrayList<TemplateBundle>();
+    private boolean encounterTemplateInstance;
 
     public FortranTemplater() { }
     
@@ -95,14 +96,22 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
      * instantiate
      *
      * This method visits the tree to find out template instances and
-     * instantiate them if there is a template matched.
+     * instantiate them if there is a template matched. Note the visiting will
+     * be looped until there is no more template instance.
      *
      * @param       tree        The parse tree
+     * @return      boolean     Return true if encounter template instance.
      *
      * @author      Li Dong <dongli@lasg.iap.ac.cn>
      */
-    public void instantiate(ParseTree tree) {
-        visit(tree);
+    public boolean instantiate(ParseTree tree) {
+    	boolean res = false;
+    	do {
+        	encounterTemplateInstance = false;
+    		visit(tree);
+    		if (encounterTemplateInstance) res = true;
+    	} while (encounterTemplateInstance);
+        return res;
     }
     
     public Void visitTemplateInstance(
@@ -110,6 +119,7 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
         TemplateBundle matchedTemplateBundle =
             searchTemplateBundle(ctx.id().getText());
         if (matchedTemplateBundle != null) {
+        	encounterTemplateInstance = true;
             if (ctx.getParent().getRuleIndex() ==
             		FortranParser.RULE_extendsAttribute) {
             	// Note: Because the extended type is special, so we handle

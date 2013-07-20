@@ -29,7 +29,7 @@ public class Scan {
 	public static void operate(List<String> arguments) {
 		String root = arguments.get(0);
 		
-		File file = new File(root);
+		File file = (new File(root)).getAbsoluteFile();
 		if (file.isDirectory()) {
 			UI.notice("Scan", "Scanning project in "+root+".");
 			LibraryMates.load();
