@@ -89,7 +89,7 @@ derivedType
       LEFT_PAREN derivedTypeName RIGHT_PAREN
     ;
 
-dataAttributes: ( COMMA dataAttribute )+ DOUBLE_COLONS;
+dataAttributes: ( COMMA dataAttribute )* DOUBLE_COLONS;
 
 dataAttribute
     : ALLOCATABLE_KEYWORD

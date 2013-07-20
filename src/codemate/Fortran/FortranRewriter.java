@@ -333,6 +333,9 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
             indent();
             visitExecutableStatement(exeStmt);
         }
+        if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
+        	ctx.executableStatement().size() > 0)
+        	appendCode("\n");
         return null;
     }
 
@@ -732,7 +735,6 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     		appendCode(" ");
     		visitId(ctx.id(0));
     	}
-    	appendCode("\n");
     	return null;
     }
 
@@ -753,7 +755,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     public Void visitDeclarationStatements(DeclarationStatementsContext ctx) {
         for (DeclarationStatementContext declStmt : ctx.declarationStatement())
             visitDeclarationStatement(declStmt);
-        if (ctx.declarationStatement().size() != 0)
+        if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
+        	ctx.declarationStatement().size() > 0)
         	appendCode("\n");
         return null;
     }
@@ -873,6 +876,9 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         appendCode("end "+ctx.PROCEDURE_TYPE(0).getText()+" ");
         visitId(ctx.id(0));
         appendCode("\n");
+        if (ctx.getParent().getRuleIndex() ==
+        		FortranParser.RULE_containedProcedures)
+        	appendCode("\n");
         return null;
     }
 

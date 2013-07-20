@@ -45,6 +45,26 @@ public class FortranProcessor {
 			callModuleDepend(entity, project);
     	}
     }
+    
+    /**
+     * process
+     * 
+     * This method only processes a single Fortran file.
+     * 
+     * @param file
+     * 
+     * @author Li Dong <dongli@lasg.iap.ac.cn>
+     */
+    public static void process(File file) {
+    	CodeEntity entity = new CodeEntity(file.getPath());
+		try {
+			callParser(entity);
+		} catch (Exception e) {
+			UI.error("FortranProcessor",
+					"Encounter error while parsing "+entity.getPath()+"!");
+		}
+    	callRewriter(entity);
+    }
 
     /**
      * callParser

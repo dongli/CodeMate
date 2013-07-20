@@ -24,7 +24,7 @@ public class CodeEntity {
 	public List<CodeEntity> internalDepends = new ArrayList<CodeEntity>();
 	public List<LibraryMate> externalDepends = new ArrayList<LibraryMate>();
 
-	CodeEntity(String path) {
+	public CodeEntity(String path) {
 		UI.notice("CodeEntity", "Add code entity "+path+".");
 		this.setPath(path);
 	}

@@ -1,5 +1,6 @@
 package codemate.operator;
 
+import java.io.*;
 import java.util.*;
 
 import codemate.Fortran.*;
@@ -27,15 +28,19 @@ import codemate.ui.*;
 public class Scan {
 	public static void operate(List<String> arguments) {
 		String root = arguments.get(0);
-
-		LibraryMates.load();
-		CompilerMates.load();
-		Config.load();
 		
-		UI.notice("Scan", "Scanning project in " + root + ".");
-
-		Project project = new Project(root);
-		FortranProcessor.process(project);
-		ProjectBuilder.prepare(project);
+		File file = new File(root);
+		if (file.isDirectory()) {
+			UI.notice("Scan", "Scanning project in "+root+".");
+			LibraryMates.load();
+			CompilerMates.load();
+			Config.load();
+			Project project = new Project(root);
+			FortranProcessor.process(project);
+			ProjectBuilder.prepare(project);
+		} else if (file.isFile()) {
+			UI.notice("Scan", "Scanning single file "+root+".");
+			FortranProcessor.process(file);
+		}
 	}
 }
