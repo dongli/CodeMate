@@ -1,5 +1,7 @@
 package codemate.operator;
 
+import java.util.*;
+
 import codemate.Fortran.*;
 import codemate.builder.*;
 import codemate.compilermate.*;
@@ -23,8 +25,8 @@ import codemate.ui.*;
  */
 
 public class Scan {
-	public static void main(String[] args) {
-		String root = args[0];
+	public static void operate(List<String> arguments) {
+		String root = arguments.get(0);
 
 		LibraryMates.load();
 		CompilerMates.load();
