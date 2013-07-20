@@ -27,4 +27,15 @@ public class SystemUtils {
 		}
 		return subdirectories;
 	}
+	
+	public static String getAbsolutePath(File file) {
+		String res = file.getAbsolutePath();
+		res = res.replace("/.", "");
+		return res;
+	}
+	
+	public static String getAbsolutePath(String fileName) {
+		File file = new File(fileName);
+		return getAbsolutePath(file);
+	}
 }

@@ -9,6 +9,7 @@ import codemate.compilermate.*;
 import codemate.librarymate.*;
 import codemate.project.*;
 import codemate.ui.*;
+import codemate.utils.SystemUtils;
 
 /**
  * Scan
@@ -29,17 +30,17 @@ public class Scan {
 	public static void operate(List<String> arguments) {
 		String root = arguments.get(0);
 		
-		File file = (new File(root)).getAbsoluteFile();
+		File file = new File(SystemUtils.getAbsolutePath(root));
 		if (file.isDirectory()) {
 			UI.notice("Scan", "Scanning project in "+root+".");
 			LibraryMates.load();
 			CompilerMates.load();
 			Config.load();
-			Project project = new Project(root);
+			Project project = new Project(file.getPath());
 			FortranProcessor.process(project);
 			ProjectBuilder.prepare(project);
 		} else if (file.isFile()) {
-			UI.notice("Scan", "Scanning single file "+root+".");
+			UI.notice("Scan", "Scanning single file "+file.getPath()+".");
 			FortranProcessor.process(file);
 		}
 	}

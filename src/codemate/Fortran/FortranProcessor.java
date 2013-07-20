@@ -34,6 +34,7 @@ public class FortranProcessor {
     	// first read template definitions under the root of project
     	FortranTemplater.readTemplates(project.getRoot());
     	for (CodeEntity entity : project.entities) {
+    		UI.notice("FortranProcessor", "Process code "+entity.getPath()+".");
     		try {
     			callParser(entity);
     		} catch (Exception e) {
