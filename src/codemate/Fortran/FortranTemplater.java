@@ -33,49 +33,45 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
     /**
      * readTemplates
      * 
-     * This method reads templates written in FreeMarker from the files with
-     * ".ftl" suffix under the given directory.
+     * This method reads templates under the given directory. If the "*.class"
+     * is newer than "*.java", use "*.class" directly.
      * 
      * @author Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void readTemplates(File dir) {
-    	List<String> templateClasses = new ArrayList<String>();
+    	List<String> templateNames = new ArrayList<String>();
     	for (String fileName : dir.list()) {
             if (fileName.endsWith("Template.java")) {
-            	UI.notice("FortranTemplater",
-            			"Read template from "+fileName+".");
-            	String templateClass = fileName.split("\\.")[0];
-                JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-                compiler.run(null, null, null, dir.getPath()+"/"+fileName);
-                templateClasses.add(templateClass);
+            	String templateName = fileName.split("\\.")[0];
+            	File javaFile = new File(dir.getPath()+"/"+fileName);
+            	File classFile = new File(
+            			dir.getPath()+"/"+templateName+".class");
+            	if (classFile.isFile() &&
+            		javaFile.lastModified() < classFile.lastModified()) {
+            		UI.notice("FortranTemplater",
+            				"Use template in "+classFile.getPath()+".");
+            	} else {
+            		UI.notice("FortranTemplater",
+            				"Compile template in "+javaFile.getPath()+".");
+            		JavaCompiler compiler =
+            				ToolProvider.getSystemJavaCompiler();
+            		compiler.run(null, null, null, javaFile.getPath());
+            	}
+                templateNames.add(templateName);
             }
         }
-        URLClassLoader classLoader = null;
 		try {
-			classLoader = URLClassLoader.newInstance(
+			URLClassLoader classLoader = URLClassLoader.newInstance(
 					new URL[] {dir.toURI().toURL()});
-		} catch (MalformedURLException e) {
+	        for (String templateName : templateNames) {
+	        	Class<?> cls = null;
+					cls = classLoader.loadClass(templateName);
+					templateBundles.add((TemplateBundle) cls.newInstance());
+	        }
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        for (String templateClass : templateClasses) {
-        	Class<?> cls = null;
-			try {
-				cls = classLoader.loadClass(templateClass);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	try {
-				templateBundles.add((TemplateBundle) cls.newInstance());
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
     }
     
     /**
