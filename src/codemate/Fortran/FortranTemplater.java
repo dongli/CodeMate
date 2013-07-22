@@ -39,6 +39,9 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
      * @author Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void readTemplates(File dir) {
+    	if (!dir.isDirectory())
+    		UI.error("FortranTemplater", dir.getPath()+
+    				" is not a directory or even does not exist!");
     	List<String> templateNames = new ArrayList<String>();
     	for (String fileName : dir.list()) {
             if (fileName.endsWith("Template.java")) {
@@ -72,6 +75,13 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    
+    public static void readTemplates(String[] dirNames) {
+    	for (String dirName : dirNames) {
+    		File dir = new File(dirName);
+    		readTemplates(dir);
+    	}
     }
     
     /**

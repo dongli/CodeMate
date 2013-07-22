@@ -1,14 +1,31 @@
 package codemate.operator;
 
-import java.util.*;
+import codemate.ui.CommandLine;
 
 public class Master {
 	public static void main(String[] args) {
-		List<String> arguments = new ArrayList<String>(Arrays.asList(args));
-		String operator = args[0];
-		if (operator.equals("scan")) {
-			arguments.remove(0);
-			Scan.operate(arguments);
+		initCommandLine();
+		CommandLine.parse(args);
+		if (CommandLine.getOperatorName().equals("scan")) {
+			Scan.operate();
 		}
+	}
+	
+	private static void initCommandLine() {
+		// ---------------------------------------------------------------------
+		CommandLine.addOperator("help",
+				"Print help information or usage.", true);
+		CommandLine.addOperand("help",
+				"operator to help",
+				true, "all", "all help");
+		// ---------------------------------------------------------------------
+		CommandLine.addOperator("scan",
+				"Scan a project or a single code.", true);
+		CommandLine.addOperand("scan",
+				"project root directory or code path",
+				true, ".", "current directory");
+		CommandLine.addOption("scan",
+				"-t", "set template search paths",
+				true, "template searching paths separated by ':'");
 	}
 }
