@@ -118,6 +118,10 @@ public class FortranProcessor {
         	tree = parser.containedProcedures();
         } else if (ruleIndex == FortranParser.RULE_derivedTypeName) {
         	tree = parser.derivedTypeName();
+        } else if (ruleIndex == FortranParser.RULE_expression) {
+        	tree = parser.expression_();
+        } else {
+        	UI.error("FortranProcessor", "Unimplemented parser rule!");
         }
         return tree;
     }

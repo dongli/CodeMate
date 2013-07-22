@@ -8,6 +8,8 @@ public class Master {
 		CommandLine.parse(args);
 		if (CommandLine.getOperatorName().equals("scan")) {
 			Scan.operate();
+		} else if (CommandLine.getOperatorName().equals("create")) {
+			Create.operator();
 		} else if (CommandLine.getOperatorName().equals("help")) {
 			help();
 		}
@@ -16,10 +18,12 @@ public class Master {
 	private static void initCommandLine() {
 		CommandLine.setCommand(
 				"codemate",
-				"@|bold CodeMate|@ is a tool for automating the building process of codes (currently only\n" + 
-				"for Fortran). A Makefile will be generated with the resolution of internal and\n" + 
-				"external dependencies. A practical @|bold template mechanism|@ is also added for Fortran,\n" + 
-				"then lots of redundant code typings will be saved.\n"
+				"@|bold CodeMate|@ is a tool for automating the building process of\n" + 
+				"codes (currently only for Fortran). A Makefile will be\n" + 
+				"generated with the resolution of internal and external\n" + 
+				"dependencies. A practical @|bold template mechanism|@ is also added\n" + 
+				"for Fortran, then lots of redundant code typings will be\n" + 
+				"saved.\n"
 				);
 		// ---------------------------------------------------------------------
 		CommandLine.addOperator("help",
@@ -34,8 +38,17 @@ public class Master {
 				"project root directory or code path",
 				true, ".", "current directory");
 		CommandLine.addOption("scan",
-				"-t", "set template search paths",
+				"-t", "set the template search paths",
 				true, "template searching paths separated by ':'");
+		// ---------------------------------------------------------------------
+		CommandLine.addOperator("create",
+				"Create something.", true);
+		CommandLine.addOperand("create",
+				"template",
+				false, null, null);
+		CommandLine.addOption("create",
+				"-n", "set the name of template class",
+				true, "template class name");
 	}
 	
 	private static void help() {

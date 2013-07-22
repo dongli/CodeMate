@@ -164,4 +164,8 @@ public class CommandLine {
 	public static String getOperandValue() { return operandValue; }
 	
 	public static Map<String, String> getOptions() { return options; }
+	
+	public static String getOptionValue(String optionName) {
+		return options.get(optionName);
+	}
 }

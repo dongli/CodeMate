@@ -52,7 +52,7 @@ public class SystemUtils {
 	}
 	
 	public static void printSeparateLine() {
-		char[] line = new char[getConsoleWidth()];
+		char[] line = new char[60];
 		for (int i = 0; i < line.length; ++i)
 			line[i] = '-';
 		System.out.println(line);
