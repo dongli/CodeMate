@@ -18,7 +18,7 @@
          ================================= -->
     <target name="Clean Fortran grammar">
         <echo>Cleaning Fortran grammar ...</echo>
-    	<exec executable="rm" dir="${basedir}/src/codemate">
+    	<exec executable="rm" dir="${basedir}/src/codemate/Fortran">
     		<arg value="Fortran.tokens"/>
     		<arg value="FortranLexer.tokens"/>
     		<arg value="FortranParser.java"/>

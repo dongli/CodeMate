@@ -1,6 +1,9 @@
 package codemate.ui;
 
 import java.util.*;
+import java.util.Map.Entry;
+
+import codemate.utils.*;
 
 public class CommandLine {
 	private static class Operator {
@@ -25,12 +28,19 @@ public class CommandLine {
 		String valueDescription;
 	}
 	
+	private static String commandName;
+	private static String commandDescription;
 	private static String operatorName;
 	private static String operandValue;
 	private static Map<String, String> options = new HashMap<String, String>();
 
 	private static Map<String, Operator> operatorMap =
 			new HashMap<String, Operator>();
+	
+	public static void setCommand(String name, String description) {
+		commandName = name;
+		commandDescription = description;
+	}
 	
 	public static void addOperator(String operatorName,
 			String operatorDescription, boolean hasOperand) {
@@ -109,7 +119,44 @@ public class CommandLine {
 	}
 	
 	public static void printUsage(String header) {
-
+		SystemUtils.printSeparateLine();
+		SystemUtils.print(header);
+		SystemUtils.printSeparateLine();
+		SystemUtils.print(commandDescription);
+		SystemUtils.printSeparateLine();
+		SystemUtils.print("Usage: @|bold "+commandName+"|@ <operator> [<operand>] [<options>]\n\n");
+		SystemUtils.print("Avaible operators:\n");
+		for (Entry<String, Operator> iter1 : operatorMap.entrySet()) {
+			Operator operator = iter1.getValue();
+			SystemUtils.print("\n    @|bold "+operator.name+"|@");
+			if (operator.hasOperand) {
+				if (operator.operand.hasDefault)
+					SystemUtils.print(" [<operand>]");
+				else
+					SystemUtils.print(" <operand>");
+			}
+			if (!operator.options.isEmpty())
+				SystemUtils.print(" [<options>]");
+			SystemUtils.print("\n\n        @|underline "+operator.description+"|@\n");
+			if (operator.hasOperand) {
+				SystemUtils.print("\n        Operand: "+operator.operand.description);
+				if (operator.operand.hasDefault) {
+					SystemUtils.print("\n        Default: "+operator.operand.defaultValue);
+					SystemUtils.print(" - "+operator.operand.defaultDescription);
+				}
+			}
+			if (!operator.options.isEmpty()) {
+				SystemUtils.print("\n\n        Options:\n\n");
+				for (Entry<String, Option> iter2 : operator.options.entrySet()) {
+					Option option = iter2.getValue();
+					SystemUtils.print("             "+option.name);
+					if (option.hasValue)
+						SystemUtils.print(" <"+option.valueDescription+">\n\n");
+					SystemUtils.print("                  @|underline "+option.description+"|@\n");
+				}
+			}
+		}
+		SystemUtils.printSeparateLine();
 	}
 	
 	public static String getOperatorName() { return operatorName; }

@@ -1,7 +1,14 @@
 package codemate.utils;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 import java.io.*;
 import java.util.*;
+
+import org.fusesource.jansi.AnsiConsole;
+
+import jline.Terminal;
+import jline.TerminalFactory;
 
 public class SystemUtils {
 	/**
@@ -37,5 +44,21 @@ public class SystemUtils {
 	public static String getAbsolutePath(String fileName) {
 		File file = new File(fileName);
 		return getAbsolutePath(file);
+	}
+	
+	public static int getConsoleWidth() {
+		Terminal terminal = TerminalFactory.create();
+		return terminal.getWidth();
+	}
+	
+	public static void printSeparateLine() {
+		char[] line = new char[getConsoleWidth()];
+		for (int i = 0; i < line.length; ++i)
+			line[i] = '-';
+		System.out.println(line);
+	}
+	
+	public static void print(String content) {
+		AnsiConsole.out.print(ansi().render(content));
 	}
 }
