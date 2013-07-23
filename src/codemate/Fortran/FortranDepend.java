@@ -51,9 +51,9 @@ public class FortranDepend extends FortranBaseListener {
 		}
 		// discern code type
 		if (procedureTypes.contains("program"))
-			entity.setType("executable");
+			entity.setType(CodeEntity.Type.EXECUTABLE);
 		else
-			entity.setType("object");
+			entity.setType(CodeEntity.Type.OBJECT);
 	}
 	
 	public void enterFile(FortranParser.FileContext ctx) {

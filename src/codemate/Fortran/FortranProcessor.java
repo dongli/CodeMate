@@ -42,6 +42,7 @@ public class FortranProcessor {
     					"Encounter error while parsing "+entity.getPath()+"!");
     		}
 			if (callTemplater(entity)) {
+				entity.addProcess(CodeEntity.Process.TEMPLATE);
 				callRewriter(entity, project);
 			}
 			callModuleDepend(entity, project);

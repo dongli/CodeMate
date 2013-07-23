@@ -18,9 +18,18 @@ import java.io.*;
 import java.util.*;
 
 public class CodeEntity {
+	public enum Type {
+		EXECUTABLE, OBJECT
+	}
+	
+	public enum Process {
+		TEMPLATE
+	}
+	
 	private File path;
-	private String type;
+	private Type type;
 	private ParseTree parseTree;
+	private List<Process> processes = new ArrayList<Process>();
 	public List<CodeEntity> internalDepends = new ArrayList<CodeEntity>();
 	public List<LibraryMate> externalDepends = new ArrayList<LibraryMate>();
 
@@ -29,6 +38,15 @@ public class CodeEntity {
 		this.setPath(path);
 	}
 
+	public void addProcess(Process process) {
+		if (!processes.contains(process))
+			processes.add(process);
+	}
+	
+	public boolean isProcessed(Process process) {
+		return processes.contains(process);
+	}
+	
 	public void addInternalDepend(CodeEntity entity) {
 		if (internalDepends.indexOf(entity) == -1)
 			internalDepends.add(entity);
@@ -63,11 +81,11 @@ public class CodeEntity {
 		return path.getName().substring(0, path.getName().lastIndexOf("."));
 	}
 
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 }
