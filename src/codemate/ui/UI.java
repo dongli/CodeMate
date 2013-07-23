@@ -15,11 +15,26 @@ import jline.console.completer.*;
  */
 
 public class UI {
+	public static enum VerboseLevel {
+		ALL, ONLY_WARNING, SILENCE
+	}
+	
+	private static VerboseLevel verboseLevel = VerboseLevel.ALL;
+	
+	public static void setVerboseLevel(VerboseLevel level) {
+		verboseLevel = level;
+	}
+	
 	public static void notice(String caller, String message) {
+		if (!(verboseLevel == VerboseLevel.ALL))
+			return;
 		System.out.println("[Notice]: "+caller+": "+message);
 	}
 	
 	public static void warning(String caller, String message) {
+		if (!(verboseLevel == VerboseLevel.ALL ||
+			  verboseLevel == VerboseLevel.ONLY_WARNING))
+			return;
 		System.out.println("[Warning]: "+caller+": "+message);
 	}
 	

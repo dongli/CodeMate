@@ -1,11 +1,15 @@
 package codemate.operator;
 
-import codemate.ui.CommandLine;
+import codemate.ui.*;
 
 public class Master {
 	public static void main(String[] args) {
 		initCommandLine();
 		CommandLine.parse(args);
+		
+		if (CommandLine.hasOption("-silence"))
+			UI.setVerboseLevel(UI.VerboseLevel.SILENCE);
+		
 		if (CommandLine.getOperatorName().equals("scan")) {
 			Scan.operate();
 		} else if (CommandLine.getOperatorName().equals("create")) {
@@ -25,6 +29,8 @@ public class Master {
 				"for Fortran, then lots of redundant code typings will be\n" + 
 				"saved.\n"
 				);
+		CommandLine.addOption(null,
+				"-silence", "Do not print message.", false, null);
 		// ---------------------------------------------------------------------
 		CommandLine.addOperator("help",
 				"Print help information or usage.", true);

@@ -32,10 +32,15 @@ public class CommandLine {
 	private static String commandDescription;
 	private static String operatorName;
 	private static String operandValue;
-	private static Map<String, String> options = new HashMap<String, String>();
+	private static Map<String, String> commonOptions =
+			new HashMap<String, String>();
+	private static Map<String, String> options =
+			new HashMap<String, String>();
 
 	private static Map<String, Operator> operatorMap =
 			new HashMap<String, Operator>();
+	private static Map<String, Option> commonOptionMap =
+			new HashMap<String, Option>();
 	
 	public static void setCommand(String name, String description) {
 		commandName = name;
@@ -68,15 +73,26 @@ public class CommandLine {
 	public static void addOption(String operatorName, String optionName,
 			String optionDescription, boolean hasValue,
 			String valueDescription) {
-		Operator operator = operatorMap.get(operatorName);
-		if (operator != null) {
-			if (!operator.options.containsKey(optionName)) {
+		if (operatorName == null) {
+			if (!commonOptionMap.containsKey(optionName)) {
 				Option option = new Option();
 				option.name = optionName;
 				option.description = optionDescription;
 				option.hasValue = hasValue;
 				option.valueDescription = valueDescription;
-				operator.options.put(optionName, option);
+				commonOptionMap.put(optionName, option);
+			}
+		} else {
+			Operator operator = operatorMap.get(operatorName);
+			if (operator != null) {
+				if (!operator.options.containsKey(optionName)) {
+					Option option = new Option();
+					option.name = optionName;
+					option.description = optionDescription;
+					option.hasValue = hasValue;
+					option.valueDescription = valueDescription;
+					operator.options.put(optionName, option);
+				}
 			}
 		}
 	}
@@ -84,12 +100,23 @@ public class CommandLine {
 	public static void parse(String[] args) {
 		operatorName = null;
 		operandValue = null;
+		commonOptions.clear();
 		options.clear();
 		Operator operator;
+		Option option;
 		Map<String, Option> optionMap = null;
 		int i = 0;
 		while (i < args.length) {
-			if (operatorMap.containsKey(args[i])) {
+			if (commonOptionMap.containsKey(args[i])) {
+				option = commonOptionMap.get(args[i]);
+				if (option.hasValue) {
+					if (options.containsKey(args[i+1]))
+						UI.error("CommandLine",
+								"Option "+option.name+" needs argument!");
+					options.put(option.name, args[++i]);
+				} else
+					options.put(option.name, null);
+			} else if (operatorMap.containsKey(args[i])) {
 				// this is an operatorName
 				operatorName = args[i];
 				operator = operatorMap.get(operatorName);
@@ -101,7 +128,7 @@ public class CommandLine {
 						operandValue = args[++i];
 				}
 			} else if (operatorName != null) {
-				Option option = optionMap.get(args[i]);
+				option = optionMap.get(args[i]);
 				if (option != null) {
 					if (option.hasValue) {
 						if (options.containsKey(args[i+1]))
@@ -124,8 +151,21 @@ public class CommandLine {
 		SystemUtils.printSeparateLine();
 		SystemUtils.print(commandDescription);
 		SystemUtils.printSeparateLine();
-		SystemUtils.print("Usage: @|bold "+commandName+"|@ <operator> [<operand>] [<options>]\n\n");
-		SystemUtils.print("Avaible operators:\n");
+		SystemUtils.print("Usage:\n\n");
+		SystemUtils.print("    @|bold "+commandName+"|@ [<common options>] <operator> [<operand>] [<options>]\n");
+		SystemUtils.printSeparateLine();
+		if (!commonOptionMap.isEmpty()) {
+			SystemUtils.print("Available common options:\n");
+			for (Entry<String, Option> iter : commonOptionMap.entrySet()) {
+				Option option = iter.getValue();
+				SystemUtils.print("\n    @|bold "+option.name+"|@");
+				if (option.hasValue)
+					SystemUtils.print(" <"+option.valueDescription+">");
+				SystemUtils.print("\n\n        @|underline "+option.description+"|@\n");
+			}
+		}
+		SystemUtils.printSeparateLine();
+		SystemUtils.print("Available operators:\n");
 		for (Entry<String, Operator> iter1 : operatorMap.entrySet()) {
 			Operator operator = iter1.getValue();
 			SystemUtils.print("\n    @|bold "+operator.name+"|@");
@@ -149,10 +189,10 @@ public class CommandLine {
 				SystemUtils.print("\n\n        Options:\n\n");
 				for (Entry<String, Option> iter2 : operator.options.entrySet()) {
 					Option option = iter2.getValue();
-					SystemUtils.print("             "+option.name);
+					SystemUtils.print("             @|bold "+option.name+"|@");
 					if (option.hasValue)
-						SystemUtils.print(" <"+option.valueDescription+">\n\n");
-					SystemUtils.print("                  @|underline "+option.description+"|@\n");
+						SystemUtils.print(" <"+option.valueDescription+">");
+					SystemUtils.print("\n\n                  @|underline "+option.description+"|@\n");
 				}
 			}
 		}
@@ -167,5 +207,12 @@ public class CommandLine {
 	
 	public static String getOptionValue(String optionName) {
 		return options.get(optionName);
+	}
+	
+	public static boolean hasOption(String optionName) {
+		if (commonOptions.containsKey(optionName) ||
+			options.containsKey(optionName))
+			return true;
+		return false;
 	}
 }
