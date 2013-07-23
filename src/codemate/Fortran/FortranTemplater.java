@@ -237,7 +237,14 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
     					" when instantiating template!");
     			break;
     		case APPEND:
-    			rootNode.children.addAll(newNode.children);
+    			// Note: Since adding C preprocessor grammar, we need to check
+    			//       if the last node is a stub of C preprocessor directive.
+    			//       If so, we need insert new node before it.
+    			int loc = rootNode.children.size()-1;
+    			if (rootNode.children.get(loc) instanceof CppDirectiveContext)
+    				rootNode.children.addAll(loc, newNode.children);
+    			else
+    				rootNode.children.addAll(newNode.children);
     			break;
     		case PREPEND:
     			rootNode.children.addAll(0, newNode.children);

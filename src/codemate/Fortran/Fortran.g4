@@ -20,7 +20,7 @@ grammar Fortran;
 // *****************************************************************************
 //                                file rule
 file
-    : ( procedure | NEW_LINES )*
+    : ( procedure | cppDirective )*
     ;
 
 // *****************************************************************************
@@ -40,9 +40,9 @@ procedure
 
 // *****************************************************************************
 //                          use statement rules
-useStatements: useStatement*;
+useStatements: ( useStatement | cppDirective )*;
 
-useStatement: USE_KEYWORD id ( COMMA ( ONLY_KEYWORD ':' )? usedItemList )?;
+useStatement : USE_KEYWORD id ( COMMA ( ONLY_KEYWORD ':' )? usedItemList )?;
 
 usedItemList: usedItem ( COMMA usedItem )*;
 
@@ -54,13 +54,13 @@ implicitNoneStatement: IMPLICIT_KEYWORD NONE_KEYWORD;
 
 // *****************************************************************************
 //                       accessibility statement rules
-accessibilityStatements: accessibilityStatement*;
+accessibilityStatements: ( accessibilityStatement | cppDirective )*;
 
 accessibilityStatement: (PUBLIC_KEYWORD | PRIVATE_KEYWORD) (id (COMMA id)*)?;
 
 // *****************************************************************************
 //                      declaration statement rules
-declarationStatements: declarationStatement*;
+declarationStatements: ( declarationStatement | cppDirective )*;
 
 declarationStatement
     : dataDeclarationStatement
@@ -165,7 +165,7 @@ namelistStatement
 
 // *****************************************************************************
 //                         executable statement rules
-executableStatements: executableStatement*;
+executableStatements: ( executableStatement | cppDirective )*;
 
 executableStatement
     : ( assignmentStatement
@@ -244,7 +244,7 @@ keywordStatement
 
 // *****************************************************************************
 //                      contained procedure rules
-containedProcedures: procedure*;
+containedProcedures: ( procedure | cppDirective )*;
 
 // *****************************************************************************
 //                              template rules
@@ -337,6 +337,56 @@ actualArgument: expression | id EQUAL actualArgument | STAR;
 
 actualArguments: actualArgument ( COMMA actualArgument)*;
 
+// *****************************************************************************
+//                           C preprocessor rules
+internalFile: STRING;
+
+externalFile: LEFT_ANGLE ~RIGHT_ANGLE* RIGHT_ANGLE;
+
+cppDirective
+    : includeDirective
+    | defineDirective
+    | undefDirective
+    | ifdefDirective
+    | ifndefDirective
+    | ifDirective
+    | elseDirective
+    | elifDirective
+    | endifDirective
+    ;
+
+includeDirective
+    : DIRECTIVE_START INCLUDE_KEYWORD
+      ( internalFile | externalFile )
+    ;
+
+defineDirective: DIRECTIVE_START DEFINE_KEYWORD id expression?;
+
+undefDirective: DIRECTIVE_START UNDEF_KEYWORD id;
+
+ifdefDirective: DIRECTIVE_START IFDEF_KEYWORD id;
+
+ifndefDirective: DIRECTIVE_START IFNDEF_KEYWORD id;
+
+ifDirective: DIRECTIVE_START IF_KEYWORD conditionDirective;
+
+elseDirective: DIRECTIVE_START ELSE_KEYWORD;
+
+elifDirective: DIRECTIVE_START ELIF_KEYWORD conditionDirective;
+
+endifDirective: DIRECTIVE_START ENDIF_KEYWORD;
+
+conditionDirective
+    : conditionDirective ( CPP_AND | CPP_OR ) conditionDirective
+    | definedCondition
+    | LEFT_PAREN conditionDirective RIGHT_PAREN
+    | EXCAL conditionDirective
+    ;
+
+conditionDirective_: conditionDirective;
+
+definedCondition: DEFINED_KEYWORD id;
+
 // -----------------------------------------------------------------------------
 //                                  tokens
 // Note: The order of tokens matters! The first one will be matched first!
@@ -397,8 +447,22 @@ OUT_KEYWORD: 'out';
 INOUT_KEYWORD: 'inout';
 
 // *****************************************************************************
-//                        comment and string rules
-COMMENT: '!' .*? NEW_LINE+ -> skip;
+//                          C preprocessor tokens
+DIRECTIVE_START: '#';
+INCLUDE_KEYWORD: 'include';
+DEFINE_KEYWORD: 'define';
+UNDEF_KEYWORD: 'undef';
+IFDEF_KEYWORD: 'ifdef';
+IFNDEF_KEYWORD: 'ifndef';
+ELIF_KEYWORD: 'elif';
+ENDIF_KEYWORD: 'endif';
+DEFINED_KEYWORD: 'defined';
+CPP_AND: '&&';
+CPP_OR: '||';
+
+// *****************************************************************************
+//                        comment and string tokens
+COMMENT: EXCAL .*? NEW_LINE+ -> skip;
 STRING
     : '"' ('""'|~'"')* '"'
     | '\'' ('\'\''|~'\'')* '\''
@@ -409,6 +473,7 @@ STRING
 fragment NEW_LINE: '\r'? '\n';
 NEW_LINES: NEW_LINE+ -> skip;
 BREAK_LINE: '&' WS? ( NEW_LINES | COMMENT ) -> skip;
+EXCAL: '!';
 COMMA: ',';
 SEMICOMMA: ';';
 COLON: ':';

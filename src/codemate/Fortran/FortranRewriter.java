@@ -329,17 +329,27 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitExecutableStatements(ExecutableStatementsContext ctx) {
-        for (ExecutableStatementContext exeStmt : ctx.executableStatement()) {
-            indent();
-            visitExecutableStatement(exeStmt);
-        }
-        if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
-        	ctx.executableStatement().size() > 0)
-        	appendCode("\n");
+    	if (ctx.children == null) return null;
+    	int loc = 1;
+    	for (ParseTree child : ctx.children) {
+    		if (child instanceof ExecutableStatementContext) {
+    			visitExecutableStatement((ExecutableStatementContext) child);
+    			if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
+    		        loc == ctx.children.size())
+    				appendCode("\n");
+    		} else if (child instanceof CppDirectiveContext) {
+        		if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
+        	        loc == ctx.children.size())
+        			appendCode("\n");
+    			visitCppDirective((CppDirectiveContext) child);
+    		}
+    		loc++;
+    	}
         return null;
     }
 
     public Void visitExecutableStatement(ExecutableStatementContext ctx) {
+        indent();
         if (ctx.assignmentStatement() != null)
             visitAssignmentStatement(ctx.assignmentStatement());
         else if (ctx.ifStatement() != null)
@@ -748,11 +758,22 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitDeclarationStatements(DeclarationStatementsContext ctx) {
-        for (DeclarationStatementContext declStmt : ctx.declarationStatement())
-            visitDeclarationStatement(declStmt);
-        if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
-        	ctx.declarationStatement().size() > 0)
-        	appendCode("\n");
+    	if (ctx.children == null) return null;
+    	int loc = 1;
+    	for (ParseTree child : ctx.children) {
+    		if (child instanceof DeclarationStatementContext) {
+    			visitDeclarationStatement((DeclarationStatementContext) child);
+    			if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
+    		        loc == ctx.children.size())
+    				appendCode("\n");
+    		} else if (child instanceof CppDirectiveContext) {
+        		if (ctx.getParent().getRuleIndex() == FortranParser.RULE_procedure &&
+        	        loc == ctx.children.size())
+        			appendCode("\n");
+    			visitCppDirective((CppDirectiveContext) child);
+    		}
+    		loc++;
+    	}
         return null;
     }
 
@@ -787,10 +808,20 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitUseStatements(UseStatementsContext ctx) {
-        for (UseStatementContext useStmt : ctx.useStatement())
-            visitUseStatement(useStmt);
-        if (ctx.useStatement().size() != 0)
-        	appendCode("\n");
+    	if (ctx.children == null) return null;
+    	int loc = 1;
+    	for (ParseTree child : ctx.children) {
+    		if (child instanceof UseStatementContext) {
+    			visitUseStatement((UseStatementContext) child);
+    			if (loc == ctx.children.size())
+    				appendCode("\n");
+    		} else if (child instanceof CppDirectiveContext) {
+        		if (loc == ctx.children.size())
+        			appendCode("\n");
+    			visitCppDirective((CppDirectiveContext) child);
+    		}
+    		loc++;
+    	}
         return null;
     }
 
@@ -818,17 +849,42 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitAccessibilityStatements(AccessibilityStatementsContext ctx) {
-        for (AccessibilityStatementContext accStmt : ctx.accessibilityStatement())
-            visitAccessibilityStatement(accStmt);
-        if (ctx.accessibilityStatement().size() != 0)
-        	appendCode("\n");
+    	if (ctx.children == null) return null;
+    	int loc = 1;
+    	for (ParseTree child : ctx.children) {
+    		if (child instanceof AccessibilityStatementContext) {
+    			visitAccessibilityStatement((AccessibilityStatementContext) child);
+    			if (loc == ctx.children.size())
+    				appendCode("\n");
+    		} else if (child instanceof CppDirectiveContext) {
+        		if (loc == ctx.children.size())
+        			appendCode("\n");
+    			visitCppDirective((CppDirectiveContext) child);
+    		}
+    		loc++;
+    	}
         return null;
     }
 
     public Void visitContainedProcedures(ContainedProceduresContext ctx) {
+    	if (ctx.children == null) return null;
     	increaseIndentLevel();
-    	for (int i = 0; i < ctx.procedure().size(); ++i)
-    		visitProcedure(ctx.procedure(i));
+    	int loc = 1;
+    	for (ParseTree child : ctx.children) {
+    		if (child instanceof ProcedureContext) {
+    			visitProcedure((ProcedureContext) child);
+    			if (loc == ctx.children.size() ||
+    				!(ctx.getChild(loc) instanceof CppDirectiveContext))
+    				appendCode("\n");
+    		} else if (child instanceof CppDirectiveContext) {
+        		if (loc == ctx.children.size())
+        			appendCode("\n");
+    			visitCppDirective((CppDirectiveContext) child);
+    			if (((CppDirectiveContext) child).endifDirective() != null)
+    				appendCode("\n");
+    		}
+    		loc++;
+    	}
     	decreaseIndentLevel();
     	return null;
     }
@@ -871,10 +927,82 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         appendCode("end "+ctx.PROCEDURE_TYPE(0).getText()+" ");
         visitId(ctx.id(0));
         appendCode("\n");
-        if (ctx.getParent().getRuleIndex() ==
-        		FortranParser.RULE_containedProcedures)
-        	appendCode("\n");
         return null;
+    }
+    
+    // *************************************************************************
+    // visit methods for C preprocessor
+    public Void visitCppDirective(CppDirectiveContext ctx) {
+    	if (ctx.includeDirective() != null) {
+    		appendCode("#include ");
+        	if (ctx.includeDirective().internalFile() != null)
+        		appendCode(ctx.includeDirective().internalFile().getText());
+        	else if (ctx.includeDirective().externalFile() != null)
+        		appendCode(ctx.includeDirective().externalFile().getText());
+    	} else if (ctx.defineDirective() != null) {
+        	appendCode("#define ");
+        	visitId(ctx.defineDirective().id());
+        	if (ctx.defineDirective().expression() != null) {
+        		newCode += " ";
+        		visitExpression(ctx.defineDirective().expression());
+        	}
+    	} else if (ctx.undefDirective() != null) {
+        	appendCode("#undef ");
+        	visitId(ctx.undefDirective().id());
+    	} else if (ctx.ifdefDirective() != null) {
+    		appendCode("#ifdef ");
+        	visitId(ctx.ifdefDirective().id());
+    	} else if (ctx.ifndefDirective() != null) {
+    		appendCode("#ifndef ");
+        	visitId(ctx.ifndefDirective().id());
+    	} else if (ctx.ifDirective() != null) {
+    		appendCode("#if ");
+    		visitConditionDirective(ctx.ifDirective().conditionDirective());
+    	} else if (ctx.elseDirective() != null) {
+    		appendCode("#else");
+    	} else if (ctx.elifDirective() != null) {
+    		appendCode("#elif ");
+    		visitConditionDirective(ctx.elifDirective().conditionDirective());
+    	} else if (ctx.endifDirective() != null) {
+    		appendCode("#endif");
+    	}
+    	appendCode("\n");
+    	return null;
+    }
+    
+    public Void visitConditionDirective(ConditionDirectiveContext ctx) {
+    	if (ctx.LEFT_PAREN() != null)
+            appendCode("(");
+        switch (ctx.conditionDirective().size()) {
+        case 0:
+            if (ctx.definedCondition() != null)
+            	visitDefinedCondition(ctx.definedCondition());
+            break;
+        case 1:
+        	// TODO: Fix the bug! COMMENT token will interfere with this
+        	//       negative condition.
+            if (ctx.EXCAL() != null)
+                appendCode("! ");
+            visitConditionDirective(ctx.conditionDirective(0));
+            break;
+        case 2:
+        	visitConditionDirective(ctx.conditionDirective(0));
+            if (ctx.CPP_AND() != null)
+                appendCode(" && ");
+            else if (ctx.CPP_OR() != null)
+                appendCode(" || ");
+            visitConditionDirective(ctx.conditionDirective(1));
+            break;
+        }
+        if (ctx.RIGHT_PAREN() != null)
+            appendCode(")");
+        return null;
+    }
+    
+    public Void visitDefinedCondition(DefinedConditionContext ctx) {
+    	appendCode("defined ");
+    	visitId(ctx.id());
+    	return null;
     }
 
     // *************************************************************************

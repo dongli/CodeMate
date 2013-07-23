@@ -1,11 +1,28 @@
 subroutine foo(u, v)
 
+#if defined A &&defined B
+    use netcdf
+#endif
+
+#ifdef DEBUG
+    private
+#else
+    public
+    #endif
+
+    
+#ifdef DEBUG
+    integer debug
+#endif
+
     type(var_t), intent(inout), pointer :: u
     type(var_t), intent(inout), pointer :: v
 
     integer i, j, k
 
+#ifdef DEBUG
     print *, "check"
+#endif
 
     subdom_loop<u, v> {
         do k = 1, num_lev
@@ -17,5 +34,15 @@ subroutine foo(u, v)
         end do
         end do
     }
+
+contains
+
+#ifdef DEBUG
+    subroutine dd
+    end subroutine dd
+#endif
+
+    subroutine cc
+    end subroutine cc
 
 end subroutine foo
