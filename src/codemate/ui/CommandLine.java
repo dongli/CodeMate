@@ -145,7 +145,7 @@ public class CommandLine {
 		}
 	}
 	
-	public static void printUsage(String header) {
+	public static void printUsage(String header, String operatorName) {
 		SystemUtils.printSeparateLine();
 		SystemUtils.print(header);
 		SystemUtils.printSeparateLine();
@@ -165,9 +165,19 @@ public class CommandLine {
 			}
 		}
 		SystemUtils.printSeparateLine();
-		SystemUtils.print("Available operators:\n");
+		if (!operatorMap.containsKey(operatorName)) {
+			UI.error("", "Unknown operator \""+operatorName+
+					"\"! Use 'help all' to see all");
+		}
+		if (operatorName.equals("all"))
+			SystemUtils.print("Available operators:\n");
+		else
+			SystemUtils.print("Operator:\n");
 		for (Entry<String, Operator> iter1 : operatorMap.entrySet()) {
 			Operator operator = iter1.getValue();
+			if (!operatorName.equals("all") &&
+				!operator.name.equals(operatorName))
+				continue;
 			SystemUtils.print("\n    @|bold "+operator.name+"|@");
 			if (operator.hasOperand) {
 				if (operator.operand.hasDefault)
@@ -185,8 +195,9 @@ public class CommandLine {
 					SystemUtils.print(" - "+operator.operand.defaultDescription);
 				}
 			}
+			SystemUtils.print("\n");
 			if (!operator.options.isEmpty()) {
-				SystemUtils.print("\n\n        Options:\n\n");
+				SystemUtils.print("\n        Options:\n\n");
 				for (Entry<String, Option> iter2 : operator.options.entrySet()) {
 					Option option = iter2.getValue();
 					SystemUtils.print("             @|bold "+option.name+"|@");

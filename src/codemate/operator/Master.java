@@ -67,6 +67,6 @@ public class Master {
 			"\\____/\\____/\\__,_/\\___/_/  /_/\\__,_/\\__/\\___/"+
 			"|@\n";
 
-		CommandLine.printUsage(header);
+		CommandLine.printUsage(header, CommandLine.getOperandValue());
 	}
 }
