@@ -1,7 +1,14 @@
+#define A
+
 subroutine foo(u, v)
 
-#if defined A &&defined B
+#ifdef A
     use netcdf
+#ifndef B
+    use hdf5
+#else
+    use mpi
+#endif
 #endif
 
 #ifdef DEBUG
