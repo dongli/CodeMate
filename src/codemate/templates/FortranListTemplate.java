@@ -1,3 +1,23 @@
+package codemate.templates;
+
+/**
+ * FortranListTemplate
+ *
+ * This template class provides double linked list type for using in Fortran.
+ *
+ * For element type:
+ *
+ *     type, extends(list_elem_t<foo_t>) :: foo_t
+ *         ...
+ *     end type foo_t
+ *
+ * For container type:
+ *
+ *     type(list_t<foo_t>) foos
+ *
+ * @author      Li Dong <dongli@lasg.iap.ac.cn>
+ */
+
 import codemate.Fortran.*;
 import java.util.*;
 
@@ -221,7 +241,6 @@ public class FortranListTemplate implements TemplateBundle {
     public Map<Template, String> instantiateList(List<String> args, String block) {
         String elemTypeName = args.get(0);
 
-        String instance;
         Map<Template, String> instances = new HashMap<Template, String>();
 
         instances.put(new Template(FortranParser.RULE_derivedTypeName,

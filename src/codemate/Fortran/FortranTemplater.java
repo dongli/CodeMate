@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import codemate.Fortran.FortranParser.*;
+import codemate.templates.*;
 import codemate.ui.*;
 
 import java.io.*;
@@ -25,10 +26,14 @@ import javax.tools.ToolProvider;
 
 public class FortranTemplater extends FortranBaseVisitor<Void> {
     private static List<TemplateBundle> templateBundles =
-    		new ArrayList<TemplateBundle>();
+    		new LinkedList<TemplateBundle>();
     private boolean encounterTemplateInstance;
 
-    public FortranTemplater() { }
+    public static void loadBuiltinTemplates() {
+    	if (templateBundles.size() == 0) {
+    		templateBundles.add(new FortranListTemplate());
+    	}
+    }
     
     /**
      * readTemplates
@@ -39,6 +44,8 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
      * @author Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void readTemplates(File dir) {
+    	// load built-in template first
+    	loadBuiltinTemplates();
     	if (!dir.isDirectory())
     		UI.error("codemate", dir.getPath()+
     				" is not a directory or even does not exist!");
@@ -241,7 +248,8 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
     			//       if the last node is a stub of C preprocessor directive.
     			//       If so, we need insert new node before it.
     			int loc = rootNode.children.size()-1;
-    			if (rootNode.children.get(loc) instanceof CppDirectiveContext)
+    			if (loc != -1 &&
+    				rootNode.children.get(loc) instanceof CppDirectiveContext)
     				rootNode.children.addAll(loc, newNode.children);
     			else
     				rootNode.children.addAll(newNode.children);
