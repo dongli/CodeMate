@@ -34,11 +34,11 @@ public class FortranProcessor {
     	// first read template definitions under the root of project
     	FortranTemplater.readTemplates(project.getRoot());
     	for (CodeEntity entity : project.entities) {
-    		UI.notice("FortranProcessor", "Process code "+entity.getPath()+".");
+    		UI.notice("codemate", "Process code "+entity.getPath()+".");
     		try {
     			callParser(entity);
     		} catch (Exception e) {
-    			UI.error("FortranProcessor",
+    			UI.error("codemate",
     					"Encounter error while parsing "+entity.getPath()+"!");
     		}
 			if (callTemplater(entity)) {
@@ -64,7 +64,8 @@ public class FortranProcessor {
 		try {
 			callParser(entity);
 		} catch (Exception e) {
-			UI.error("FortranProcessor",
+			e.printStackTrace();
+			UI.error("codemate",
 					"Encounter error while parsing "+entity.getPath()+"!");
 		}
 		callTemplater(entity);
@@ -122,7 +123,7 @@ public class FortranProcessor {
         } else if (ruleIndex == FortranParser.RULE_expression) {
         	tree = parser.expression_();
         } else {
-        	UI.error("FortranProcessor", "Unimplemented parser rule!");
+        	UI.error("codemate", "Unimplemented parser rule!");
         }
         return tree;
     }
@@ -174,14 +175,13 @@ public class FortranProcessor {
     	File dir = new File(project.getRoot()+"/.codemate/processed_codes");
     	if (!dir.isDirectory())
     		if (!dir.mkdirs())
-    			UI.error("FortranProcessor",
+    			UI.error("codemate",
     					"Couldn't create directory "+dir.getPath()+
     					" for storing processed codes!");
         FortranRewriter rewriter = new FortranRewriter();
         rewriter.rewrite(entity.getParseTree());
     	String fileName = dir.getPath()+"/"+entity.getName()+".t.F90";
-    	UI.notice("FortranProcessor",
-    			"Processed code is written to "+fileName+".");
+    	UI.notice("codemate", "Processed code is written to "+fileName+".");
     	try {
     		PrintWriter out = new PrintWriter(new FileWriter(fileName));
     		out.print(rewriter.getNewCode());

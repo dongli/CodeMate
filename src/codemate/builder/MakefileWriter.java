@@ -72,6 +72,12 @@ public class MakefileWriter {
 			if (entity.getType() == CodeEntity.Type.EXECUTABLE)
 				content += append(content, " "+entity.getName());
 		content += "\n\n";
+		content +=
+				"# DO NOT MODIFY THEM, SET THEM WHEN INVOKING CODEMATE SCAN\n"+
+				"DEPEND_MACROS =";
+		for (String macro : project.addedMacros)
+			content += append(content, " -D"+macro);
+		content += "\n\n";
 		content += "all: start $(EXE_TARGETS) end\n\n";
 		for (CodeEntity entity : project.entities) {
 			if (entity.isProcessed(CodeEntity.Process.TEMPLATE))
@@ -120,7 +126,7 @@ public class MakefileWriter {
 			"\t else \\\n" + 
 			"\t     SRC=$$<; \\\n" + 
 			"\t fi; \\\n"+
-			"\t $(FC) -c $$$$SRC $(OPTIONS) $(FFLAGS) $(INCLUDES)\n"+
+			"\t $(FC) -c $$$$SRC $(OPTIONS) $(DEPEND_MACROS) $(FFLAGS) $(INCLUDES)\n"+
 			"%.t.F90: %.$(1)\n"+
 			"\t@echo \" Processing template $$@\"\n"+
 			"\t@echo $$(seperator)\n"+
@@ -181,7 +187,7 @@ public class MakefileWriter {
 			"\t@echo \" Finished\"\n"+
 			"\t@echo $(seperator)\n";
 		// ---------------------------------------------------------------------
-		UI.notice("MakefileWriter", "Generate Makefile.");
+		UI.notice("codemate", "Generate Makefile.");
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("Makefile");

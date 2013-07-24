@@ -125,17 +125,17 @@ public class Config {
 						"There is no runtime directory as"+defaultRoot+".");
 				boolean succ = (new File(defaultRoot)).mkdir();
 				if (succ)
-					UI.notice("Config", "Create one.");
+					UI.notice("codemate", "Create one.");
 				else
-					UI.error("Config", "Couldn't create one!");
+					UI.error("codemate", "Couldn't create one!");
 			}
 		}
 		File file = new File(fileName);
 		if (!file.exists()) {
-			UI.notice("Config", "Create a configuration as "+fileName+".");
+			UI.notice("codemate", "Create a configuration as "+fileName+".");
 			createTemplateConfig(fileName);
 		} else {
-			UI.notice("Config", "Load configuration from "+fileName+".");
+			UI.notice("codemate", "Load configuration from "+fileName+".");
 			try {
 				GsonBuilder gsonBuilder = new GsonBuilder();
 				gsonBuilder.registerTypeAdapter(ConfigData.class,
@@ -145,7 +145,7 @@ public class Config {
 				configData = gson.fromJson(json, ConfigData.class);
 			} catch (Exception e) {
 				e.printStackTrace();
-				UI.error("Config",
+				UI.error("codemate",
 						"Encounter error while loading configuation from "+
 						fileName+"!");
 			}
@@ -176,15 +176,15 @@ public class Config {
 			 writer = new PrintWriter(fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			UI.error("Config",
+			UI.error("codemate",
 					"Encounter error while creating configuration as "+
 					fileName+"!");
 		}
-		UI.notice("Config", "Create a configuration as "+fileName+".");
+		UI.notice("codemate", "Create a configuration as "+fileName+".");
 		// compiler section
 		SectionData compilerSection = new SectionData();
 		BlockData fortranBlock = new BlockData();
-		UI.notice("Config", "Choose a Fortran compiler:");
+		UI.notice("codemate", "Choose a Fortran compiler:");
 		String vendor = UI.getAnswer(CompilerMates.getVendorNames())[0];
 		fortranBlock.data.put("vendor", vendor);
 		compilerSection.data.put("Fortran", fortranBlock);
@@ -192,7 +192,7 @@ public class Config {
 		// library section
 		SectionData librarySection = new SectionData();
 		for (String libraryName : LibraryMates.getLibraryNames()) {
-			UI.notice("Config", "Set library root for "+libraryName+":");
+			UI.notice("codemate", "Set library root for "+libraryName+":");
 			String root = UI.getAnswer(null)[0];
 			BlockData libraryBlock = new BlockData();
 			libraryBlock.data.put("root", root);

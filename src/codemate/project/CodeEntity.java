@@ -34,7 +34,7 @@ public class CodeEntity {
 	public List<LibraryMate> externalDepends = new ArrayList<LibraryMate>();
 
 	public CodeEntity(String path) {
-		UI.notice("CodeEntity", "Add code entity "+path+".");
+		UI.notice("codemate", "Add code entity "+path+".");
 		this.setPath(path);
 	}
 
@@ -54,8 +54,7 @@ public class CodeEntity {
 	
 	public void addExternalDepend(LibraryMate mate) {
 		if (externalDepends.indexOf(mate) == -1) {
-			UI.notice("CodeEntity",
-					"Add library "+mate.getLibraryName()+
+			UI.notice("codemate", "Add library "+mate.getLibraryName()+
 					" dependency for "+getName()+".");
 			externalDepends.add(mate);
 		}

@@ -39,7 +39,7 @@ public class Scan {
 		
 		File file = new File(SystemUtils.getAbsolutePath(root));
 		if (file.isDirectory()) {
-			UI.notice("Scan", "Scanning project in "+root+".");
+			UI.notice("codemate", "Scanning project in "+root+".");
 			LibraryMates.load();
 			CompilerMates.load();
 			Config.load();
@@ -47,7 +47,7 @@ public class Scan {
 			FortranProcessor.process(project);
 			ProjectBuilder.prepare(project);
 		} else if (file.isFile()) {
-			UI.notice("Scan", "Scanning single file "+file.getPath()+".");
+			UI.notice("codemate", "Scanning single file "+file.getPath()+".");
 			FortranProcessor.process(file);
 		}
 	}

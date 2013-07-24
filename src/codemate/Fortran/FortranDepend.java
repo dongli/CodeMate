@@ -23,6 +23,7 @@ public class FortranDepend extends FortranBaseListener {
 	private List<String> usedModules = new ArrayList<String>();
     private List<String> definedMacros = new LinkedList<String>();
     private List<String> undefinedMacros = new LinkedList<String>();
+    private List<String> addedMacros = new LinkedList<String>();
 	private List<String> procedureTypes = new ArrayList<String>();
     private Stack<String> activeStack = new Stack<String>();
 	
@@ -50,7 +51,7 @@ public class FortranDepend extends FortranBaseListener {
 				if (libraryMate != null) {
 					entity.addExternalDepend(libraryMate);
 				} else {
-					UI.warning("FortranDepend",
+					UI.warning("codemate",
 							"Can't find \""+moduleName+"\" in project!");
 				}
 			}
@@ -60,6 +61,7 @@ public class FortranDepend extends FortranBaseListener {
 			entity.setType(CodeEntity.Type.EXECUTABLE);
 		else
 			entity.setType(CodeEntity.Type.OBJECT);
+		project.addedMacros.addAll(addedMacros);
 	}
 	
 	public void enterFile(FileContext ctx) {
@@ -87,12 +89,12 @@ public class FortranDepend extends FortranBaseListener {
         else if (undefinedMacros.contains(macro) || !isDependMacro(ctx)) {
         	activeStack.push("f");
         } else {
-        	UI.warning("codemate",
-        			"Encounter dependency macro \""+macro+
+        	UI.warning("codemate", "Encounter dependency macro \""+macro+
         			"\" in ifdef directive, do you want to define it (y/n)?");
         	String[] ans = UI.getAnswer(null);
         	if (ans[0].equals("y")) {
         		definedMacros.add(macro);
+        		addedMacros.add(macro);
                 activeStack.push("t");
         	} else {
         		undefinedMacros.add(macro);
@@ -108,12 +110,12 @@ public class FortranDepend extends FortranBaseListener {
         } else if (undefinedMacros.contains(macro) || !isDependMacro(ctx)) {
         	activeStack.push("t");
         } else {
-        	UI.warning("codemate",
-        			"Encounter dependency macro \""+macro+
+        	UI.warning("codemate", "Encounter dependency macro \""+macro+
         			"\" in ifndef directive, do you want to define it (y/n)?");
         	String[] ans = UI.getAnswer(null);
         	if (ans[0].equals("y")) {
         		definedMacros.add(macro);
+        		addedMacros.add(macro);
                 activeStack.push("f");
         	} else {
         		undefinedMacros.add(macro);

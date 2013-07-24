@@ -21,6 +21,7 @@ public class Project {
 	private File root;
 	private List<File> directories = new ArrayList<File>();
 	public List<CodeEntity> entities = new ArrayList<CodeEntity>();
+    public List<String> addedMacros = new LinkedList<String>();
 
 	public Project(String dirName) {
 		setRoot(new File(dirName));
@@ -72,7 +73,7 @@ public class Project {
 	}
 
 	public void setName(String name) {
-		UI.notice("Project", "Create project "+name+".");
+		UI.notice("codemate", "Create project "+name+".");
 		this.name = name;
 	}
 

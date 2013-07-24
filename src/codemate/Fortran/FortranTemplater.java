@@ -40,7 +40,7 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
      */
     public static void readTemplates(File dir) {
     	if (!dir.isDirectory())
-    		UI.error("FortranTemplater", dir.getPath()+
+    		UI.error("codemate", dir.getPath()+
     				" is not a directory or even does not exist!");
     	List<String> templateNames = new ArrayList<String>();
     	for (String fileName : dir.list()) {
@@ -51,10 +51,10 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
             			dir.getPath()+"/"+templateName+".class");
             	if (classFile.isFile() &&
             		javaFile.lastModified() < classFile.lastModified()) {
-            		UI.notice("FortranTemplater",
+            		UI.notice("codemate",
             				"Use template in "+classFile.getPath()+".");
             	} else {
-            		UI.notice("FortranTemplater",
+            		UI.notice("codemate",
             				"Compile template in "+javaFile.getPath()+".");
             		JavaCompiler compiler =
             				ToolProvider.getSystemJavaCompiler();
