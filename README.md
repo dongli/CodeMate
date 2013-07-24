@@ -1,3 +1,7 @@
+# Download
+
+**Download the command [here](https://github.com/dongli/CodeMate/raw/master/products/codemate).**
+
 # Description
 
 CodeMate is a language tool suite for reducing the coding burden of scientific
