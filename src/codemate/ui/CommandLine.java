@@ -165,7 +165,8 @@ public class CommandLine {
 			}
 		}
 		SystemUtils.printSeparateLine();
-		if (!operatorMap.containsKey(operatorName)) {
+		if (!operatorName.equals("all") &&
+			!operatorMap.containsKey(operatorName)) {
 			UI.error("", "Unknown operator \""+operatorName+
 					"\"! Use 'help all' to see all");
 		}

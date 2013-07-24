@@ -10,13 +10,21 @@ public class Master {
 		if (CommandLine.hasOption("-silence"))
 			UI.setVerboseLevel(UI.VerboseLevel.SILENCE);
 		
-		if (CommandLine.getOperatorName().equals("scan")) {
+		if (CommandLine.getOperatorName() == null) {
+			if (CommandLine.hasOption("-v"))
+				printVersion();
+		} else if (CommandLine.getOperatorName().equals("scan")) {
 			Scan.operate();
 		} else if (CommandLine.getOperatorName().equals("create")) {
 			Create.operator();
 		} else if (CommandLine.getOperatorName().equals("help")) {
-			help();
+			printHelp();
 		}
+	}
+	
+	private static void printVersion() {
+		String version = "1.0.0-rc1";
+		System.out.println(version);
 	}
 	
 	private static void initCommandLine() {
@@ -31,6 +39,8 @@ public class Master {
 				);
 		CommandLine.addOption(null,
 				"-silence", "Do not print message.", false, null);
+		CommandLine.addOption(null,
+				"-v", "Print the version information.", false, null);
 		// ---------------------------------------------------------------------
 		CommandLine.addOperator("help",
 				"Print help information or usage.", true);
@@ -57,7 +67,7 @@ public class Master {
 				true, "template class name");
 	}
 	
-	private static void help() {
+	private static void printHelp() {
 		String header =
 			"@|green "+
 			"   ______          __     __  ___      __     \n"+
