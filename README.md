@@ -1,8 +1,16 @@
 ![ASCII logo here](https://github.com/dongli/CodeMate/raw/master/docs/ascii_logo.png)
 
-# Download
+# Installation
 
-**Download the command [here](https://github.com/dongli/CodeMate/raw/master/products/codemate).**
+**Download the command [here](https://github.com/dongli/CodeMate/raw/master/products/codemate)**,
+and set the SHELL environment as (in BASH):
+
+```BASH
+export PATH=<pat/to/this/command>:$PATH
+```
+
+I near future, I will add a `update` operator (or subcommand) to semi-automatically
+update the downloaded command. Be patient, or just knock me (<dongli@lasg.iap.ac.cn>).
 
 # Description
 
