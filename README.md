@@ -1,3 +1,5 @@
+![ASCII logo here](https://github.com/dongli/CodeMate/raw/master/docs/ascii_logo.png)
+
 # Download
 
 **Download the command [here](https://github.com/dongli/CodeMate/raw/master/products/codemate).**
