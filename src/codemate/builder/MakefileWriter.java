@@ -84,8 +84,12 @@ public class MakefileWriter {
 				content += entity.getName()+".t.o:";
 			else
 				content += entity.getName()+".o:";
-			for (CodeEntity depend : entity.internalDepends)
-				content += append(content, " "+depend.getName()+".o");
+			for (CodeEntity depend : entity.internalDepends) {
+				if (depend.isProcessed(CodeEntity.Process.TEMPLATE))
+					content += append(content, " "+depend.getName()+".t.o");
+				else
+					content += append(content, " "+depend.getName()+".o");
+			}
 			content += "\n";
 		}
 		content += "\n.SECONDEXPANSION:\n\n";
@@ -202,7 +206,11 @@ public class MakefileWriter {
 	private static Set<String> getAllInternalDepends(CodeEntity entity) {
 		Set<String> internalDepends = new HashSet<String>();
 		for (CodeEntity internalDepend : entity.internalDepends) {
-			String tmp = internalDepend.getName()+".o";
+			String tmp;
+			if (internalDepend.isProcessed(CodeEntity.Process.TEMPLATE))
+				tmp = internalDepend.getName()+".t.o";
+			else
+				tmp = internalDepend.getName()+".o";
 			if (!internalDepends.contains(tmp))
 				internalDepends.add(tmp);
 			internalDepends.addAll(getAllInternalDepends(internalDepend));

@@ -54,7 +54,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     		UI.error("FortranRewriter",
     				"Maximum column "+optimalLineLength+" has been exceeded!");
     	}
-        if (lineLength+code.length() > optimalLineLength) {
+        if (lineLength+code.length() > optimalLineLength &&
+        		!code.matches(" *(\\n|\\)) *")) {
         	newCode += " &\n";
         	increaseIndentLevel();
         	indent();
