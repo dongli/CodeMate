@@ -14,9 +14,7 @@ update the downloaded command. Be patient, or just knock me (<dongli@lasg.iap.ac
 
 # Donation
 
-**CodeMate** is open-sourced and the author use his time to create it, so if you
-find it really save your time, consider give a push to make **CodeMate** go further
-please.
+**CodeMate** is open-sourced and the author uses his time to create it, so if you find it really saves your time, consider give a push to make **CodeMate** go further please.
 
 <a href='http://www.pledgie.com/campaigns/20230'><img alt='Click here to lend your support to: Funding for CodeMate and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/20230.png?skin_name=chrome' border='0' /></a>
 
