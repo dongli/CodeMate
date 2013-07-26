@@ -34,7 +34,7 @@ now, I switch to Java, because of the indispensable parser generator ANTLR
 (currently in its 4th version). It is more efficient and powerful than other
 generators I have tried. In addition, ANTLR is better supported and more active.
 
-**I will update this README continuously.**
+**I will update this README continuously.** You can also check out the [wiki](https://github.com/dongli/CodeMate/wiki).
 
 # Command Usage
 
