@@ -2,15 +2,17 @@
 
 # Installation
 
-**Download the command [here](https://github.com/dongli/CodeMate/raw/master/products/codemate)**,
-and set the SHELL environment as (in BASH):
+Download the installer [**here**](https://github.com/dongli/CodeMate/raw/master/products/installer/codemate.installer),
+run it in the shell:
 
-```BASH
-export PATH=<pat/to/this/command>:$PATH
+```
+$ ./codemate.installer
 ```
 
-I near future, I will add a `update` operator (or subcommand) to semi-automatically
-update the downloaded command. Be patient, or just knock me (<dongli@lasg.iap.ac.cn>).
+then **codemate** should be ready to go!
+
+I near future, I will add a `update` operator (or subcommand) to automatically update the installed **CodeMate**.
+Be patient, or just knock me (<dongli@lasg.iap.ac.cn>).
 
 # Donation
 
