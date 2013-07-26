@@ -155,8 +155,12 @@ public class Config {
 			configData.data.get("library").data.entrySet()) {
 			LibraryMate libraryMate =
 					LibraryMates.searchLibrary(libraryData.getKey());
-			if (libraryMate != null)
-				libraryMate.setRoot(libraryData.getValue().data.get("root"));
+			if (libraryMate != null) {
+				libraryMate.setRoot(libraryData.getValue().data.
+						get("root"));
+				libraryMate.setWrapper("Fortran", libraryData.getValue().data.
+						get("fortran_wrapper"));
+			}
 		}
 	}
 	
@@ -191,12 +195,20 @@ public class Config {
 		configData.data.put("compiler", compilerSection);
 		// library section
 		SectionData librarySection = new SectionData();
-		for (String libraryName : LibraryMates.getLibraryNames()) {
-			UI.notice("codemate", "Set library root for "+libraryName+":");
-			String root = UI.getAnswer(null)[0];
+		for (LibraryMate libraryMate : LibraryMates.getLibraryMates()) {
 			BlockData libraryBlock = new BlockData();
-			libraryBlock.data.put("root", root);
-			librarySection.data.put(libraryName, libraryBlock);
+			if (libraryMate.provideCompilerWrapper()) {
+				UI.notice("codemate", "Set Fortran compiler wrappers for "+
+						libraryMate.getLibraryName()+":");
+				String wrapper = UI.getAnswer(null)[0];
+				libraryBlock.data.put("fortran_wrapper", wrapper);
+			} else {
+				UI.notice("codemate", "Set library root for "+
+						libraryMate.getLibraryName()+":");
+				String root = UI.getAnswer(null)[0];
+				libraryBlock.data.put("root", root);
+			}
+			librarySection.data.put(libraryMate.getLibraryName(), libraryBlock);
 		}
 		configData.data.put("library", librarySection);
 		GsonBuilder gsonBuilder = new GsonBuilder();

@@ -1,18 +1,20 @@
 package codemate.librarymate;
 
-public class NetcdfLibraryMate implements LibraryMate {
+import java.util.*;
+
+public class MPILibraryMate implements LibraryMate {
 	private String root = null;
-	
+	private Map<String, String> wrappers = new HashMap<String, String>();
+
 	@Override
 	public String getLibraryName() {
-		return "netcdf";
+		return "MPI";
 	}
 
 	@Override
 	public boolean isDepended(String language, String headerOrModule) {
 		if (language.equals("Fortran")) {
-			if (headerOrModule.equals("netcdf") ||
-				headerOrModule.equals("netcdf.inc"))
+			if (headerOrModule.equals("mpi"))
 				return true;
 		}
 		return false;
@@ -20,20 +22,17 @@ public class NetcdfLibraryMate implements LibraryMate {
 
 	@Override
 	public boolean provideCompilerWrapper() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getIncludeOptions() {
-		return "-I$(NETCDF_ROOT)/include";
+		return "";
 	}
 
 	@Override
 	public String getLibraryOptions(String language) {
-		if (language.equals("Fortran")) {
-			return "-L$(NETCDF_ROOT)/lib -lnetcdf -lnetcdff";
-		}
-		return null;
+		return "";
 	}
 
 	@Override
@@ -47,11 +46,13 @@ public class NetcdfLibraryMate implements LibraryMate {
 	}
 
 	@Override
-	public void setWrapper(String language, String wrapper) { }
+	public void setWrapper(String language, String wrapper) {
+		wrappers.put(language, wrapper);
+	}
 
 	@Override
 	public String getWrapper(String language) {
-		return null;
+		return wrappers.get(language);
 	}
 
 }

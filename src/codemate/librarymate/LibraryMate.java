@@ -30,6 +30,16 @@ public interface LibraryMate {
 	public boolean isDepended(String language, String headerOrModule);
 	
 	/**
+	 * provideCompilerWrapper
+	 * 
+	 * This method manifests whether the library provides a compiler wrapper or
+	 * not. If yes, then no include option and library option are needed.
+	 * 
+	 * @return boolean
+	 */
+	public boolean provideCompilerWrapper();
+	
+	/**
 	 * getIncludeOptions
 	 * 
 	 * This method returns the "-I..." option for compiling codes.
@@ -66,4 +76,24 @@ public interface LibraryMate {
 	 * @return	String
 	 */
 	public String getRoot();
+	
+	/**
+	 * setWrapper
+	 * 
+	 * This method set the compiler wrapper of given language.
+	 * 
+	 * @param  language
+	 * @param  wrapper
+	 */
+	public void setWrapper(String language, String wrapper);
+	
+	/**
+	 * getWrapper
+	 * 
+	 * This method gets the compiler wrapper of given language.
+	 * 
+	 * @param  language
+	 * @return String
+	 */
+	public String getWrapper(String language);
 }

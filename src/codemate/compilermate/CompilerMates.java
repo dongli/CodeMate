@@ -2,6 +2,9 @@ package codemate.compilermate;
 
 import java.util.*;
 
+import codemate.librarymate.*;
+import codemate.ui.*;
+
 public class CompilerMates {
 	private static List<CompilerMate> mates = new ArrayList<CompilerMate>();
 	
@@ -26,5 +29,24 @@ public class CompilerMates {
 		for (CompilerMate mate : mates)
 			vendorNames.add(mate.getVendorName());
 		return vendorNames;
+	}
+
+	public static String getDefaultCommandName(String language) {
+		CompilerMate mate = getMate(Config.getDefaultCompilerVendor(language));
+		String wrapper = LibraryMates.getCompilerWrapper(language);
+		if (wrapper == null)
+			return mate.getCommandName(language);
+		else
+			return wrapper;
+	}
+	
+	public static String getDefaultDebugOptions(String language) {
+		CompilerMate mate = getMate(Config.getDefaultCompilerVendor(language));
+		return mate.getDebugOptions();
+	}
+	
+	public static String getDefaultReleaseOptions(String language) {
+		CompilerMate mate = getMate(Config.getDefaultCompilerVendor(language));
+		return mate.getReleaseOptions();
 	}
 }

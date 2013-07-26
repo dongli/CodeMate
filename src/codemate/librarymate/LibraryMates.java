@@ -10,11 +10,14 @@ package codemate.librarymate;
 
 import java.util.*;
 
+import codemate.ui.*;
+
 public class LibraryMates {
-	private static List<LibraryMate> mates = new ArrayList<LibraryMate>();
+	private static List<LibraryMate> mates = new LinkedList<LibraryMate>();
 	
 	public static void load() {
 		mates.add(new NetcdfLibraryMate());
+		mates.add(new MPILibraryMate());
 	}
 
 	public static ArrayList<String> getLibraryNames() {
@@ -37,5 +40,23 @@ public class LibraryMates {
 			if (mate.getLibraryName().equals(libraryName))
 				return mate;
 		return null;
+	}
+	
+	public static List<LibraryMate> getLibraryMates() {
+		return mates;
+	}
+	
+	public static String getCompilerWrapper(String language) {
+		String wrapper = null;
+		for (LibraryMate mate : mates) {
+			if (mate.provideCompilerWrapper()) {
+				if (wrapper == null)
+					wrapper = mate.getWrapper(language);
+				else
+					UI.error("codemate",
+							"More than one library provides compiler wrapper!");
+			}
+		}
+		return wrapper;
 	}
 }

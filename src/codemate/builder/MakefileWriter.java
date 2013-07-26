@@ -19,8 +19,6 @@ import codemate.ui.*;
 
 public class MakefileWriter {
 	public static void write(Project project) {
-		CompilerMate compilerMate = CompilerMates.getMate(
-				Config.getDefaultCompilerVendor("Fortran"));
 		// ---------------------------------------------------------------------
 		String content = "";
 		content +=
@@ -31,11 +29,11 @@ public class MakefileWriter {
 				"# project, compiler and library configuration\n";
 		content += "PROJECT = "+project.getName()+"\n";
 		content += "PROJECT_ROOT = "+project.getRoot().getAbsolutePath()+"\n\n";
-		content += "FC = "+compilerMate.getCommandName("Fortran")+"\n";
+		content += "FC = "+CompilerMates.getDefaultCommandName("Fortran")+"\n";
 		if (project.getBuildScheme().equals("debug"))
-			content += "FFLAGS = "+compilerMate.getDebugOptions()+"\n";
+			content += "FFLAGS = "+CompilerMates.getDefaultDebugOptions("Fortran")+"\n";
 		else if (project.getBuildScheme().equals("release"))
-			content += "FFLAGS = "+compilerMate.getReleaseOptions()+"\n";
+			content += "FFLAGS = "+CompilerMates.getDefaultReleaseOptions("Fortran")+"\n";
 		content += "\n";
 		Set<LibraryMate> libraries = new HashSet<LibraryMate>();
 		for (CodeEntity entity : project.entities) {
@@ -43,8 +41,9 @@ public class MakefileWriter {
 				libraries.addAll(getAllExternalDepends(entity));
 		}
 		for (LibraryMate library : libraries) {
-			content += library.getLibraryName().toUpperCase()+"_ROOT = "+
-					library.getRoot()+"\n";
+			if (library.getRoot() != null)
+				content += library.getLibraryName().toUpperCase()+"_ROOT = "+
+						library.getRoot()+"\n";
 		}
 		content += "\n";
 		content +=

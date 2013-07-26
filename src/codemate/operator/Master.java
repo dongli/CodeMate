@@ -23,7 +23,7 @@ public class Master {
 	}
 	
 	private static void printVersion() {
-		String version = "1.0.0-rc1";
+		String version = "1.0.0-alpha1";
 		System.out.println(version);
 	}
 	
