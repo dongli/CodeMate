@@ -37,7 +37,10 @@ public class SystemUtils {
 	
 	public static String getAbsolutePath(File file) {
 		String res = file.getAbsolutePath();
-		res = res.replace("/.", "");
+		if (res.endsWith("/.."))
+			res = res.replaceAll("/[^/]*/\\.\\.$", "");
+		else if (res.endsWith("/."))
+			res = res.replaceAll("/\\.$", "");
 		return res;
 	}
 	
