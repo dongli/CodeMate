@@ -18,6 +18,8 @@ update the downloaded command. Be patient, or just knock me (<dongli@lasg.iap.ac
 
 <a href='http://www.pledgie.com/campaigns/20230'><img alt='Click here to lend your support to: Funding for CodeMate and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/20230.png?skin_name=chrome' border='0' /></a>
 
+[֧支付宝](https://me.alipay.com/dongli1985)
+
 # Description
 
 CodeMate is a language tool suite for reducing the coding burden of scientific
