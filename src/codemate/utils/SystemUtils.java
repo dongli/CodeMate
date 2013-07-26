@@ -5,10 +5,12 @@ import static org.fusesource.jansi.Ansi.ansi;
 import java.io.*;
 import java.util.*;
 
+import javax.tools.*;
+
 import org.fusesource.jansi.AnsiConsole;
 
-import jline.Terminal;
-import jline.TerminalFactory;
+import codemate.ui.*;
+import jline.*;
 
 public class SystemUtils {
 	/**
@@ -63,5 +65,22 @@ public class SystemUtils {
 	
 	public static void print(String content) {
 		AnsiConsole.out.print(ansi().render(content));
+	}
+	
+	public static void compile(File source) {
+		List<String> optionList = new ArrayList<String>();
+		optionList.addAll(Arrays.asList("-classpath",
+				System.getProperty("java.class.path")));
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		StandardJavaFileManager fileManager =
+				compiler.getStandardFileManager(null, null, null);
+		Iterable<? extends JavaFileObject> compilationUnits =
+				fileManager.getJavaFileObjects(source);
+		DiagnosticCollector<JavaFileObject> diagnostics =
+				new DiagnosticCollector<JavaFileObject>();
+		if (!compiler.getTask(null, fileManager, diagnostics, optionList,
+				null, compilationUnits).call())
+			UI.error("codemate", "There is error in "+source.getPath());
+		return;
 	}
 }

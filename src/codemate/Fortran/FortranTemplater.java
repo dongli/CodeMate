@@ -15,14 +15,12 @@ import org.antlr.v4.runtime.tree.*;
 import codemate.Fortran.FortranParser.*;
 import codemate.templates.*;
 import codemate.ui.*;
+import codemate.utils.*;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.Map.Entry;
-
-import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
 
 public class FortranTemplater extends FortranBaseVisitor<Void> {
     private static List<TemplateBundle> templateBundles =
@@ -63,9 +61,7 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
             	} else {
             		UI.notice("codemate",
             				"Compile template in "+javaFile.getPath()+".");
-            		JavaCompiler compiler =
-            				ToolProvider.getSystemJavaCompiler();
-            		compiler.run(null, null, null, javaFile.getPath());
+            		SystemUtils.compile(javaFile);
             	}
                 templateNames.add(templateName);
             }

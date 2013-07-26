@@ -175,15 +175,6 @@ public class Config {
 	 * @author Li Dong <dongli@lasg.iap.ac.cn>
 	 */
 	private static void createTemplateConfig(String fileName) {
-		PrintWriter writer = null;
-		try {
-			 writer = new PrintWriter(fileName);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			UI.error("codemate",
-					"Encounter error while creating configuration as "+
-					fileName+"!");
-		}
 		UI.notice("codemate", "Create a configuration as "+fileName+".");
 		// compiler section
 		SectionData compilerSection = new SectionData();
@@ -215,6 +206,15 @@ public class Config {
 		gsonBuilder.registerTypeAdapter(ConfigData.class,
 				new ConfigDataSerializer());
 		Gson gson = gsonBuilder.setPrettyPrinting().create();
+		PrintWriter writer = null;
+		try {
+			 writer = new PrintWriter(fileName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			UI.error("codemate",
+					"Encounter error while creating configuration as "+
+					fileName+"!");
+		}
 		writer.println(gson.toJson(configData));
 		writer.flush();
 	}

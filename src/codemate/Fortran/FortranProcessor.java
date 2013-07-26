@@ -32,7 +32,8 @@ public class FortranProcessor {
      */
     public static void process(Project project) {
     	// first read template definitions under the root of project
-    	FortranTemplater.readTemplates(project.getRoot());
+    	for (File dir : project.getDirectories())
+    		FortranTemplater.readTemplates(dir);
     	for (CodeEntity entity : project.entities) {
     		UI.notice("codemate", "Process code "+entity.getPath()+".");
     		try {
