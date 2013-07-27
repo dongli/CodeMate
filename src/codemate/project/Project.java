@@ -25,7 +25,7 @@ public class Project {
 
 	public Project(String dirName) {
 		setRoot(new File(dirName));
-		setName(new File(getRoot().getParent()).getName());
+		setName(getRoot().getName());
 		collectCodeEntities(root);
 	}
 	
