@@ -87,6 +87,12 @@ codemate create template <template class>
 
 A template of template class will be generated.
 
+# Documentation
+
+I am writing a [manual](https://github.com/dongli/CodeMate/raw/master/docs/CodeMate.pdf) 
+for **CodeMate** (not completed), and you may also find some useful information
+in the [wiki](https://github.com/dongli/CodeMate/wiki).
+
 # Authors
 
 * Li Dong <dongli@lasg.iap.ac.cn>
