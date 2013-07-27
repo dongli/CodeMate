@@ -31,9 +31,7 @@ public class FortranProcessor {
      * @author 		Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void process(Project project) {
-    	// first read template definitions under the root of project
-    	for (File dir : project.getDirectories())
-    		FortranTemplater.readTemplates(dir);
+    	FortranTemplater.load(project);
     	for (CodeEntity entity : project.entities) {
     		UI.notice("codemate", "Process code "+entity.getPath()+".");
     		try {
@@ -60,7 +58,14 @@ public class FortranProcessor {
      * @author Li Dong <dongli@lasg.iap.ac.cn>
      */
     public static void process(File file) {
-    	FortranTemplater.readTemplates(file.getParentFile());
+    	// find the project stuffs (that is .codemate directory) and load
+    	// compiled templates if there are
+    	File dir = Project.findProject(file);
+    	if (dir != null) {
+    		File compiledTemplatesRoot = new File(
+    				dir.getAbsolutePath()+"/.codemate/compiled_templates");
+    		FortranTemplater.loadCompiledTemplates(compiledTemplatesRoot);
+    	}
     	CodeEntity entity = new CodeEntity(file.getPath());
 		try {
 			callParser(entity);

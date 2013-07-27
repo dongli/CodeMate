@@ -65,6 +65,8 @@ public class Project {
 	}
 
 	public void setRoot(File root) {
+		if (root.getAbsolutePath().equals(System.getenv("HOME")))
+			UI.error("codemate", "The project shouldn't locate at HOME!");
 		this.root = root.getAbsoluteFile();
 	}
 
@@ -87,5 +89,32 @@ public class Project {
 	
 	public List<File> getDirectories() {
 		return directories;
+	}
+	
+	/**
+	 * findProject
+	 * 
+	 * This method finds the possible existing project that covers the start
+	 * point. That is find the '.codemate' directory upward, but the HOME is
+	 * excluded.
+	 * 
+	 * @param  startPoint      The start point (can be a file or a directory)
+	 * @return File            The project root directory
+	 */
+	public static File findProject(File startPoint) {
+		File parent = startPoint;
+		while (parent != null) {
+			if (parent.isDirectory() &&
+					Arrays.asList(parent.list()).contains(".codemate")) {
+				if (parent.getAbsolutePath().equals(System.getenv("HOME")))
+					parent = null;
+				break;
+			}
+			parent = parent.getParentFile();
+		}
+		if (parent != null)
+			UI.notice("codemate",
+					"Find covered project "+parent.getAbsolutePath()+".");
+		return parent;
 	}
 }

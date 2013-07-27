@@ -23,7 +23,7 @@ public class Master {
 	}
 	
 	private static void printVersion() {
-		String version = "1.0.0-alpha1";
+		String version = "1.0.0-alpha2";
 		System.out.println(version);
 	}
 	
@@ -53,9 +53,6 @@ public class Master {
 		CommandLine.addOperand("scan",
 				"project root directory or code path",
 				true, ".", "current directory");
-		CommandLine.addOption("scan",
-				"-t", "set the template search paths",
-				true, "template searching paths separated by ':'");
 		// ---------------------------------------------------------------------
 		CommandLine.addOperator("create",
 				"Create something.", true);

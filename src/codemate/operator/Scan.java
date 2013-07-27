@@ -1,7 +1,6 @@
 package codemate.operator;
 
 import java.io.*;
-import java.util.*;
 
 import codemate.Fortran.*;
 import codemate.builder.*;
@@ -29,13 +28,6 @@ import codemate.utils.SystemUtils;
 public class Scan {
 	public static void operate() {
 		String root = CommandLine.getOperandValue();
-		
-		Map<String, String> options = CommandLine.getOptions();
-		
-		if (options.containsKey("-t")) {
-			String[] dirNames = options.get("-t").split(":");
-			FortranTemplater.readTemplates(dirNames);
-		}
 		
 		File file = new File(SystemUtils.getAbsolutePath(root));
 		if (file.isDirectory()) {

@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import codemate.Fortran.FortranParser.*;
+import codemate.project.*;
 import codemate.templates.*;
 import codemate.ui.*;
 import codemate.utils.*;
@@ -33,39 +34,14 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
     	}
     }
     
-    /**
-     * readTemplates
-     * 
-     * This method reads templates under the given directory. If the "*.class"
-     * is newer than "*.java", use "*.class" directly.
-     * 
-     * @author Li Dong <dongli@lasg.iap.ac.cn>
-     */
-    public static void readTemplates(File dir) {
-    	// load built-in template first
-    	loadBuiltinTemplates();
-    	if (!dir.isDirectory())
-    		UI.error("codemate", dir.getPath()+
-    				" is not a directory or even does not exist!");
-    	List<String> templateNames = new ArrayList<String>();
+    public static void loadCompiledTemplates(File dir) {
+    	if (!dir.isDirectory()) return;
+    	UI.notice("codemate", "Load compiled templates in "+dir.getPath()+".");
+    	List<String> templateNames = new LinkedList<String>();
     	for (String fileName : dir.list()) {
-            if (fileName.endsWith("Template.java")) {
-            	String templateName = fileName.split("\\.")[0];
-            	File javaFile = new File(dir.getPath()+"/"+fileName);
-            	File classFile = new File(
-            			dir.getPath()+"/"+templateName+".class");
-            	if (classFile.isFile() &&
-            		javaFile.lastModified() < classFile.lastModified()) {
-            		UI.notice("codemate",
-            				"Use template in "+classFile.getPath()+".");
-            	} else {
-            		UI.notice("codemate",
-            				"Compile template in "+javaFile.getPath()+".");
-            		SystemUtils.compile(javaFile);
-            	}
-                templateNames.add(templateName);
-            }
-        }
+    		if (fileName.endsWith("Template.class"))
+    			templateNames.add(fileName.split("\\.")[0]);
+    	}
 		try {
 			URLClassLoader classLoader = URLClassLoader.newInstance(
 					new URL[] {dir.toURI().toURL()});
@@ -80,11 +56,62 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
 		}
     }
     
-    public static void readTemplates(String[] dirNames) {
-    	for (String dirName : dirNames) {
-    		File dir = new File(dirName);
-    		readTemplates(dir);
+    /**
+     * load
+     * 
+     * This method loads templates within the given project. The compiled
+     * templates are in <project root>/.codemate/compiled_templates.
+     * 
+     * @param project
+     */
+    public static void load(Project project) {
+    	loadBuiltinTemplates();
+    	File compiledTemplatesRoot =
+    			new File(project.getRoot()+"/.codemate/compiled_templates");
+    	List<String> templateNames = new LinkedList<String>();
+    	for (File dir : project.getDirectories()) {
+    		for (File file : dir.listFiles()) {
+    			if (file.getName().endsWith("Template.java")) {
+                	String templateName = file.getName().split("\\.")[0];
+                	boolean needCompile = true;
+    				if (compiledTemplatesRoot.isDirectory()) {
+    					File classFile = new File(compiledTemplatesRoot.
+    							getAbsolutePath()+"/"+templateName+".class");
+    					if (classFile.isFile() &&
+    						file.lastModified() < classFile.lastModified()) {
+    	            		UI.notice("codemate",
+    	            				"Use template in "+classFile.getPath()+".");
+    	            		needCompile = false;
+    					}
+    				} else {
+    					UI.notice("codemate", "Create "+
+    							compiledTemplatesRoot.getAbsolutePath()+
+    							" to store compiled templates.");
+    					compiledTemplatesRoot.mkdirs();
+    				}
+    				if (needCompile) {
+	            		UI.notice("codemate",
+	            				"Compile template in "+file.getPath()+".");
+	            		SystemUtils.compile(file);
+	            		File classFile = new File(file.getParent()+"/"+templateName+".class");
+	            		classFile.renameTo(new File(compiledTemplatesRoot.getAbsolutePath()+"/"+classFile.getName()));
+    				}
+	                templateNames.add(templateName);
+    			}
+    		}
     	}
+		try {
+			URLClassLoader classLoader = URLClassLoader.newInstance(
+					new URL[] {compiledTemplatesRoot.toURI().toURL()});
+	        for (String templateName : templateNames) {
+	        	Class<?> cls = null;
+					cls = classLoader.loadClass(templateName);
+					templateBundles.add((TemplateBundle) cls.newInstance());
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     /**
