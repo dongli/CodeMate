@@ -133,7 +133,7 @@ public class MakefileWriter {
 			"%.t.F90: %.$(1)\n"+
 			"\t@echo \" Processing template $$@\"\n"+
 			"\t@echo $$(seperator)\n"+
-			"\t@codemate -silence scan $$< -t $$(PROJECT_ROOT) 2> $(PROJECT_ROOT)/.codemate/processed_codes/$$@\n"+
+			"\t@codemate -silence scan $$< 2> $(PROJECT_ROOT)/.codemate/processed_codes/$$@\n"+
 			"endef\n"+
 			"fortran_suffices := f90 F90\n"+
 			"$(foreach suffix, $(fortran_suffices), \\\n"+

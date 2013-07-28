@@ -24,6 +24,7 @@ fi
 
 # copy files into $CODEMATE_ROOT
 cp ./codemate.jar $CODEMATE_ROOT
+cp ./codemate $CODEMATE_ROOT && chmod a+x $CODEMATE_ROOT/codemate
 cp ./setup.sh $CODEMATE_ROOT
 
 if [[ "$SHELL" =~ "bash" ]]; then

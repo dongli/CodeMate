@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export CODEMATE_ROOT=$(dirname $BASH_ARGV)
-alias codemate="java -jar $CODEMATE_ROOT/codemate.jar"
+export PATH=$CODEMATE_ROOT:$PATH
 
 # command line completion
 function _codemate_()
