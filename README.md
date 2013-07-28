@@ -6,6 +6,7 @@ Download the installer [**here**](https://github.com/dongli/CodeMate/raw/master/
 run it in the shell:
 
 ```
+$ chmod a+x codemate.installer
 $ ./codemate.installer
 ```
 
