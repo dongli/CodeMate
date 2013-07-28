@@ -35,6 +35,7 @@ public class FortranTemplater extends FortranBaseVisitor<Void> {
     }
     
     public static void loadCompiledTemplates(File dir) {
+    	loadBuiltinTemplates();
     	if (!dir.isDirectory()) return;
     	UI.notice("codemate", "Load compiled templates in "+dir.getPath()+".");
     	List<String> templateNames = new LinkedList<String>();
