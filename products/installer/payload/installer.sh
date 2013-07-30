@@ -3,10 +3,10 @@
 # create .codemate directory under the $HOME
 CODEMATE_ROOT=$HOME/.codemate
 if [ ! -d $CODEMATE_ROOT ]; then
-    echo "Create $CODEMATE_ROOT"
+    echo "[Notice]: Create $CODEMATE_ROOT"
     mkdir $CODEMATE_ROOT
 else
-    echo "Use existing $CODEMATE_ROOT"
+    echo "[Notice]: Use existing $CODEMATE_ROOT"
     if [ ! -z "`ls $CODEMATE_ROOT`" ]; then
         echo "[Notice]: $CODEMATE_ROOT is not empty"
         ls -l $CODEMATE_ROOT

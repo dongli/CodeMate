@@ -134,7 +134,7 @@ typeBoundProcedureStatements: typeBoundProcedureStatement*;
 typeBoundProcedureStatement
     : PROCEDURE_KEYWORD
       bindingAttributes
-      id ( POINT id )?
+      id ( POINT id ( COMMA id )* )?
     ;
 
 bindingAttributes: ( COMMA bindingAttribute )* DOUBLE_COLONS;

@@ -660,6 +660,10 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	if (ctx.POINT() != null) {
     		appendCode(" => ");
     		visitId(ctx.id(1));
+    		for (int i = 2; i < ctx.id().size(); ++i) {
+    			appendCode(", ");
+    			visitId(ctx.id(i));
+    		}
     	}
     	appendCode("\n");
     	return null;
