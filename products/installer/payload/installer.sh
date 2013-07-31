@@ -12,12 +12,10 @@ else
         ls -l $CODEMATE_ROOT
         if [ -e $CODEMATE_ROOT/codemate.jar ]; then
             VERSION=`java -jar $CODEMATE_ROOT/codemate.jar -v`
-            echo "[Notice]: You have installed CodeMate $VERSION."
-        fi
-        echo "[Notice]: Clean them (y/n)?"
-        read -p '> ' ans
-        if [[ "$ans" != "n" ]]; then
-            rm -r $CODEMATE_ROOT/*
+            if [ -e $CODEMATE_ROOT/install.info ]; then
+                COMMIT_HASH=`awk '/prev_commit_hash/ { print $3; }' $CODEMATE_ROOT/install.info`
+            fi
+            echo "[Notice]: You have installed CodeMate $VERSION in commit $COMMIT_HASH."
         fi
     fi
 fi
@@ -26,6 +24,7 @@ fi
 cp ./codemate.jar $CODEMATE_ROOT
 cp ./codemate $CODEMATE_ROOT && chmod a+x $CODEMATE_ROOT/codemate
 cp ./setup.sh $CODEMATE_ROOT
+cp ./install.info $CODEMATE_ROOT
 
 if [[ "$SHELL" =~ "bash" ]]; then
     echo "[Notice]: Set BASH environment in $HOME/.bashrc."
