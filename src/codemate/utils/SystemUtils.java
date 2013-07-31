@@ -61,6 +61,15 @@ public class SystemUtils {
 		return getAbsolutePath(file);
 	}
 	
+	public static void deleteDirectory(File file) {
+		if (file.isDirectory())
+			for (File subfile : file.listFiles())
+				deleteDirectory(subfile);
+		if (!file.delete())
+			UI.error("codemate",
+					"Failed to delete "+file.getAbsolutePath()+".");
+	}
+	
 	public static int getConsoleWidth() {
 		Terminal terminal = TerminalFactory.create();
 		return terminal.getWidth();
@@ -79,8 +88,13 @@ public class SystemUtils {
 	
 	public static void compile(File source) {
 		List<String> optionList = new ArrayList<String>();
-		optionList.addAll(Arrays.asList("-classpath",
-				System.getProperty("java.class.path")));
+		String paths = System.getProperty("java.class.path");
+		if (paths.matches("^[^:]*\\.codemate/codemate")) {
+			// When running as a command that is wrapped by a script, we should
+			// use the JAR file lies along with that command.
+			paths += ".jar";
+		}
+		optionList.addAll(Arrays.asList("-classpath", paths));
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		StandardJavaFileManager fileManager =
 				compiler.getStandardFileManager(null, null, null);

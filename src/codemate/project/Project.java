@@ -127,4 +127,8 @@ public class Project {
 					"Find covered project "+parent.getAbsolutePath()+".");
 		return parent;
 	}
+	
+	public static File findProject() {
+		return findProject((new File(".")).getAbsoluteFile());
+	}
 }
