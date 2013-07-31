@@ -11,7 +11,7 @@ function _codemate_()
     completed_words=""
     case "${prev_argv##*/}" in
     "codemate")
-        completed_words="-silence help scan clean create"
+        completed_words="-silence help scan clean create update"
         ;;
     "help")
         completed_words="scan"
