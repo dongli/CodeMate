@@ -2,6 +2,7 @@ package codemate.operator;
 
 import java.io.*;
 import java.net.*;
+import java.nio.channels.*;
 import java.util.*;
 import java.util.regex.*;
 
@@ -9,17 +10,20 @@ import codemate.ui.UI;
 
 public class Update {
 	public static void operate() {
-		Pattern hashPattern = Pattern.compile("\"prev_commit_hash\" = \"\\w*\"");
+		Pattern hashPattern = Pattern.compile("prev_commit_hash = \\w*");
+		String urlBase = "https://raw.github.com/dongli/CodeMate/master/products/installer/payload/";
+		String dirBase = System.getenv("HOME")+"/.codemate/";
 		// get remote hash
+		UI.notice("codemate", "Fetch version information from remote repository.");
 		String hashRemote = null;
 		BufferedReader reader = null;
 		try {
-			URL url = new URL("https://raw.github.com/dongli/CodeMate/master/products/installer/payload/install.info");
+			URL url = new URL(urlBase+"install.info");
 			reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			UI.error("codemate",
-					"Failed to fetch information from GitHub!");
+					"Failed to fetch information from remote repository!");
 		}
 		try {
 			String message = "";
@@ -37,7 +41,7 @@ public class Update {
 		}
 		// get local hash
 		String hashLocal = null;
-		File file = new File(System.getenv("HOME")+".codemate/install.info");
+		File file = new File(dirBase+"install.info");
 		if (!file.isFile()) {
 			UI.error("codemate",
 					"Sorry, CodeMate can not be updated due to lack of information.");
@@ -55,9 +59,24 @@ public class Update {
 		}
 		// compare
 		if (hashRemote.equals(hashLocal)) {
-			UI.notice("codemate", "CodeMate is already up-to-date!");
+			UI.notice("codemate", "CodeMate is already up to date!");
 		} else {
 			UI.notice("codemate", "Update CodeMate.");
+			String[] fileNames = {
+				"codemate", "codemate.jar", "install.info", "setup.sh"
+			};
+			for (String fileName : fileNames) {
+				UI.notice("codemate", "Download "+urlBase+fileName+".");
+				try {
+					URL url = new URL(urlBase+fileName);
+					ReadableByteChannel channel = Channels.newChannel(url.openStream());
+				    FileOutputStream fos = new FileOutputStream(dirBase+fileName);
+				    fos.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+				    fos.close();
+				} catch (Exception e) {
+					UI.error("codemate", "Failed to download "+urlBase+fileName+"!");
+				}
+			}
 		}
 	}
 }
