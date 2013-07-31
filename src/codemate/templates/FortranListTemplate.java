@@ -49,6 +49,10 @@ public class FortranListTemplate implements TemplateBundle {
         String instance;
         Map<Template, String> instances = new HashMap<Template, String>();
 
+        instance = "public "+listTypeName+"\n";
+        instances.put(new Template(FortranParser.RULE_accessibilityStatements,
+        		Template.Action.PREPEND), instance);
+        
         instance =
         	// list element type declaration
             "type "+elemTypeName+"\n"+

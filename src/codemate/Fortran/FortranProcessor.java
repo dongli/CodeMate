@@ -128,6 +128,8 @@ public class FortranProcessor {
         	tree = parser.derivedTypeName();
         } else if (ruleIndex == FortranParser.RULE_expression) {
         	tree = parser.expression_();
+        } else if (ruleIndex == FortranParser.RULE_accessibilityStatements) {
+        	tree = parser.accessibilityStatements();
         } else {
         	UI.error("codemate", "Unimplemented parser rule!");
         }
