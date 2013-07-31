@@ -12,8 +12,13 @@ $ ./codemate.installer
 
 then **codemate** should be ready to go!
 
-I near future, I will add a `update` operator (or subcommand) to automatically update the installed **CodeMate**.
-Be patient, or just knock me (<dongli@lasg.iap.ac.cn>).
+Since **CodeMate** will updated continuously, keeping your installed version up to date will be convenient. So an operator *update* is added, you can invoke it as:
+
+```
+$ codemate update
+```
+
+then **CodeMate** will be updated if necessary.
 
 # Donation
 
