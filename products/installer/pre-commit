@@ -1,0 +1,22 @@
+#!/bin/bash
+
+REPO_DIR=$(pwd)
+
+# set GIT_DIR to avoid "fatal: Not a git repository: '.git'" problem
+export GIT_DIR=$REPO_DIR/.git
+
+# check if there is any change that will affect final product
+git status -s | grep '^\(A\|M\) *.*\.\(java\|g4\)' > /dev/null
+if [[ $? == 0 ]]; then
+    DIR=$REPO_DIR/products/installer
+
+    # rebuild the installer
+    echo "[Notice]: Building installer"
+    cd $DIR
+    ./build.sh
+    cd $REPO_DIR
+    for file in $(ls $DIR/payload); do
+        git add $DIR/payload/$file
+    done
+    git add $DIR/codemate.installer
+fi

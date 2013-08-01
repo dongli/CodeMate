@@ -1,62 +1,52 @@
 package codemate.operator;
 
 import java.io.*;
-import java.net.*;
-import java.nio.channels.*;
 import java.util.*;
 import java.util.regex.*;
 
-import codemate.ui.UI;
+import codemate.ui.*;
+import codemate.utils.*;
 
 public class Update {
 	public static void operate() {
 		Pattern hashPattern = Pattern.compile("prev_commit_hash = \\w*");
-		String urlBase = "https://raw.github.com/dongli/CodeMate/master/products/installer/payload/";
+		String urlBase = "https://raw.github.com/dongli/CodeMate/"+
+						 "master/products/installer/payload/";
 		String dirBase = System.getenv("HOME")+"/.codemate/";
+		// ---------------------------------------------------------------------
 		// get remote hash
-		UI.notice("codemate", "Fetch version information from remote repository.");
+		UI.notice("codemate", "Fetch information from remote repository.");
 		String hashRemote = null;
-		BufferedReader reader = null;
-		try {
-			URL url = new URL(urlBase+"install.info");
-			reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			UI.error("codemate",
-					"Failed to fetch information from remote repository!");
-		}
-		try {
-			String message = "";
-			for (String line; (line = reader.readLine()) != null;)
-				message += line;
-			Matcher hashMatcher = hashPattern.matcher(message);
-			if (hashMatcher.find())
-				hashRemote = hashMatcher.group().split("=")[1];
-			else
-				UI.error("codemate", "Failed to find remote commit hash!");
-		} catch (Exception e) {
-			
-		} finally {
-		    if (reader != null) try { reader.close(); } catch (Exception ignore) {}
-		}
+		String content = SystemUtils.downloadAndRead(urlBase+"install.info");
+		Matcher hashMatcher = hashPattern.matcher(content);
+		if (hashMatcher.find())
+			hashRemote = hashMatcher.group().split("=")[1];
+		else
+			UI.error("codemate", "Failed to find remote commit hash!");
+		// ---------------------------------------------------------------------
 		// get local hash
 		String hashLocal = null;
 		File file = new File(dirBase+"install.info");
 		if (!file.isFile()) {
-			UI.error("codemate",
-					"Sorry, CodeMate can not be updated due to lack of information.");
+			SystemUtils.download(
+					"https://raw.github.com/dongli/CodeMate/"+
+					"master/products/installer/codemate.installer",
+					"codemate.installer");
+			UI.error("codemate", "There is no install.info in ~/.codemate. "+
+					"New codemate.installer has been downloaded, "+
+					"reinstall it please!");
 		}
 		try {
-			String content = new Scanner(file).useDelimiter("\\Z").next();
-			Matcher hashMatcher = hashPattern.matcher(content);
-			if (hashMatcher.find())
-				hashLocal = hashMatcher.group().split("=")[1];
-			else
-				UI.error("codemate", "Failed to find local commit hash!");
+			content = new Scanner(file).useDelimiter("\\Z").next();
 		} catch (FileNotFoundException e) {
-			UI.error("codemate",
-					"Failed to read commit information from local installation!");
+			UI.error("codemate", "Failed to find local commit hash!");
 		}
+		hashMatcher = hashPattern.matcher(content);
+		if (hashMatcher.find())
+			hashLocal = hashMatcher.group().split("=")[1];
+		else
+			UI.error("codemate", "Failed to find local commit hash!");
+		// ---------------------------------------------------------------------
 		// compare
 		if (hashRemote.equals(hashLocal)) {
 			UI.notice("codemate", "CodeMate is already up to date!");
@@ -67,15 +57,7 @@ public class Update {
 			};
 			for (String fileName : fileNames) {
 				UI.notice("codemate", "Download "+urlBase+fileName+".");
-				try {
-					URL url = new URL(urlBase+fileName);
-					ReadableByteChannel channel = Channels.newChannel(url.openStream());
-				    FileOutputStream fos = new FileOutputStream(dirBase+fileName);
-				    fos.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
-				    fos.close();
-				} catch (Exception e) {
-					UI.error("codemate", "Failed to download "+urlBase+fileName+"!");
-				}
+				SystemUtils.download(urlBase+fileName, dirBase+fileName);
 			}
 		}
 	}
