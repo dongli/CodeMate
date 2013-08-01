@@ -13,8 +13,11 @@ package codemate.utils;
 import static org.fusesource.jansi.Ansi.ansi;
 
 import java.io.*;
+import java.net.*;
+import java.nio.channels.*;
 import java.util.*;
 
+import javax.net.ssl.*;
 import javax.tools.*;
 
 import org.fusesource.jansi.AnsiConsole;
@@ -106,5 +109,77 @@ public class SystemUtils {
 				null, compilationUnits).call())
 			UI.error("codemate", "There is error in "+source.getPath());
 		return;
+	}
+	
+	/**
+	 * download
+	 * 
+	 * This method downloads the file from a remote URL in HTTPS protocol to a
+	 * local path.
+	 * 
+	 * @param remoteUrl
+	 * @param localPath
+	 */
+	public static void download(String remoteUrl, String localPath) {
+		URL url = null;
+		SecureConnector connector = new SecureConnector("TLS");
+		HttpsURLConnection connection = null;
+        try {
+        	url = new URL(remoteUrl);
+            connection = connector.openSecureConnection(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            UI.error("codemate", "Failed to download "+url.getPath()+"!");
+        }
+        try {
+			ReadableByteChannel channel =
+					Channels.newChannel(connection.getInputStream());
+		    FileOutputStream fos = new FileOutputStream(localPath);
+		    fos.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+		    fos.close();
+		} catch (Exception e) {
+            e.printStackTrace();
+			UI.error("codemate", "Failed to save "+localPath+"!");
+		}
+	}
+	
+	/**
+	 * downloadAndRead
+	 * 
+	 * This method downloads the file from a remote URL in HTTPS protocol and
+	 * read the content into a string.
+	 * 
+	 * @param  remoteUrl
+	 * @return String
+	 */
+	public static String downloadAndRead(String remoteUrl) {
+		URL url = null;
+		SecureConnector connector = new SecureConnector("TLS");
+		HttpsURLConnection connection = null;
+		BufferedReader reader = null;
+		String content = "";
+		try {
+			url = new URL(remoteUrl);
+            connection = connector.openSecureConnection(url);
+			reader = new BufferedReader(
+				new InputStreamReader(connection.getInputStream(), "UTF-8"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			UI.error("codemate", "Failed to download "+remoteUrl+"!");
+		}
+		try {
+			for (String line; (line = reader.readLine()) != null;)
+				content += line;
+		} catch (Exception e) {
+            e.printStackTrace();
+			UI.error("codemate", "Failed to read "+remoteUrl+"!");
+		} finally {
+		    if (reader != null)
+		    	try {
+		    		reader.close();
+		    	} catch (Exception ignore) {
+		    	}
+		}
+		return content;
 	}
 }
