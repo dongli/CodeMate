@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project codemate">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/Users/dongli/Works/eclipse/codemate/products/installer/payload/codemate.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="codemate.operator.Master"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="/Users/dongli/Works/eclipse/codemate/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/dongli/Works/eclipse/codemate/lib/antlr-4.1-complete.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/dongli/Works/eclipse/codemate/lib/gson-2.2.4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/dongli/Works/eclipse/codemate/lib/jline-2.12-SNAPSHOT.jar"/>
+        </jar>
+    </target>
+</project>

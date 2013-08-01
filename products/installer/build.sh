@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # preparation
+# - prepare the JAR file
+ant -f create_jar.xml
 # - prepare the standalone command
 cat stub.sh payload/codemate.jar > payload/codemate
 # - prepare the previous GIT commit hash for identifying commits
