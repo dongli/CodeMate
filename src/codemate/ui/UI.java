@@ -13,6 +13,7 @@ package codemate.ui;
 import java.io.IOException;
 import java.util.*;
 
+import codemate.utils.*;
 import jline.console.*;
 import jline.console.completer.*;
 
@@ -38,24 +39,27 @@ public class UI {
 	public static void notice(String caller, String message) {
 		if (!(verboseLevel == VerboseLevel.ALL))
 			return;
-		System.out.println("[Notice]: "+caller+": "+message);
+		SystemUtils.print("[@|bold,green Notice|@]: @|bold,magenta "+caller+
+				"|@: "+message+"\n");
 	}
 	
 	public static void warning(String caller, String message) {
 		if (!(verboseLevel == VerboseLevel.ALL ||
 			  verboseLevel == VerboseLevel.ONLY_WARNING))
 			return;
-		System.out.println("[Warning]: "+caller+": "+message);
+		SystemUtils.print("[@|bold,yellow Warning|@]: @|bold,magenta "+caller+
+				"|@: "+message+"\n");
 	}
 	
 	public static void error(String caller, String message) {
-		System.out.println("[Error]: "+caller+": "+message);
+		SystemUtils.print("[@|bold,red Error|@]: @|bold,magenta "+caller+
+				"|@: "+message+"\n");
 		System.exit(1);
 	}
 	
 	public static void printList(ArrayList<String> list) {
 		for (String elem : list)
-			System.out.println("- "+elem);
+			SystemUtils.print("- @|underline "+elem+"|@\n");
 	}
 	
 	public static String[] getAnswer(
