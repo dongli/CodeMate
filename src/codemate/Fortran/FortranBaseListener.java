@@ -32,6 +32,45 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterWhereMultipleStatements(@NotNull FortranParser.WhereMultipleStatementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitWhereMultipleStatements(@NotNull FortranParser.WhereMultipleStatementsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterDefineDirective(@NotNull FortranParser.DefineDirectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitDefineDirective(@NotNull FortranParser.DefineDirectiveContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterDoRangeStatement(@NotNull FortranParser.DoRangeStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -65,32 +104,6 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitInternalFile(@NotNull FortranParser.InternalFileContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterDefineDirective(@NotNull FortranParser.DefineDirectiveContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitDefineDirective(@NotNull FortranParser.DefineDirectiveContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -305,19 +318,6 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterKeywordStatementParameters(@NotNull FortranParser.KeywordStatementParametersContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitKeywordStatementParameters(@NotNull FortranParser.KeywordStatementParametersContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterExecutableStatement(@NotNull FortranParser.ExecutableStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -331,6 +331,19 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterKeywordStatementParameters(@NotNull FortranParser.KeywordStatementParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitKeywordStatementParameters(@NotNull FortranParser.KeywordStatementParametersContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterDerivedType(@NotNull FortranParser.DerivedTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -338,6 +351,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitDerivedType(@NotNull FortranParser.DerivedTypeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterElseWhereStatement(@NotNull FortranParser.ElseWhereStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitElseWhereStatement(@NotNull FortranParser.ElseWhereStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1027,6 +1053,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitConditionDirective_(@NotNull FortranParser.ConditionDirective_Context ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterWhereSingleStatement(@NotNull FortranParser.WhereSingleStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitWhereSingleStatement(@NotNull FortranParser.WhereSingleStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

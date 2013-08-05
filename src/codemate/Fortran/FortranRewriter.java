@@ -369,6 +369,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
             visitDoStatement(ctx.doStatement());
         else if (ctx.selectStatement() != null)
             visitSelectStatement(ctx.selectStatement());
+        else if (ctx.whereStatement() != null)
+        	visitWhereStatement(ctx.whereStatement());
         else if (ctx.keywordStatement() != null)
             visitKeywordStatement(ctx.keywordStatement());
         else if (ctx.templateInstance() != null)
@@ -427,6 +429,44 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         else if (ctx instanceof IfSingleStatementContext)
             visitIfSingleStatement((IfSingleStatementContext) ctx);
         return null;
+    }
+    
+    public Void visitWhereMultipleStatements(WhereMultipleStatementsContext ctx) {
+    	if (ctx.id().size() == 2) {
+    		visitId(ctx.id(0));
+    		appendCode(": ");
+    	}
+    	appendCode("where ");
+    	visitExpression(ctx.expression());
+    	appendCode("\n");
+        increaseIndentLevel();
+        visitExecutableStatements(ctx.executableStatements());
+        decreaseIndentLevel();
+        for (ElseWhereStatementContext elseWhere : ctx.elseWhereStatement())
+            visitElseWhereStatement(elseWhere);
+        indent();
+        appendCode("end where");
+        if (ctx.id().size() == 2) {
+    		appendCode(" ");
+    		visitId(ctx.id(1));
+    	}
+    	return null;
+    }
+    
+    public Void visitWhereSingleStatement(WhereSingleStatementContext ctx) {
+    	appendCode("where ");
+    	visitExpression(ctx.expression());
+    	appendCode(" ");
+    	visitExecutableStatement(ctx.executableStatement());
+    	return null;
+    }
+    
+    public Void visitWhereStatement(WhereStatementContext ctx) {
+    	if (ctx instanceof WhereMultipleStatementsContext)
+    		visitWhereMultipleStatements((WhereMultipleStatementsContext) ctx);
+    	else if (ctx instanceof WhereSingleStatementContext)
+    		visitWhereSingleStatement((WhereSingleStatementContext) ctx);
+    	return null;
     }
 
     public Void visitActualArgument(ActualArgumentContext ctx) {

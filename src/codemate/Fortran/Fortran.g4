@@ -172,6 +172,7 @@ executableStatement
       | doStatement
       | ifStatement
       | selectStatement
+      | whereStatement
       | keywordStatement
       | templateInstance ) SEMICOMMA?
     ;
@@ -181,6 +182,8 @@ assignmentStatement
       ( POINT | EQUAL ) expression
     ;
 
+// =============================================================================
+//                                do statement
 doStatement
     : DO_KEYWORD id EQUAL expression COMMA expression ( COMMA expression )?
         executableStatements END_KEYWORD DO_KEYWORD     # doRangeStatement
@@ -190,6 +193,8 @@ doStatement
         executableStatements END_KEYWORD DO_KEYWORD     # doAnonyStatement
     ;
 
+// =============================================================================
+//                              select statement
 caseLabels
     :  CASE_KEYWORD LEFT_PAREN
        expression ( COMMA expression )*
@@ -205,6 +210,8 @@ selectStatement
       END_KEYWORD SELECT_KEYWORD
     ;
 
+// =============================================================================
+//                              if statement
 elseIfStatement
     : ELSE_KEYWORD IF_KEYWORD expression THEN_KEYWORD executableStatements
     ;
@@ -222,6 +229,24 @@ ifStatement
     | IF_KEYWORD expression executableStatement # ifSingleStatement
     ;
 
+// =============================================================================
+//                             where statement
+elseWhereStatement
+    : ELSE_KEYWORD WHERE_KEYWORD expression id?
+    ;
+
+whereStatement
+    : ( id COLON )?
+      WHERE_KEYWORD expression
+        executableStatements
+        elseWhereStatement*
+      END_KEYWORD WHERE_KEYWORD id?                 # whereMultipleStatements
+    | WHERE_KEYWORD expression executableStatement  # whereSingleStatement
+    ;
+
+// =============================================================================
+//                          keyword statements
+// Note: There are three types of keyword statements.
 keywordStatementParameters: LEFT_PAREN actualArguments RIGHT_PAREN;
 keywordStatement1
     : EXECUTABLE_KEYWORD_1
@@ -423,6 +448,7 @@ INTERFACE_KEYWORD: 'interface';
 NAMELIST_KEYWORD: 'namelist';
 PROCEDURE_KEYWORD: 'procedure';
 WHILE_KEYWORD: 'while';
+WHERE_KEYWORD: 'where';
 CALL_KEYWORD: 'call';
 USE_KEYWORD: 'use';
 ONLY_KEYWORD: 'only';

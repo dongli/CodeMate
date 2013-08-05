@@ -21,6 +21,27 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitUndefDirective(@NotNull FortranParser.UndefDirectiveContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FortranParser#whereMultipleStatements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhereMultipleStatements(@NotNull FortranParser.WhereMultipleStatementsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#defineDirective}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefineDirective(@NotNull FortranParser.DefineDirectiveContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#includeDirective}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FortranParser#doRangeStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -40,20 +61,6 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInternalFile(@NotNull FortranParser.InternalFileContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FortranParser#includeDirective}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FortranParser#defineDirective}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefineDirective(@NotNull FortranParser.DefineDirectiveContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#bindingAttribute}.
@@ -168,13 +175,6 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitDeclarationStatements(@NotNull FortranParser.DeclarationStatementsContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link FortranParser#keywordStatementParameters}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitKeywordStatementParameters(@NotNull FortranParser.KeywordStatementParametersContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link FortranParser#executableStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -182,11 +182,25 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitExecutableStatement(@NotNull FortranParser.ExecutableStatementContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FortranParser#keywordStatementParameters}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKeywordStatementParameters(@NotNull FortranParser.KeywordStatementParametersContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FortranParser#derivedType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDerivedType(@NotNull FortranParser.DerivedTypeContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#elseWhereStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseWhereStatement(@NotNull FortranParser.ElseWhereStatementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#literalArray}.
@@ -558,6 +572,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConditionDirective_(@NotNull FortranParser.ConditionDirective_Context ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#whereSingleStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhereSingleStatement(@NotNull FortranParser.WhereSingleStatementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#divOperator}.
