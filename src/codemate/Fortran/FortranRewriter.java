@@ -906,10 +906,10 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     
     public Void visitProcedure(ProcedureContext ctx) {
         indent();
-        appendCode(ctx.PROCEDURE_TYPE(0).getText()+" ");
+        appendCode(ctx.PROCEDURE_TYPE_KEYWORD(0).getText()+" ");
         visitId(ctx.id(0));
-        if (!(ctx.PROCEDURE_TYPE(0).getText().equals("program") ||
-              ctx.PROCEDURE_TYPE(0).getText().equals("module"))) {
+        if (!(ctx.PROCEDURE_TYPE_KEYWORD(0).getText().equals("program") ||
+              ctx.PROCEDURE_TYPE_KEYWORD(0).getText().equals("module"))) {
             appendCode(" (");
             if (ctx.dummyArguments() != null)
                 visitDummyArguments(ctx.dummyArguments());
@@ -939,7 +939,7 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         	visitContainedProcedures(ctx.containedProcedures());
         }
         indent();
-        appendCode("end "+ctx.PROCEDURE_TYPE(0).getText()+" ");
+        appendCode("end "+ctx.PROCEDURE_TYPE_KEYWORD(0).getText()+" ");
         visitId(ctx.id(0));
         appendCode("\n");
         return null;

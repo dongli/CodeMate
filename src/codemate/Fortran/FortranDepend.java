@@ -76,7 +76,7 @@ public class FortranDepend extends FortranBaseListener {
 	
 	public void enterFile(FileContext ctx) {
 		for (ProcedureContext procedure : ctx.procedure())
-			procedureTypes.add(procedure.PROCEDURE_TYPE(0).getText());
+			procedureTypes.add(procedure.PROCEDURE_TYPE_KEYWORD(0).getText());
 	}
 	
 	public void enterUseStatement(UseStatementContext ctx) {

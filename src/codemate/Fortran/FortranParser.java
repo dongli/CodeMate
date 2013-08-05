@@ -18,7 +18,7 @@ public class FortranParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__9=1, T__8=2, T__7=3, T__6=4, T__5=5, T__4=6, T__3=7, T__2=8, T__1=9, 
-		T__0=10, PROCEDURE_TYPE=11, INTRINSIC_TYPE_KEYWORD=12, EXECUTABLE_KEYWORD_1=13, 
+		T__0=10, PROCEDURE_TYPE_KEYWORD=11, INTRINSIC_TYPE_KEYWORD=12, EXECUTABLE_KEYWORD_1=13, 
 		EXECUTABLE_KEYWORD_2=14, EXECUTABLE_KEYWORD_3=15, CONTAINS_KEYWORD=16, 
 		RESULT_KEYWORD=17, TYPE_KEYWORD=18, CLASS_KEYWORD=19, IF_KEYWORD=20, ELSE_KEYWORD=21, 
 		THEN_KEYWORD=22, DO_KEYWORD=23, SELECT_KEYWORD=24, CASE_KEYWORD=25, DEFAULT_KEYWORD=26, 
@@ -38,19 +38,20 @@ public class FortranParser extends Parser {
 		ARRAY_START=90, ARRAY_END=91, POINT=92;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'.lt.'", "'non_overridable'", "'.ge.'", "'.and.'", "'.eq.'", 
-		"'.or.'", "'.not.'", "'.ne.'", "'.le.'", "'.gt.'", "PROCEDURE_TYPE", "INTRINSIC_TYPE_KEYWORD", 
-		"EXECUTABLE_KEYWORD_1", "EXECUTABLE_KEYWORD_2", "EXECUTABLE_KEYWORD_3", 
-		"'contains'", "'result'", "'type'", "'class'", "'if'", "'else'", "'then'", 
-		"'do'", "'select'", "'case'", "'default'", "'end'", "'interface'", "'namelist'", 
-		"'procedure'", "'while'", "'call'", "'use'", "'only'", "'implicit'", "'none'", 
-		"'public'", "'private'", "'extends'", "'abstract'", "'pass'", "'nopass'", 
-		"'deffered'", "'pointer'", "'target'", "'save'", "'optional'", "'allocatable'", 
-		"'parameter'", "'intent'", "'in'", "'out'", "'inout'", "'#'", "'include'", 
-		"'define'", "'undef'", "'ifdef'", "'ifndef'", "'elif'", "'endif'", "'defined'", 
-		"'&&'", "'||'", "COMMENT", "STRING", "NEW_LINES", "BREAK_LINE", "'!'", 
-		"','", "';'", "':'", "'::'", "WS", "ID", "NUMERICS", "LOGICAL_STATUS", 
-		"'*'", "'/'", "'='", "'+'", "'-'", "'<'", "'>'", "'('", "')'", "'{'", 
-		"'}'", "'%'", "ARRAY_START", "ARRAY_END", "'=>'"
+		"'.or.'", "'.not.'", "'.ne.'", "'.le.'", "'.gt.'", "PROCEDURE_TYPE_KEYWORD", 
+		"INTRINSIC_TYPE_KEYWORD", "EXECUTABLE_KEYWORD_1", "EXECUTABLE_KEYWORD_2", 
+		"EXECUTABLE_KEYWORD_3", "'contains'", "'result'", "'type'", "'class'", 
+		"'if'", "'else'", "'then'", "'do'", "'select'", "'case'", "'default'", 
+		"'end'", "'interface'", "'namelist'", "'procedure'", "'while'", "'call'", 
+		"'use'", "'only'", "'implicit'", "'none'", "'public'", "'private'", "'extends'", 
+		"'abstract'", "'pass'", "'nopass'", "'deffered'", "'pointer'", "'target'", 
+		"'save'", "'optional'", "'allocatable'", "'parameter'", "'intent'", "'in'", 
+		"'out'", "'inout'", "'#'", "'include'", "'define'", "'undef'", "'ifdef'", 
+		"'ifndef'", "'elif'", "'endif'", "'defined'", "'&&'", "'||'", "COMMENT", 
+		"STRING", "NEW_LINES", "BREAK_LINE", "'!'", "','", "';'", "':'", "'::'", 
+		"WS", "ID", "NUMERICS", "LOGICAL_STATUS", "'*'", "'/'", "'='", "'+'", 
+		"'-'", "'<'", "'>'", "'('", "')'", "'{'", "'}'", "'%'", "ARRAY_START", 
+		"ARRAY_END", "'=>'"
 	};
 	public static final int
 		RULE_file = 0, RULE_procedure = 1, RULE_useStatements = 2, RULE_useStatement = 3, 
@@ -172,11 +173,11 @@ public class FortranParser extends Parser {
 			setState(210);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROCEDURE_TYPE) | (1L << INTRINSIC_TYPE_KEYWORD) | (1L << TYPE_KEYWORD) | (1L << CLASS_KEYWORD) | (1L << DIRECTIVE_START))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROCEDURE_TYPE_KEYWORD) | (1L << INTRINSIC_TYPE_KEYWORD) | (1L << TYPE_KEYWORD) | (1L << CLASS_KEYWORD) | (1L << DIRECTIVE_START))) != 0)) {
 				{
 				setState(208);
 				switch (_input.LA(1)) {
-				case PROCEDURE_TYPE:
+				case PROCEDURE_TYPE_KEYWORD:
 				case INTRINSIC_TYPE_KEYWORD:
 				case TYPE_KEYWORD:
 				case CLASS_KEYWORD:
@@ -217,7 +218,6 @@ public class FortranParser extends Parser {
 		public AccessibilityStatementsContext accessibilityStatements() {
 			return getRuleContext(AccessibilityStatementsContext.class,0);
 		}
-		public List<TerminalNode> PROCEDURE_TYPE() { return getTokens(FortranParser.PROCEDURE_TYPE); }
 		public List<IdContext> id() {
 			return getRuleContexts(IdContext.class);
 		}
@@ -225,14 +225,14 @@ public class FortranParser extends Parser {
 		public DummyArgumentsContext dummyArguments() {
 			return getRuleContext(DummyArgumentsContext.class,0);
 		}
-		public TerminalNode PROCEDURE_TYPE(int i) {
-			return getToken(FortranParser.PROCEDURE_TYPE, i);
-		}
 		public ContainedProceduresContext containedProcedures() {
 			return getRuleContext(ContainedProceduresContext.class,0);
 		}
 		public IntrinsicTypeContext intrinsicType() {
 			return getRuleContext(IntrinsicTypeContext.class,0);
+		}
+		public TerminalNode PROCEDURE_TYPE_KEYWORD(int i) {
+			return getToken(FortranParser.PROCEDURE_TYPE_KEYWORD, i);
 		}
 		public IdContext id(int i) {
 			return getRuleContext(IdContext.class,i);
@@ -243,6 +243,7 @@ public class FortranParser extends Parser {
 		public ExecutableStatementsContext executableStatements() {
 			return getRuleContext(ExecutableStatementsContext.class,0);
 		}
+		public List<TerminalNode> PROCEDURE_TYPE_KEYWORD() { return getTokens(FortranParser.PROCEDURE_TYPE_KEYWORD); }
 		public DerivedTypeContext derivedType() {
 			return getRuleContext(DerivedTypeContext.class,0);
 		}
@@ -298,12 +299,12 @@ public class FortranParser extends Parser {
 				setState(214); derivedType();
 				}
 				break;
-			case PROCEDURE_TYPE:
+			case PROCEDURE_TYPE_KEYWORD:
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(217); match(PROCEDURE_TYPE);
+			setState(217); match(PROCEDURE_TYPE_KEYWORD);
 			setState(218); id();
 			setState(224);
 			_la = _input.LA(1);
@@ -355,7 +356,7 @@ public class FortranParser extends Parser {
 
 			setState(243); containedProcedures();
 			setState(244); match(END_KEYWORD);
-			setState(245); match(PROCEDURE_TYPE);
+			setState(245); match(PROCEDURE_TYPE_KEYWORD);
 			setState(247);
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
@@ -2376,7 +2377,7 @@ public class FortranParser extends Parser {
 			setState(467);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==PROCEDURE_TYPE) {
+			while (_la==PROCEDURE_TYPE_KEYWORD) {
 				{
 				{
 				setState(464); moduleProcedure();
@@ -2410,10 +2411,10 @@ public class FortranParser extends Parser {
 	}
 
 	public static class ModuleProcedureContext extends ParserRuleContext {
+		public TerminalNode PROCEDURE_TYPE_KEYWORD() { return getToken(FortranParser.PROCEDURE_TYPE_KEYWORD, 0); }
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
-		public TerminalNode PROCEDURE_TYPE() { return getToken(FortranParser.PROCEDURE_TYPE, 0); }
 		public ModuleProcedureContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2439,7 +2440,7 @@ public class FortranParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(475); match(PROCEDURE_TYPE);
+			setState(475); match(PROCEDURE_TYPE_KEYWORD);
 			setState(476); match(PROCEDURE_KEYWORD);
 			setState(477); id();
 			}
@@ -3856,11 +3857,11 @@ public class FortranParser extends Parser {
 			setState(643);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROCEDURE_TYPE) | (1L << INTRINSIC_TYPE_KEYWORD) | (1L << TYPE_KEYWORD) | (1L << CLASS_KEYWORD) | (1L << DIRECTIVE_START))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROCEDURE_TYPE_KEYWORD) | (1L << INTRINSIC_TYPE_KEYWORD) | (1L << TYPE_KEYWORD) | (1L << CLASS_KEYWORD) | (1L << DIRECTIVE_START))) != 0)) {
 				{
 				setState(641);
 				switch (_input.LA(1)) {
-				case PROCEDURE_TYPE:
+				case PROCEDURE_TYPE_KEYWORD:
 				case INTRINSIC_TYPE_KEYWORD:
 				case TYPE_KEYWORD:
 				case CLASS_KEYWORD:
@@ -6324,7 +6325,7 @@ public class FortranParser extends Parser {
 			setState(883);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 1) | (1L << 2) | (1L << 3) | (1L << 4) | (1L << 5) | (1L << 6) | (1L << 7) | (1L << 8) | (1L << 9) | (1L << 10) | (1L << PROCEDURE_TYPE) | (1L << INTRINSIC_TYPE_KEYWORD) | (1L << EXECUTABLE_KEYWORD_1) | (1L << EXECUTABLE_KEYWORD_2) | (1L << EXECUTABLE_KEYWORD_3) | (1L << CONTAINS_KEYWORD) | (1L << RESULT_KEYWORD) | (1L << TYPE_KEYWORD) | (1L << CLASS_KEYWORD) | (1L << IF_KEYWORD) | (1L << ELSE_KEYWORD) | (1L << THEN_KEYWORD) | (1L << DO_KEYWORD) | (1L << SELECT_KEYWORD) | (1L << CASE_KEYWORD) | (1L << DEFAULT_KEYWORD) | (1L << END_KEYWORD) | (1L << INTERFACE_KEYWORD) | (1L << NAMELIST_KEYWORD) | (1L << PROCEDURE_KEYWORD) | (1L << WHILE_KEYWORD) | (1L << CALL_KEYWORD) | (1L << USE_KEYWORD) | (1L << ONLY_KEYWORD) | (1L << IMPLICIT_KEYWORD) | (1L << NONE_KEYWORD) | (1L << PUBLIC_KEYWORD) | (1L << PRIVATE_KEYWORD) | (1L << EXTENDS_KEYWORD) | (1L << ABSTRACT_KEYWORD) | (1L << PASS_KEYWORD) | (1L << NOPASS_KEYWORD) | (1L << DEFFERED_KEYWORD) | (1L << POINTER_KEYWORD) | (1L << TARGET_KEYWORD) | (1L << SAVE_KEYWORD) | (1L << OPTIONAL_KEYWORD) | (1L << ALLOCATABLE_KEYWORD) | (1L << PARAMETER_KEYWORD) | (1L << INTENT_KEYWORD) | (1L << IN_KEYWORD) | (1L << OUT_KEYWORD) | (1L << INOUT_KEYWORD) | (1L << DIRECTIVE_START) | (1L << INCLUDE_KEYWORD) | (1L << DEFINE_KEYWORD) | (1L << UNDEF_KEYWORD) | (1L << IFDEF_KEYWORD) | (1L << IFNDEF_KEYWORD) | (1L << ELIF_KEYWORD) | (1L << ENDIF_KEYWORD) | (1L << DEFINED_KEYWORD) | (1L << CPP_AND))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (CPP_OR - 64)) | (1L << (COMMENT - 64)) | (1L << (STRING - 64)) | (1L << (NEW_LINES - 64)) | (1L << (BREAK_LINE - 64)) | (1L << (EXCAL - 64)) | (1L << (COMMA - 64)) | (1L << (SEMICOMMA - 64)) | (1L << (COLON - 64)) | (1L << (DOUBLE_COLONS - 64)) | (1L << (WS - 64)) | (1L << (ID - 64)) | (1L << (NUMERICS - 64)) | (1L << (LOGICAL_STATUS - 64)) | (1L << (STAR - 64)) | (1L << (SLASH - 64)) | (1L << (EQUAL - 64)) | (1L << (PLUS - 64)) | (1L << (MINUS - 64)) | (1L << (LEFT_ANGLE - 64)) | (1L << (LEFT_PAREN - 64)) | (1L << (RIGHT_PAREN - 64)) | (1L << (LEFT_BRACE - 64)) | (1L << (RIGHT_BRACE - 64)) | (1L << (PERCENT - 64)) | (1L << (ARRAY_START - 64)) | (1L << (ARRAY_END - 64)) | (1L << (POINT - 64)))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 1) | (1L << 2) | (1L << 3) | (1L << 4) | (1L << 5) | (1L << 6) | (1L << 7) | (1L << 8) | (1L << 9) | (1L << 10) | (1L << PROCEDURE_TYPE_KEYWORD) | (1L << INTRINSIC_TYPE_KEYWORD) | (1L << EXECUTABLE_KEYWORD_1) | (1L << EXECUTABLE_KEYWORD_2) | (1L << EXECUTABLE_KEYWORD_3) | (1L << CONTAINS_KEYWORD) | (1L << RESULT_KEYWORD) | (1L << TYPE_KEYWORD) | (1L << CLASS_KEYWORD) | (1L << IF_KEYWORD) | (1L << ELSE_KEYWORD) | (1L << THEN_KEYWORD) | (1L << DO_KEYWORD) | (1L << SELECT_KEYWORD) | (1L << CASE_KEYWORD) | (1L << DEFAULT_KEYWORD) | (1L << END_KEYWORD) | (1L << INTERFACE_KEYWORD) | (1L << NAMELIST_KEYWORD) | (1L << PROCEDURE_KEYWORD) | (1L << WHILE_KEYWORD) | (1L << CALL_KEYWORD) | (1L << USE_KEYWORD) | (1L << ONLY_KEYWORD) | (1L << IMPLICIT_KEYWORD) | (1L << NONE_KEYWORD) | (1L << PUBLIC_KEYWORD) | (1L << PRIVATE_KEYWORD) | (1L << EXTENDS_KEYWORD) | (1L << ABSTRACT_KEYWORD) | (1L << PASS_KEYWORD) | (1L << NOPASS_KEYWORD) | (1L << DEFFERED_KEYWORD) | (1L << POINTER_KEYWORD) | (1L << TARGET_KEYWORD) | (1L << SAVE_KEYWORD) | (1L << OPTIONAL_KEYWORD) | (1L << ALLOCATABLE_KEYWORD) | (1L << PARAMETER_KEYWORD) | (1L << INTENT_KEYWORD) | (1L << IN_KEYWORD) | (1L << OUT_KEYWORD) | (1L << INOUT_KEYWORD) | (1L << DIRECTIVE_START) | (1L << INCLUDE_KEYWORD) | (1L << DEFINE_KEYWORD) | (1L << UNDEF_KEYWORD) | (1L << IFDEF_KEYWORD) | (1L << IFNDEF_KEYWORD) | (1L << ELIF_KEYWORD) | (1L << ENDIF_KEYWORD) | (1L << DEFINED_KEYWORD) | (1L << CPP_AND))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (CPP_OR - 64)) | (1L << (COMMENT - 64)) | (1L << (STRING - 64)) | (1L << (NEW_LINES - 64)) | (1L << (BREAK_LINE - 64)) | (1L << (EXCAL - 64)) | (1L << (COMMA - 64)) | (1L << (SEMICOMMA - 64)) | (1L << (COLON - 64)) | (1L << (DOUBLE_COLONS - 64)) | (1L << (WS - 64)) | (1L << (ID - 64)) | (1L << (NUMERICS - 64)) | (1L << (LOGICAL_STATUS - 64)) | (1L << (STAR - 64)) | (1L << (SLASH - 64)) | (1L << (EQUAL - 64)) | (1L << (PLUS - 64)) | (1L << (MINUS - 64)) | (1L << (LEFT_ANGLE - 64)) | (1L << (LEFT_PAREN - 64)) | (1L << (RIGHT_PAREN - 64)) | (1L << (LEFT_BRACE - 64)) | (1L << (RIGHT_BRACE - 64)) | (1L << (PERCENT - 64)) | (1L << (ARRAY_START - 64)) | (1L << (ARRAY_END - 64)) | (1L << (POINT - 64)))) != 0)) {
 				{
 				{
 				setState(880);

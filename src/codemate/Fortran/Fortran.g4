@@ -27,7 +27,7 @@ file
 //                              procedure rule
 procedure
     : ( intrinsicType | derivedType )?
-      PROCEDURE_TYPE id ( LEFT_PAREN dummyArguments? RIGHT_PAREN )?
+      PROCEDURE_TYPE_KEYWORD id ( LEFT_PAREN dummyArguments? RIGHT_PAREN )?
       ( RESULT_KEYWORD LEFT_PAREN id RIGHT_PAREN )?
       useStatements
       implicitNoneStatement?
@@ -35,7 +35,7 @@ procedure
       declarationStatements
       executableStatements
       CONTAINS_KEYWORD? containedProcedures
-      END_KEYWORD PROCEDURE_TYPE id?
+      END_KEYWORD PROCEDURE_TYPE_KEYWORD id?
     ;
 
 // *****************************************************************************
@@ -154,8 +154,8 @@ interfaceStatement
       END_KEYWORD INTERFACE_KEYWORD id?
     ;
 
-// TODO: Replace 'PROCEDURE_TYPE' to 'module' without problems.
-moduleProcedure: PROCEDURE_TYPE 'procedure' id;
+// TODO: Replace 'PROCEDURE_TYPE_KEYWORD' to 'module' without problems.
+moduleProcedure: PROCEDURE_TYPE_KEYWORD 'procedure' id;
 
 namelistParameters: id ( COMMA id )*;
 
@@ -393,7 +393,7 @@ definedCondition: DEFINED_KEYWORD id;
 
 // *****************************************************************************
 //                              keyword tokens
-PROCEDURE_TYPE: 'program' | 'module' | 'subroutine' | 'function';
+PROCEDURE_TYPE_KEYWORD: 'program' | 'module' | 'subroutine' | 'function';
 INTRINSIC_TYPE_KEYWORD
     : 'integer' | 'real' | 'character' | 'logical' | 'complex'
     ;

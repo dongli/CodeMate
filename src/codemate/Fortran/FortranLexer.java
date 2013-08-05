@@ -18,7 +18,7 @@ public class FortranLexer extends Lexer {
 		new PredictionContextCache();
 	public static final int
 		T__9=1, T__8=2, T__7=3, T__6=4, T__5=5, T__4=6, T__3=7, T__2=8, T__1=9, 
-		T__0=10, PROCEDURE_TYPE=11, INTRINSIC_TYPE_KEYWORD=12, EXECUTABLE_KEYWORD_1=13, 
+		T__0=10, PROCEDURE_TYPE_KEYWORD=11, INTRINSIC_TYPE_KEYWORD=12, EXECUTABLE_KEYWORD_1=13, 
 		EXECUTABLE_KEYWORD_2=14, EXECUTABLE_KEYWORD_3=15, CONTAINS_KEYWORD=16, 
 		RESULT_KEYWORD=17, TYPE_KEYWORD=18, CLASS_KEYWORD=19, IF_KEYWORD=20, ELSE_KEYWORD=21, 
 		THEN_KEYWORD=22, DO_KEYWORD=23, SELECT_KEYWORD=24, CASE_KEYWORD=25, DEFAULT_KEYWORD=26, 
@@ -43,7 +43,7 @@ public class FortranLexer extends Lexer {
 	public static final String[] tokenNames = {
 		"<INVALID>",
 		"'.lt.'", "'non_overridable'", "'.ge.'", "'.and.'", "'.eq.'", "'.or.'", 
-		"'.not.'", "'.ne.'", "'.le.'", "'.gt.'", "PROCEDURE_TYPE", "INTRINSIC_TYPE_KEYWORD", 
+		"'.not.'", "'.ne.'", "'.le.'", "'.gt.'", "PROCEDURE_TYPE_KEYWORD", "INTRINSIC_TYPE_KEYWORD", 
 		"EXECUTABLE_KEYWORD_1", "EXECUTABLE_KEYWORD_2", "EXECUTABLE_KEYWORD_3", 
 		"'contains'", "'result'", "'type'", "'class'", "'if'", "'else'", "'then'", 
 		"'do'", "'select'", "'case'", "'default'", "'end'", "'interface'", "'namelist'", 
@@ -59,7 +59,7 @@ public class FortranLexer extends Lexer {
 	};
 	public static final String[] ruleNames = {
 		"T__9", "T__8", "T__7", "T__6", "T__5", "T__4", "T__3", "T__2", "T__1", 
-		"T__0", "PROCEDURE_TYPE", "INTRINSIC_TYPE_KEYWORD", "EXECUTABLE_KEYWORD_1", 
+		"T__0", "PROCEDURE_TYPE_KEYWORD", "INTRINSIC_TYPE_KEYWORD", "EXECUTABLE_KEYWORD_1", 
 		"EXECUTABLE_KEYWORD_2", "EXECUTABLE_KEYWORD_3", "CONTAINS_KEYWORD", "RESULT_KEYWORD", 
 		"TYPE_KEYWORD", "CLASS_KEYWORD", "IF_KEYWORD", "ELSE_KEYWORD", "THEN_KEYWORD", 
 		"DO_KEYWORD", "SELECT_KEYWORD", "CASE_KEYWORD", "DEFAULT_KEYWORD", "END_KEYWORD", 
