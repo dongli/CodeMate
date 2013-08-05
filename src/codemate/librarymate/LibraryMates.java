@@ -28,6 +28,7 @@ public class LibraryMates {
 	public static void load() {
 		mates.add(new NetcdfLibraryMate());
 		mates.add(new MPILibraryMate());
+		mates.add(new CMORLibraryMate());
 	}
 
 	public static ArrayList<String> getLibraryNames() {

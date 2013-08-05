@@ -18,7 +18,7 @@ public class MPILibraryMate implements LibraryMate {
 
 	@Override
 	public String getLibraryName() {
-		return "MPI";
+		return "mpi";
 	}
 
 	@Override
