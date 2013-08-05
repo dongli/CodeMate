@@ -507,7 +507,7 @@ COLON: ':';
 DOUBLE_COLONS: '::';
 WS: [ \t]+ -> skip;
 ID: [a-zA-Z_] [a-zA-Z_0-9]*;
-NUMERICS: FLOAT | INT;
+NUMERICS: INT | FLOAT;
 fragment INT: [0-9]+;
 fragment FLOAT: [0-9]* '.' [0-9]* ([EeDd] [+-]? [0-9]+)?;
 LOGICAL_STATUS: '.true.' | '.false.';
