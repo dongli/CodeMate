@@ -1358,19 +1358,6 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterActualArgument(@NotNull FortranParser.ActualArgumentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterCppDirective(@NotNull FortranParser.CppDirectiveContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1378,6 +1365,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitCppDirective(@NotNull FortranParser.CppDirectiveContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterActualArgument(@NotNull FortranParser.ActualArgumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1417,6 +1417,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitInterfaceStatement(@NotNull FortranParser.InterfaceStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterDoRange(@NotNull FortranParser.DoRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitDoRange(@NotNull FortranParser.DoRangeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

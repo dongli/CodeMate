@@ -844,7 +844,7 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCppDirective(@NotNull FortranParser.CppDirectiveContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -852,7 +852,7 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitCppDirective(@NotNull FortranParser.CppDirectiveContext ctx) { return visitChildren(ctx); }
+	@Override public T visitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -877,6 +877,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitInterfaceStatement(@NotNull FortranParser.InterfaceStatementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitDoRange(@NotNull FortranParser.DoRangeContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

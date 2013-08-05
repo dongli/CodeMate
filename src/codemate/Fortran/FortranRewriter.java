@@ -285,9 +285,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         return null;
     }
 
-    public Void visitDoRangeStatement(DoRangeStatementContext ctx) {
-        appendCode("do ");
-        visitId(ctx.id());
+    public Void visitDoRange(DoRangeContext ctx) {
+    	visitId(ctx.id());
         appendCode(" = ");
         visitExpression(ctx.expression(0));
         appendCode(", ");
@@ -296,16 +295,34 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
             appendCode(", ");
             visitExpression(ctx.expression(2));
         }
+    	return null;
+    }
+    
+    public Void visitDoRangeStatement(DoRangeStatementContext ctx) {
+    	if (ctx.id().size() == 2) {
+    		visitId(ctx.id(0));
+    		appendCode(": ");
+    	}
+        appendCode("do ");
+        visitDoRange(ctx.doRange());
         appendCode("\n");
         increaseIndentLevel();
         visitExecutableStatements(ctx.executableStatements());
         decreaseIndentLevel();
         indent();
         appendCode("end do");
+        if (ctx.id().size() == 2) {
+    		appendCode(" ");
+    		visitId(ctx.id(1));
+    	}
         return null;
     }
 
     public Void visitDoWhileStatement(DoWhileStatementContext ctx) {
+    	if (ctx.id().size() == 2) {
+    		visitId(ctx.id(0));
+    		appendCode(": ");
+    	}
         appendCode("do ");
         appendCode("while ");
         visitExpression(ctx.expression());
@@ -315,10 +332,18 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         decreaseIndentLevel();
         indent();
         appendCode("end do");
+        if (ctx.id().size() == 2) {
+    		appendCode(" ");
+    		visitId(ctx.id(1));
+    	}
         return null;
     }
 
     public Void visitDoAnonyStatement(DoAnonyStatementContext ctx) {
+    	if (ctx.id().size() == 2) {
+    		visitId(ctx.id(0));
+    		appendCode(": ");
+    	}
         appendCode("do ");
         appendCode("\n");
         increaseIndentLevel();
@@ -326,6 +351,10 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         decreaseIndentLevel();
         indent();
         appendCode("end do");
+        if (ctx.id().size() == 2) {
+    		appendCode(" ");
+    		visitId(ctx.id(1));
+    	}
         return null;
     }
 

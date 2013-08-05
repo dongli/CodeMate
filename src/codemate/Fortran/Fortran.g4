@@ -184,13 +184,14 @@ assignmentStatement
 
 // =============================================================================
 //                                do statement
+doRange: id EQUAL expression COMMA expression ( COMMA expression )?;
 doStatement
-    : DO_KEYWORD id EQUAL expression COMMA expression ( COMMA expression )?
-        executableStatements END_KEYWORD DO_KEYWORD     # doRangeStatement
-    | DO_KEYWORD WHILE_KEYWORD expression
-        executableStatements END_KEYWORD DO_KEYWORD     # doWhileStatement
-    | DO_KEYWORD
-        executableStatements END_KEYWORD DO_KEYWORD     # doAnonyStatement
+    : (id COLON )? DO_KEYWORD doRange
+        executableStatements END_KEYWORD DO_KEYWORD id?    # doRangeStatement
+    | (id COLON )? DO_KEYWORD WHILE_KEYWORD expression
+        executableStatements END_KEYWORD DO_KEYWORD id?    # doWhileStatement
+    | (id COLON )? DO_KEYWORD
+        executableStatements END_KEYWORD DO_KEYWORD id?    # doAnonyStatement
     ;
 
 // =============================================================================

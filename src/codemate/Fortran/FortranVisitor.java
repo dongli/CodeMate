@@ -735,18 +735,18 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitRangeTail(@NotNull FortranParser.RangeTailContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link FortranParser#actualArgument}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link FortranParser#cppDirective}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCppDirective(@NotNull FortranParser.CppDirectiveContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#actualArgument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#assignmentStatement}.
@@ -768,6 +768,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInterfaceStatement(@NotNull FortranParser.InterfaceStatementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#doRange}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDoRange(@NotNull FortranParser.DoRangeContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#useStatement}.

@@ -1144,17 +1144,6 @@ public interface FortranListener extends ParseTreeListener {
 	void exitRangeTail(@NotNull FortranParser.RangeTailContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link FortranParser#actualArgument}.
-	 * @param ctx the parse tree
-	 */
-	void enterActualArgument(@NotNull FortranParser.ActualArgumentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FortranParser#actualArgument}.
-	 * @param ctx the parse tree
-	 */
-	void exitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link FortranParser#cppDirective}.
 	 * @param ctx the parse tree
 	 */
@@ -1164,6 +1153,17 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCppDirective(@NotNull FortranParser.CppDirectiveContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link FortranParser#actualArgument}.
+	 * @param ctx the parse tree
+	 */
+	void enterActualArgument(@NotNull FortranParser.ActualArgumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#actualArgument}.
+	 * @param ctx the parse tree
+	 */
+	void exitActualArgument(@NotNull FortranParser.ActualArgumentContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#assignmentStatement}.
@@ -1197,6 +1197,17 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInterfaceStatement(@NotNull FortranParser.InterfaceStatementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link FortranParser#doRange}.
+	 * @param ctx the parse tree
+	 */
+	void enterDoRange(@NotNull FortranParser.DoRangeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#doRange}.
+	 * @param ctx the parse tree
+	 */
+	void exitDoRange(@NotNull FortranParser.DoRangeContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#useStatement}.
