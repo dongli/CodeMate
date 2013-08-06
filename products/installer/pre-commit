@@ -9,8 +9,6 @@ export GIT_DIR=$REPO_DIR/.git
 git status -s | grep '^\(A\|M\) *.*\.\(java\|g4\)' > /dev/null
 if [[ $? == 0 ]]; then
     DIR=$REPO_DIR/products/installer
-
-    # rebuild the installer
     echo "[Notice]: Building installer"
     cd $DIR
     ./build.sh

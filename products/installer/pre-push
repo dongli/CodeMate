@@ -1,0 +1,36 @@
+#!/bin/bash
+
+REPO_DIR=$(pwd)
+CODE=$REPO_DIR/src/codemate/operator/Master.java
+
+# check the latest tag
+LATEST_TAG=$(git tag -l | tail -n 1)
+
+# check the version number in code
+LATEST_VERSION=$(awk -F '"' '/String version/ { print $2; }' $CODE)
+
+# compare
+if [[ $LATEST_TAG != $LATEST_VERSION ]]; then
+    echo "[Warning]: The latest tag ($LATEST_TAG) does not equal" \
+                    "the latest version number ($LATEST_VERSION) in code!"
+    echo "[Notice]: Change the version in code."
+    awk -F '"' -v tag=$LATEST_TAG '/String version/ {
+            sub($2, tag);
+            print;
+        } !/String version/ {
+            print;
+        }' $CODE > tmp
+    mv tmp $CODE
+    git add $CODE
+    DIR=$REPO_DIR/products/installer
+    echo "[Notice]: Building installer"
+    cd $DIR
+    ./build.sh
+    cd $REPO_DIR
+    for file in $(ls $DIR/payload); do
+        git add $DIR/payload/$file
+    done
+    git add $DIR/codemate.installer
+    git commit -m "Update version number to $LATEST_TAG"
+    git tag -f $LATEST_TAG
+fi
