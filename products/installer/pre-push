@@ -13,24 +13,36 @@ LATEST_VERSION=$(awk -F '"' '/String version/ { print $2; }' $CODE)
 if [[ $LATEST_TAG != $LATEST_VERSION ]]; then
     echo "[Warning]: The latest tag ($LATEST_TAG) does not equal" \
                     "the latest version number ($LATEST_VERSION) in code!"
-    echo "[Notice]: Change the version in code."
-    awk -F '"' -v tag=$LATEST_TAG '/String version/ {
-            sub($2, tag);
-            print;
-        } !/String version/ {
-            print;
-        }' $CODE > tmp
-    mv tmp $CODE
-    git add $CODE
-    DIR=$REPO_DIR/products/installer
-    echo "[Notice]: Building installer"
-    cd $DIR
-    ./build.sh
-    cd $REPO_DIR
-    for file in $(ls $DIR/payload); do
-        git add $DIR/payload/$file
-    done
-    git add $DIR/codemate.installer
-    git commit -m "Update version number to $LATEST_TAG"
-    git tag -f $LATEST_TAG
+    echo "[Notice]: Be CLEAR-HEADED! Use tag (0) or version number (1)?"
+    read -p '[0/1] > ' ans
+    if [[ $ans == 0 ]]; then
+        echo "[Notice]: Change the version number in code."
+        awk -F '"' -v tag=$LATEST_TAG '/String version/ {
+                sub($2, tag);
+                print;
+            } !/String version/ {
+                print;
+            }' $CODE > tmp
+        mv tmp $CODE
+        git add $CODE
+        DIR=$REPO_DIR/products/installer
+        echo "[Notice]: Building installer"
+        cd $DIR
+        ./build.sh
+        cd $REPO_DIR
+        for file in $(ls $DIR/payload); do
+            git add $DIR/payload/$file
+        done
+        git add $DIR/codemate.installer
+        git commit -m "Update version number to $LATEST_TAG"
+        git tag -f $LATEST_TAG
+    elif [[ $ans == 1 ]]; then
+        echo "[Notice]: Retag to the new commit."
+        git tag $LATEST_VERSION
+    else
+        echo "[Error]: Unknown input \"$ans\", so quit pushing!"
+        exit 1
+    fi
+else
+    echo "[Notice]: Tag-version consistency is checked."
 fi
