@@ -12,7 +12,6 @@ package codemate.compilermate;
 
 import java.util.*;
 
-import codemate.librarymate.*;
 import codemate.ui.*;
 
 public class CompilerMates {
@@ -43,11 +42,7 @@ public class CompilerMates {
 
 	public static String getDefaultCommandName(String language) {
 		CompilerMate mate = getMate(Config.getDefaultCompilerVendor(language));
-		String wrapper = LibraryMates.getCompilerWrapper(language);
-		if (wrapper == null)
-			return mate.getCommandName(language);
-		else
-			return wrapper;
+		return mate.getCommandName(language);
 	}
 	
 	public static String getDefaultDebugOptions(String language) {

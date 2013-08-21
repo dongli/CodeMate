@@ -134,9 +134,14 @@ public class SystemUtils {
         try {
 			ReadableByteChannel channel =
 					Channels.newChannel(connection.getInputStream());
-		    FileOutputStream fos = new FileOutputStream(localPath);
+			String localTempPath = localPath+":"+UUID.randomUUID().toString();
+		    FileOutputStream fos = new FileOutputStream(localTempPath);
 		    fos.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 		    fos.close();
+		    // when succeed, move the temporal file to the final one
+		    File tempFile = new File(localTempPath);
+		    File finalFile = new File(localPath);
+		    tempFile.renameTo(finalFile);
 		} catch (Exception e) {
             e.printStackTrace();
 			UI.error("codemate", "Failed to save "+localPath+"!");
