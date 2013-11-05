@@ -630,6 +630,21 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         appendCode(")");
         return null;
     }
+    
+    public Void visitProcedurePointerType(ProcedurePointerTypeContext ctx) {
+        appendCode(ctx.PROCEDURE_KEYWORD().getText());
+        if (ctx.procedurePointerTypeParameter() != null)
+        	visitProcedurePointerTypeParameter(ctx.procedurePointerTypeParameter());
+        return null;
+    }
+    
+    public Void visitProcedurePointerTypeParameter(ProcedurePointerTypeParameterContext ctx) {
+    	appendCode("(");
+    	if (ctx.id() != null)
+    		visitId(ctx.id());
+    	appendCode(")");
+    	return null;
+    }
 
     public Void visitDataAttribute(DataAttributeContext ctx) {
         appendCode(ctx.getText());
@@ -669,6 +684,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
             visitIntrinsicType(ctx.intrinsicType());
         else if (ctx.derivedType() != null)
             visitDerivedType(ctx.derivedType());
+        else if (ctx.procedurePointerType() != null)
+        	visitProcedurePointerType(ctx.procedurePointerType());
         if (ctx.dataAttributes() != null)
             visitDataAttributes(ctx.dataAttributes());
         appendCode(" ");
@@ -807,6 +824,11 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	return null;
     }
     
+    public Void visitProcedureInterface(ProcedureInterfaceContext ctx) {
+    	visitProcedure(ctx.procedure());
+    	return null;
+    }
+    
     public Void visitInterfaceStatement(InterfaceStatementContext ctx) {
     	appendCode("interface");
     	if (ctx.id().size() > 0) {
@@ -815,8 +837,8 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     	}
     	appendCode("\n");
     	increaseIndentLevel();
-    	for (ModuleProcedureContext mp : ctx.moduleProcedure())
-    		visitModuleProcedure(mp);
+    	for (InterfaceEntryContext mp : ctx.interfaceEntry())
+    		visitInterfaceEntry(mp);
     	decreaseIndentLevel();
     	indent();
     	appendCode("end interface");
@@ -824,6 +846,14 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     		appendCode(" ");
     		visitId(ctx.id(0));
     	}
+    	return null;
+    }
+    
+    public Void visitInterfaceEntry(InterfaceEntryContext ctx) {
+    	if (ctx.moduleProcedure() != null)
+    		visitModuleProcedure(ctx.moduleProcedure());
+    	else if (ctx.procedureInterface() != null)
+    		visitProcedureInterface(ctx.procedureInterface());
     	return null;
     }
 

@@ -74,8 +74,8 @@ public class MakefileWriter {
 			"# objects, targets and libraries\n";
 		content += "VPATH =";
 		for (File dir : project.getDirectories())
-			content += " \\\n    $(PROJECT_ROOT)/"+
-					dir.getPath().replace(project.getRoot().getPath()+"/", "");
+			content += " \\\n    $(PROJECT_ROOT)"+
+					dir.getPath().replace(project.getRoot().getPath(), "");
 		content += " \\\n    $(PROJECT_ROOT)/.codemate/processed_codes";
 		content += "\n\n";
 		content += "OBJECTS =";
@@ -126,8 +126,8 @@ public class MakefileWriter {
 		content += "\n";
 		content += "INCLUDES =";
 		for (File dir : project.getDirectories())
-			content += "\\\n    "+"-I$(PROJECT_ROOT)/"+
-					dir.getPath().replace(project.getRoot().getPath()+"/", "");
+			content += "\\\n    "+"-I$(PROJECT_ROOT)"+
+					dir.getPath().replace(project.getRoot().getPath(), "");
 		for (LibraryMate libraryMate : libraries)
 			content += "\\\n    "+libraryMate.getIncludeOptions();
 		content += "\n";

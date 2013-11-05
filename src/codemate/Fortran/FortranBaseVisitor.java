@@ -52,6 +52,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitInternalFile(@NotNull FortranParser.InternalFileContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitDoRangeStatement(@NotNull FortranParser.DoRangeStatementContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -61,14 +69,6 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitGtOperator(@NotNull FortranParser.GtOperatorContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitInternalFile(@NotNull FortranParser.InternalFileContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -116,6 +116,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitCaseDefaultStatement(@NotNull FortranParser.CaseDefaultStatementContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -133,14 +141,6 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitAndOrOperator(@NotNull FortranParser.AndOrOperatorContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -180,7 +180,7 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeAttribute(@NotNull FortranParser.TypeAttributeContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -188,7 +188,7 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitTypeAttribute(@NotNull FortranParser.TypeAttributeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -221,6 +221,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitDerivedType(@NotNull FortranParser.DerivedTypeContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitProcedurePointerTypeParameter(@NotNull FortranParser.ProcedurePointerTypeParameterContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -692,6 +700,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitProcedurePointerType(@NotNull FortranParser.ProcedurePointerTypeContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitCaseLabels(@NotNull FortranParser.CaseLabelsContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -765,6 +781,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitExecutableStatements(@NotNull FortranParser.ExecutableStatementsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitProcedureInterface(@NotNull FortranParser.ProcedureInterfaceContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -869,6 +893,14 @@ public class FortranBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitTemplateArguments(@NotNull FortranParser.TemplateArgumentsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitInterfaceEntry(@NotNull FortranParser.InterfaceEntryContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

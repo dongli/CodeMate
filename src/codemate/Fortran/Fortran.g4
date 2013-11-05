@@ -72,7 +72,8 @@ declarationStatement
 dataDeclarationStatements: dataDeclarationStatement*;
 
 dataDeclarationStatement
-    : ( intrinsicType | derivedType ) dataAttributes? dataList
+    : ( intrinsicType | derivedType | procedurePointerType )
+      dataAttributes? dataList
     ;
 
 intrinsicTypeParameter
@@ -88,6 +89,13 @@ derivedType
     : ( TYPE_KEYWORD | CLASS_KEYWORD )
       LEFT_PAREN derivedTypeName RIGHT_PAREN
     ;
+
+procedurePointerTypeParameter
+    : LEFT_PAREN
+      ( id )?
+      RIGHT_PAREN
+    ;
+procedurePointerType: PROCEDURE_KEYWORD procedurePointerTypeParameter?;
 
 dataAttributes: ( COMMA dataAttribute )* DOUBLE_COLONS;
 
@@ -150,12 +158,20 @@ bindingAttribute
 
 interfaceStatement
     : INTERFACE_KEYWORD id?
-        moduleProcedure*
+        interfaceEntry*
       END_KEYWORD INTERFACE_KEYWORD id?
     ;
 
+interfaceEntry
+    : moduleProcedure
+    | procedureInterface
+    ;
+
 // TODO: Replace 'PROCEDURE_TYPE_KEYWORD' to 'module' without problems.
+// TODO: Replace 'procedure' to PROCEDURE_KEYWORD.
 moduleProcedure: PROCEDURE_TYPE_KEYWORD 'procedure' id;
+
+procedureInterface: procedure;
 
 namelistParameters: id ( COMMA id )*;
 

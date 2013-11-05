@@ -42,6 +42,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FortranParser#internalFile}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInternalFile(@NotNull FortranParser.InternalFileContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FortranParser#doRangeStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -54,13 +61,6 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGtOperator(@NotNull FortranParser.GtOperatorContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FortranParser#internalFile}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInternalFile(@NotNull FortranParser.InternalFileContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#bindingAttribute}.
@@ -98,6 +98,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompareOperator(@NotNull FortranParser.CompareOperatorContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FortranParser#actualArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FortranParser#caseDefaultStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -117,13 +124,6 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAndOrOperator(@NotNull FortranParser.AndOrOperatorContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FortranParser#actualArguments}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#numerics}.
@@ -154,18 +154,18 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitSubscriptRanges(@NotNull FortranParser.SubscriptRangesContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link FortranParser#extendsAttribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link FortranParser#typeAttribute}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTypeAttribute(@NotNull FortranParser.TypeAttributeContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#extendsAttribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#declarationStatements}.
@@ -194,6 +194,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDerivedType(@NotNull FortranParser.DerivedTypeContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#procedurePointerTypeParameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedurePointerTypeParameter(@NotNull FortranParser.ProcedurePointerTypeParameterContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#elseWhereStatement}.
@@ -602,6 +609,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitKeywordStatement(@NotNull FortranParser.KeywordStatementContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FortranParser#procedurePointerType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedurePointerType(@NotNull FortranParser.ProcedurePointerTypeContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FortranParser#caseLabels}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -670,6 +684,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExecutableStatements(@NotNull FortranParser.ExecutableStatementsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#procedureInterface}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedureInterface(@NotNull FortranParser.ProcedureInterfaceContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#usedItem}.
@@ -761,6 +782,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTemplateArguments(@NotNull FortranParser.TemplateArgumentsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FortranParser#interfaceEntry}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInterfaceEntry(@NotNull FortranParser.InterfaceEntryContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FortranParser#interfaceStatement}.

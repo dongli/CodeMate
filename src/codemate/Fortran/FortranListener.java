@@ -55,6 +55,17 @@ public interface FortranListener extends ParseTreeListener {
 	void exitIncludeDirective(@NotNull FortranParser.IncludeDirectiveContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link FortranParser#internalFile}.
+	 * @param ctx the parse tree
+	 */
+	void enterInternalFile(@NotNull FortranParser.InternalFileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#internalFile}.
+	 * @param ctx the parse tree
+	 */
+	void exitInternalFile(@NotNull FortranParser.InternalFileContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link FortranParser#doRangeStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -75,17 +86,6 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGtOperator(@NotNull FortranParser.GtOperatorContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link FortranParser#internalFile}.
-	 * @param ctx the parse tree
-	 */
-	void enterInternalFile(@NotNull FortranParser.InternalFileContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FortranParser#internalFile}.
-	 * @param ctx the parse tree
-	 */
-	void exitInternalFile(@NotNull FortranParser.InternalFileContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#bindingAttribute}.
@@ -143,6 +143,17 @@ public interface FortranListener extends ParseTreeListener {
 	void exitCompareOperator(@NotNull FortranParser.CompareOperatorContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link FortranParser#actualArguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#actualArguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link FortranParser#caseDefaultStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -174,17 +185,6 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAndOrOperator(@NotNull FortranParser.AndOrOperatorContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link FortranParser#actualArguments}.
-	 * @param ctx the parse tree
-	 */
-	void enterActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FortranParser#actualArguments}.
-	 * @param ctx the parse tree
-	 */
-	void exitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#numerics}.
@@ -231,17 +231,6 @@ public interface FortranListener extends ParseTreeListener {
 	void exitSubscriptRanges(@NotNull FortranParser.SubscriptRangesContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link FortranParser#extendsAttribute}.
-	 * @param ctx the parse tree
-	 */
-	void enterExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FortranParser#extendsAttribute}.
-	 * @param ctx the parse tree
-	 */
-	void exitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link FortranParser#typeAttribute}.
 	 * @param ctx the parse tree
 	 */
@@ -251,6 +240,17 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypeAttribute(@NotNull FortranParser.TypeAttributeContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link FortranParser#extendsAttribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#extendsAttribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#declarationStatements}.
@@ -295,6 +295,17 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDerivedType(@NotNull FortranParser.DerivedTypeContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link FortranParser#procedurePointerTypeParameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterProcedurePointerTypeParameter(@NotNull FortranParser.ProcedurePointerTypeParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#procedurePointerTypeParameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitProcedurePointerTypeParameter(@NotNull FortranParser.ProcedurePointerTypeParameterContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#elseWhereStatement}.
@@ -935,6 +946,17 @@ public interface FortranListener extends ParseTreeListener {
 	void exitKeywordStatement(@NotNull FortranParser.KeywordStatementContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link FortranParser#procedurePointerType}.
+	 * @param ctx the parse tree
+	 */
+	void enterProcedurePointerType(@NotNull FortranParser.ProcedurePointerTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#procedurePointerType}.
+	 * @param ctx the parse tree
+	 */
+	void exitProcedurePointerType(@NotNull FortranParser.ProcedurePointerTypeContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link FortranParser#caseLabels}.
 	 * @param ctx the parse tree
 	 */
@@ -1043,6 +1065,17 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExecutableStatements(@NotNull FortranParser.ExecutableStatementsContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link FortranParser#procedureInterface}.
+	 * @param ctx the parse tree
+	 */
+	void enterProcedureInterface(@NotNull FortranParser.ProcedureInterfaceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#procedureInterface}.
+	 * @param ctx the parse tree
+	 */
+	void exitProcedureInterface(@NotNull FortranParser.ProcedureInterfaceContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#usedItem}.
@@ -1186,6 +1219,17 @@ public interface FortranListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTemplateArguments(@NotNull FortranParser.TemplateArgumentsContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link FortranParser#interfaceEntry}.
+	 * @param ctx the parse tree
+	 */
+	void enterInterfaceEntry(@NotNull FortranParser.InterfaceEntryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#interfaceEntry}.
+	 * @param ctx the parse tree
+	 */
+	void exitInterfaceEntry(@NotNull FortranParser.InterfaceEntryContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link FortranParser#interfaceStatement}.

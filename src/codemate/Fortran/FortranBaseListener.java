@@ -71,6 +71,19 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterInternalFile(@NotNull FortranParser.InternalFileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitInternalFile(@NotNull FortranParser.InternalFileContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterDoRangeStatement(@NotNull FortranParser.DoRangeStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -91,19 +104,6 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitGtOperator(@NotNull FortranParser.GtOperatorContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterInternalFile(@NotNull FortranParser.InternalFileContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitInternalFile(@NotNull FortranParser.InternalFileContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -175,6 +175,19 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterCaseDefaultStatement(@NotNull FortranParser.CaseDefaultStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -208,19 +221,6 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitAndOrOperator(@NotNull FortranParser.AndOrOperatorContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitActualArguments(@NotNull FortranParser.ActualArgumentsContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -279,19 +279,6 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterTypeAttribute(@NotNull FortranParser.TypeAttributeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -299,6 +286,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitTypeAttribute(@NotNull FortranParser.TypeAttributeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExtendsAttribute(@NotNull FortranParser.ExtendsAttributeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -351,6 +351,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitDerivedType(@NotNull FortranParser.DerivedTypeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterProcedurePointerTypeParameter(@NotNull FortranParser.ProcedurePointerTypeParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitProcedurePointerTypeParameter(@NotNull FortranParser.ProcedurePointerTypeParameterContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1111,6 +1124,19 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterProcedurePointerType(@NotNull FortranParser.ProcedurePointerTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitProcedurePointerType(@NotNull FortranParser.ProcedurePointerTypeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterCaseLabels(@NotNull FortranParser.CaseLabelsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1235,6 +1261,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitExecutableStatements(@NotNull FortranParser.ExecutableStatementsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterProcedureInterface(@NotNull FortranParser.ProcedureInterfaceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitProcedureInterface(@NotNull FortranParser.ProcedureInterfaceContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1404,6 +1443,19 @@ public class FortranBaseListener implements FortranListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitTemplateArguments(@NotNull FortranParser.TemplateArgumentsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterInterfaceEntry(@NotNull FortranParser.InterfaceEntryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitInterfaceEntry(@NotNull FortranParser.InterfaceEntryContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
