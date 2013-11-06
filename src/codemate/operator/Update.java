@@ -58,6 +58,10 @@ public class Update {
 			for (String fileName : fileNames) {
 				UI.notice("codemate", "Download "+urlBase+fileName+".");
 				SystemUtils.download(urlBase+fileName, dirBase+fileName);
+				if (fileName.equals("codemate")) {
+					File tmp = new File(dirBase+fileName);
+					tmp.setExecutable(true);
+				}
 			}
 		}
 	}
