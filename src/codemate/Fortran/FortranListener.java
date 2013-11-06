@@ -891,6 +891,17 @@ public interface FortranListener extends ParseTreeListener {
 	void exitDataDeclarationStatements(@NotNull FortranParser.DataDeclarationStatementsContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link FortranParser#lineLabel}.
+	 * @param ctx the parse tree
+	 */
+	void enterLineLabel(@NotNull FortranParser.LineLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FortranParser#lineLabel}.
+	 * @param ctx the parse tree
+	 */
+	void exitLineLabel(@NotNull FortranParser.LineLabelContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link FortranParser#conditionDirective_}.
 	 * @param ctx the parse tree
 	 */

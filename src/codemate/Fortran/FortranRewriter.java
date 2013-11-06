@@ -97,6 +97,25 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
         for (int i = 0; i < currentIndentLevel*indentWidth; ++i)
             newCode += " ";
     }
+    
+    /**
+     * indent
+     * 
+     * This method adds indenting spaces but also appending a given string.
+     * 
+     * @param str
+     * 
+     * @author		Li Dong <dongli@lasg.iap.ac.cn>
+     */
+    private void indent(String str) {
+    	newCode += str;
+    	if (str.length() < currentIndentLevel*indentWidth) {
+    		for (int i = str.length(); i < currentIndentLevel*indentWidth; ++i)
+    			newCode += " ";
+    	} else {
+    		newCode += " ";
+    	}
+    }
 
     private void increaseIndentLevel() { ++currentIndentLevel; }
 
@@ -389,7 +408,10 @@ public class FortranRewriter extends FortranBaseVisitor<Void> {
     }
 
     public Void visitExecutableStatement(ExecutableStatementContext ctx) {
-        indent();
+    	if (ctx.lineLabel() != null)
+    		indent(ctx.lineLabel().getText());
+    	else
+    		indent();
         if (ctx.assignmentStatement() != null)
             visitAssignmentStatement(ctx.assignmentStatement());
         else if (ctx.ifStatement() != null)

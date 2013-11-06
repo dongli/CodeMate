@@ -184,7 +184,8 @@ namelistStatement
 executableStatements: ( executableStatement | cppDirective )*;
 
 executableStatement
-    : ( assignmentStatement
+    : lineLabel?
+      ( assignmentStatement
       | doStatement
       | ifStatement
       | selectStatement
@@ -192,6 +193,8 @@ executableStatement
       | keywordStatement
       | templateInstance ) SEMICOMMA?
     ;
+
+lineLabel: numerics;
 
 assignmentStatement
     : ( idWithArgs | templateInstance | derivedDataMember | id )

@@ -1059,6 +1059,19 @@ public class FortranBaseListener implements FortranListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterLineLabel(@NotNull FortranParser.LineLabelContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLineLabel(@NotNull FortranParser.LineLabelContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterConditionDirective_(@NotNull FortranParser.ConditionDirective_Context ctx) { }
 	/**
 	 * {@inheritDoc}

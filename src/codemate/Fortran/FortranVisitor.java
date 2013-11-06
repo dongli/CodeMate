@@ -574,6 +574,13 @@ public interface FortranVisitor<T> extends ParseTreeVisitor<T> {
 	T visitDataDeclarationStatements(@NotNull FortranParser.DataDeclarationStatementsContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FortranParser#lineLabel}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLineLabel(@NotNull FortranParser.LineLabelContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FortranParser#conditionDirective_}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
