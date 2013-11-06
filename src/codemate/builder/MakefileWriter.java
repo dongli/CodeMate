@@ -46,10 +46,12 @@ public class MakefileWriter {
 		content += "PROJECT_ROOT = "+project.getRoot().getAbsolutePath()+"\n\n";
 		String wrapper = null;
 		for (LibraryMate library : libraries) {
-			if (library.provideCompilerWrapper() && wrapper == null)
-				wrapper = library.getWrapper("Fortran");
-			else
-				UI.error("codemate", "More than one library provide compiler wrapper!");
+			if (library.provideCompilerWrapper()) {
+				if (wrapper == null)
+					wrapper = library.getWrapper("Fortran");
+				else
+					UI.error("codemate", "More than one library provide compiler wrapper!");
+			}
 		}
 		if (wrapper == null)
 			content += "FC = "+CompilerMates.getDefaultCommandName("Fortran")+"\n";
