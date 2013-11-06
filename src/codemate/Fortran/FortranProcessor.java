@@ -103,6 +103,8 @@ public class FortranProcessor {
         FortranLexer lexer = new FortranLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         FortranParser parser = new FortranParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(new FortranErrorListener());
         entity.setParseTree(parser.file());
     }
 

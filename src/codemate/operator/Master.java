@@ -55,6 +55,8 @@ public class Master {
 				"-silence", "Do not print message.", false, null);
 		CommandLine.addOption(null,
 				"-v", "Print the version information.", false, null);
+		CommandLine.addOption(null,
+				"-d", "Print more messages for debugging.", false, null);
 		// ---------------------------------------------------------------------
 		CommandLine.addOperator("help",
 				"Print help information or usage.", true);
