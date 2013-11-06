@@ -24,7 +24,7 @@ then **CodeMate** will be updated if necessary.
 
 **CodeMate** is open-sourced and the author uses his time to create it, so if you find it really saves your time, consider give a push to make **CodeMate** go further please.
 
-<a href='http://www.pledgie.com/campaigns/20230'><img alt='Click here to lend your support to: Funding for CodeMate and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/20230.png?skin_name=chrome' border='0' /></a>   [![](http://t0.gstatic.com/images?q=tbn:ANd9GcSTcB66mXRvUWCRRrRUTEz2ZX43ZqgfvOxcTq-0K4QklAbeE2nG1g)](https://me.alipay.com/dongli1985)
+<a href='https://pledgie.com/campaigns/20230'><img alt='Click here to lend your support to: Funding for CodeMate and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/20230.png?skin_name=chrome' border='0' ></a> [![](http://t0.gstatic.com/images?q=tbn:ANd9GcSTcB66mXRvUWCRRrRUTEz2ZX43ZqgfvOxcTq-0K4QklAbeE2nG1g)](https://me.alipay.com/dongli1985)
 
 # Description
 
